@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex flex-column h-100">
+  <v-sheet class="d-flex flex-column h-100">
     <v-overlay
       contained
       class="align-center justify-center"
@@ -35,17 +35,18 @@
       </v-menu>
       <v-pagination
         :length="totalPages"
-        :total-visible="7"
+        :total-visible="mobile ? 2 : 7"
         active-color="primary"
         density="compact"
         v-model="_page"
       />
     </div>
-  </div>
+  </v-sheet>
 </template>
 
 <script setup lang="ts">
 import { computed, ref, defineProps, defineEmits } from "vue";
+import { useDisplay } from "vuetify";
 
 const props = defineProps<{
   data: any[];
@@ -63,6 +64,8 @@ const _page = computed({
   get: () => props.page,
   set: (value: number) => emits("handleNavigate", value),
 });
+
+const { mobile } = useDisplay();
 
 const handleChangeRowPerPage = (value: number) =>
   emits("handleChangeRowPerPage", value);
