@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Index from "../page/Index.vue";
 import Problems from "../page/Problems.vue";
+import Problem from "../page/Problem.vue";
 import DefaultLayout from "../layout/index.vue";
 
 const routes = [
@@ -9,7 +10,8 @@ const routes = [
     component: DefaultLayout,
     children: [
       { name: "Home", path: "", component: Index },
-      { name: "Problem", path: "problem", component: Problems },
+      { name: "Problems", path: "problem", component: Problems },
+      { name: "Problem", path: "problem/:id", component: Problem}
     ],
   },
 ];
