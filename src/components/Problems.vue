@@ -12,7 +12,23 @@
     >
       <template v-slot="{ data }: { data: Problem[] }">
         <v-list lines="one" density="compact">
-          <v-list-item v-for="item in data" :title="item.title"></v-list-item>
+          <template v-for="item in data">
+            <v-list-item :to="`/problem/${item.id}`" :active="false">
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+              <template v-slot:prepend>
+                <v-chip class="ma-2" label> Label </v-chip>
+              </template>
+              <template v-slot:append>
+                {{
+                  (
+                    (item.accepted_number * 100) /
+                    item.submission_number
+                  ).toFixed(2)
+                }}%
+              </template>
+            </v-list-item>
+            <v-divider />
+          </template>
           <!-- <v-dialog scrollable width="auto " v-for="item in data">
             <template v-slot:activator="{ props }">
               <v-list-item v-bind="props" :title="item.title"></v-list-item>
