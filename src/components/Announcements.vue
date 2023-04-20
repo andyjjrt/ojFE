@@ -3,15 +3,16 @@
     <v-card-title>Announcements</v-card-title>
     <Datagrid
       :data="announcements"
-      :loading="false"
+      :loading="loading"
       :total="total"
       :page="page"
       :rows-per-page="rowsPerPage"
       @handleNavigate="handleNavigate"
+      @handleChangeRowPerPage="handleChangeRowPerPage"
     >
       <template v-slot="{ data }: { data: Announcement[] }">
         <v-list lines="one">
-          <v-dialog scrollable  width="auto " v-for="item in data">
+          <v-dialog scrollable width="auto " v-for="item in data">
             <template v-slot:activator="{ props }">
               <v-list-item v-bind="props" :title="item.title"></v-list-item>
             </template>
@@ -42,11 +43,13 @@ import Datagrid from "./Datagrid.vue";
 
 const announcements = ref<Announcement[]>([]);
 const page = ref(1);
-const rowsPerPage = ref(2);
+const rowsPerPage = ref(10);
 const total = ref(0);
 const loading = ref(false);
 
 const handleNavigate = (newPage: number) => (page.value = newPage);
+const handleChangeRowPerPage = (newRowPerPage: number) =>
+  (rowsPerPage.value = newRowPerPage);
 
 const init = async () => {
   loading.value = true;
@@ -65,7 +68,6 @@ onMounted(() => {
   init();
 });
 
-watch(page, () => {
-  init();
-});
+watch(page, () => init());
+watch(rowsPerPage, () => init());
 </script>
