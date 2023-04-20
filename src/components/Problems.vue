@@ -13,7 +13,7 @@
       <template v-slot="{ data }: { data: Problem[] }">
         <v-list lines="one" density="compact">
           <template v-for="item in data">
-            <v-list-item :to="`/problem/${item.id}`" :active="false">
+            <v-list-item :to="`/problem/${item._id}`" :active="false">
               <v-list-item-title>{{ item.title }}</v-list-item-title>
               <template v-slot:prepend>
                 <DifficultyLabel :difficulty="item.difficulty" />
