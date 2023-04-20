@@ -1,0 +1,10 @@
+@use "vuetify";
+
+// Overwrite default css styles of vuetify
+html {
+  overflow-y: auto;
+}
+
+.stroke-text {
+  stroke: var(--v-theme-background);
+}
