@@ -10,7 +10,6 @@ const vKatex = {
         { left: "\\[", right: "\\]", display: true },
       ],
     });
-    console.log(el);
   },
 };
 
