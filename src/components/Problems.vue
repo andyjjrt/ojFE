@@ -16,7 +16,7 @@
             <v-list-item :to="`/problem/${item.id}`" :active="false">
               <v-list-item-title>{{ item.title }}</v-list-item-title>
               <template v-slot:prepend>
-                <v-chip class="ma-2" label> Label </v-chip>
+                <DifficultyLabel :difficulty="item.difficulty" />
               </template>
               <template v-slot:append>
                 {{
@@ -57,6 +57,7 @@
 import { onMounted, ref, watch } from "vue";
 import { fetchApi } from "../utils/api";
 import Datagrid from "./Datagrid.vue";
+import DifficultyLabel from "../components/DifficultyLabel.vue";
 
 const problems = ref<Problem[]>([]);
 const page = ref(1);
