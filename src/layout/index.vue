@@ -8,7 +8,7 @@
     <v-navigation-drawer v-model="drawer" temporary>
       <v-list nav active-color="primary">
         <v-list-item title="Home" to="/" :active="routes.name === 'Home'" />
-        <v-list-item title="Problems" to="/problems" :active="routes.name === 'Problems'" />
+        <v-list-item title="Problem" to="/problem" :active="routes.name === 'Problem'" />
         <v-list-item title="Contests" to="/contests" :active="routes.name === 'Contests'" />
         <v-list-item title="Status" to="/status" :active="routes.name === 'status'" />
       </v-list>

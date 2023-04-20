@@ -9,7 +9,7 @@ const routes = [
     component: DefaultLayout,
     children: [
       { name: "Home", path: "", component: Index },
-      { name: "Problems", path: "problems", component: Problems },
+      { name: "Problem", path: "problem", component: Problems },
     ],
   },
 ];
