@@ -72,6 +72,6 @@ const samples = computed(() => props.problem?.samples || []);
 const hint = computed(() => decodeURI(props.problem?.hint || ""));
 
 const copy = (text: string) => {
-  navigator.clipboard.writeText("text");
+  navigator.clipboard.writeText(text);
 };
 </script>
