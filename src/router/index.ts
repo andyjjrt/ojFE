@@ -1,12 +1,16 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Index from "../page/Index.vue";
+import Problems from "../page/Problems.vue";
 import DefaultLayout from "../layout/index.vue";
 
 const routes = [
   {
     path: "/",
     component: DefaultLayout,
-    children: [{ path: "", component: Index }],
+    children: [
+      { name: "Home", path: "", component: Index },
+      { name: "Problems", path: "problems", component: Problems },
+    ],
   },
 ];
 

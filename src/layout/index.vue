@@ -6,8 +6,11 @@
       <ThemeButton />
     </v-app-Bar>
     <v-navigation-drawer v-model="drawer" temporary>
-      <v-list nav>
-        <v-list-item value="item" active-color="primary-darken-1" title="123" />
+      <v-list nav active-color="primary">
+        <v-list-item title="Home" to="/" :active="routes.name === 'Home'" />
+        <v-list-item title="Problems" to="/problems" :active="routes.name === 'Problems'" />
+        <v-list-item title="Contests" to="/contests" :active="routes.name === 'Contests'" />
+        <v-list-item title="Status" to="/status" :active="routes.name === 'status'" />
       </v-list>
     </v-navigation-drawer>
     <v-main>
@@ -21,10 +24,13 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { storeToRefs } from "pinia";
+import { useRoute } from "vue-router";
 import ThemeButton from "../components/ThemeButton.vue";
 import { useConstantsStore } from "../store/constants";
 
 const constants = useConstantsStore();
 const { website } = storeToRefs(constants);
 const drawer = ref(false);
+
+const routes = useRoute();
 </script>
