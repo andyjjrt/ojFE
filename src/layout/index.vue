@@ -1,8 +1,9 @@
 <template>
   <v-layout>
     <v-app-Bar>
-      <v-app-bar-nav-icon variant="text" @click.stop="drawer = !drawer" />
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-app-bar-title>{{ website?.website_name }}</v-app-bar-title>
+      <UserNavButton />
       <ThemeButton />
     </v-app-Bar>
     <v-navigation-drawer v-model="drawer" temporary>
@@ -26,6 +27,7 @@ import { ref } from "vue";
 import { storeToRefs } from "pinia";
 import { useRoute } from "vue-router";
 import ThemeButton from "../components/ThemeButton.vue";
+import UserNavButton from "../components/UserNavButton.vue";
 import { useConstantsStore } from "../store/constants";
 
 const constants = useConstantsStore();

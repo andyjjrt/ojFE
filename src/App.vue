@@ -10,11 +10,26 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted } from "vue";
 import { storeToRefs } from "pinia";
+import { useTheme } from "vuetify";
 import { useConstantsStore } from "./store/constants";
+import { useUserStore } from "./store/user";
 
 const constants = useConstantsStore();
+const user = useUserStore();
+const vuetifyTheme = useTheme();
 const { isReady } = storeToRefs(constants);
 
 constants.init();
+user.getProfile();
+
+onMounted(() => {
+  if (
+    window.matchMedia &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches
+  ) {
+    vuetifyTheme.global.name.value = "dark";
+  }
+});
 </script>

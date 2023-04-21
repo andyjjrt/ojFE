@@ -3,48 +3,34 @@ import { computed, ref } from "vue";
 import { fetchApi } from "../utils/api";
 
 export const useUserStore = defineStore("user", () => {
-  const account = ref("");
-  const userId = ref("");
+  const profile = ref<User | null>(null);
 
-  // /**
-  //  * user login
-  //  * @returns Promise object
-  //  */
-  // const login = async (account: string, password: string) => {
-  //   const response = await fetchApi("/islam/user/login", "GET", {
-  //     params: {
-  //       account,
-  //       password,
-  //     },
-  //   });
-  //   if (response.status !== 200) {
-  //     const { error_code, error_message } = response.data as ErrorResponse;
-  //     // error sections
-  //     return;
-  //   }
-  //   const { user_id } = response.data as UserResponse;
-  //   userId.value = user_id;
-  // };
+  const getProfile = async () => {
+    const response = await fetchApi("/profile", "get");
+    profile.value = response.data.data;
+  };
 
-  // /**
-  //  * user register
-  //  * @returns Promise object
-  //  */
-  // const register = async (account: string, password: string) => {
-  //   const response = await fetchApi("/islam/user/register", "POST", {
-  //     data: {
-  //       account,
-  //       password,
-  //     },
-  //   });
-  //   if (response.status !== 200) {
-  //     const { error_code, error_message } = response.data as ErrorResponse;
-  //     // error sections
-  //     return;
-  //   }
-  //   const { user_id } = response.data as UserResponse;
-  //   userId.value = user_id;
-  // };
+  const login = async (
+    username: string,
+    password: string,
+    tfa_code?: string
+  ) => {
+    const response = await fetchApi("/login", "post", {
+      data: {
+        username,
+        password,
+        tfa_code,
+      },
+    });
+    if (response.data.error) throw new Error(response.data.data);
+    await getProfile();
+  };
 
-  return { account, userId };
+  const logout = async () => {
+    const response = await fetchApi("/logout", "get");
+    if (response.data.error) throw new Error(response.data.data);
+    await getProfile();
+  };
+
+  return { profile, getProfile, login, logout };
 });
