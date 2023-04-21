@@ -1,21 +1,21 @@
 <template>
-  <v-card class="pa-2">
+  <v-card class="pa-2" v-if="problem" v-katex>
     <v-card-title class="font-weight-bold text-h5">{{ title }}</v-card-title>
     <v-divider />
     <div class="pa-4">
       <h5 class="text-h5 mb-2">Description</h5>
-      <v-md-preview v-katex :text="description" />
+      <v-md-preview :text="description" />
     </div>
     <div class="pa-4">
       <h5 class="text-h5 mb-2">Input</h5>
-      <v-md-preview v-katex :text="input" />
+      <v-md-preview :text="input" />
     </div>
     <div class="pa-4">
       <h5 class="text-h5 mb-2">Output</h5>
-      <v-md-preview v-katex :text="output" />
+      <v-md-preview :text="output" />
     </div>
     <v-row class="pa-4">
-      <template v-for="(sample, index) in samples">
+      <template v-for="(sample, index) in samples" :key="index">
         <v-col cols="12" sm="6" class="d-flex flex-column">
           <h5 class="text-h5 mb-2">Sample Input {{ index + 1 }}</h5>
           <div class="position-relative flex-grow-1">
@@ -50,12 +50,39 @@
         </v-col>
       </template>
     </v-row>
+    <div class="pa-4" v-if="hint">
+      <h5 class="text-h5 mb-2">Hint</h5>
+      <v-md-preview :text="hint" />
+    </div>
+    <div class="pa-4 d-flex flex-column">
+      <div class="mb-2">
+        <v-menu>
+          <template v-slot:activator="{ props }">
+            <v-btn v-bind="props" color="primary" class="text-none">{{
+              selectedLanguage
+            }}</v-btn>
+          </template>
+          <v-list density="compact">
+            <v-list-item
+              v-for="language in languages"
+              :active="selectedLanguage === language"
+              @click="selectedLanguage = language"
+            >
+              <v-list-item-title>{{ language }}</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </div>
+
+      <CodeMirror v-model="userCode" />
+    </div>
   </v-card>
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, ref, watch } from "vue";
 import vKatex from "../plugins/vKatex";
+import CodeMirror from "../components/CodeMirror.vue";
 
 const props = defineProps<{
   problem: Problem | null;
@@ -70,8 +97,20 @@ const output = computed(() =>
 );
 const samples = computed(() => props.problem?.samples || []);
 const hint = computed(() => decodeURI(props.problem?.hint || ""));
+const languages = computed(() => props.problem?.languages || []);
+
+const selectedLanguage = ref("");
+const userCode = ref("");
 
 const copy = (text: string) => {
   navigator.clipboard.writeText(text);
 };
+
+watch(
+  () => props.problem,
+  (newVal) => {
+    if (newVal) selectedLanguage.value = languages.value[0];
+  }
+);
 </script>
+~
