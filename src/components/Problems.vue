@@ -5,7 +5,6 @@
       <div>
         <v-text-field
           v-model="keyword"
-          size="small"
           density="compact"
           variant="solo"
           label="Search templates"

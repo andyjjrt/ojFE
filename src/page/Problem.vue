@@ -1,5 +1,5 @@
 <template>
-  <Problem :problem="problem" :loading="false" />
+  <Problem :problem="problem" v-if="problem" />
 </template>
 
 <script setup lang="ts">
