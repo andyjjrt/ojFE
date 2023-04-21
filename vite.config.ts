@@ -26,16 +26,11 @@ export default ({ mode }) => {
     build: {
       rollupOptions: {
         output: {
-          manualChunks(id) {
-            if (id.includes("codemirror")) {
-              return "codemirror";
-            } else if (id.includes("katex")) {
-              return "katex";
-            } else if (id.includes("v-md-editor")) {
-              return "mdeditor";
-            } else {
-              return "vendor";
-            }
+          manualChunks: {
+            codemirror: ["vue-codemirror6", "codemirror", "@codemirror/view"],
+            "codemirror-lang": ["@codemirror/lang-cpp"],
+            katex: ["katex"],
+            "md-editor": ["@kangc/v-md-editor"],
           },
         },
       },
