@@ -1,4 +1,4 @@
-import KatexAutoRender from "katex/dist/contrib/auto-render";
+import KatexAutoRender from "katex/dist/contrib/auto-render.mjs";
 
 const vKatex = {
   updated(el: HTMLElement) {
