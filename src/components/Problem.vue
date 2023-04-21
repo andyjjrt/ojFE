@@ -55,7 +55,7 @@
       <v-md-preview :text="hint" />
     </div>
     <div class="pa-4 d-flex flex-column">
-      <div class="mb-2">
+      <div class="mb-3">
         <v-menu>
           <template v-slot:activator="{ props }">
             <v-btn v-bind="props" color="primary" class="text-none">{{
@@ -73,8 +73,10 @@
           </v-list>
         </v-menu>
       </div>
-
       <CodeMirror v-model="userCode" />
+      <div class="mt-3 d-flex justify-end">
+        <v-btn>Submit</v-btn>
+      </div>
     </div>
   </v-card>
 </template>
@@ -98,6 +100,7 @@ const output = computed(() =>
 const samples = computed(() => props.problem?.samples || []);
 const hint = computed(() => decodeURI(props.problem?.hint || ""));
 const languages = computed(() => props.problem?.languages || []);
+const templates = computed(() => props.problem?.template || {});
 
 const selectedLanguage = ref("");
 const userCode = ref("");
@@ -106,11 +109,20 @@ const copy = (text: string) => {
   navigator.clipboard.writeText(text);
 };
 
+const resetTemplate = (language: string) => {
+  if (Object.hasOwn(templates.value, language))
+    userCode.value = templates.value[language];
+};
+
 watch(
   () => props.problem,
   (newVal) => {
     if (newVal) selectedLanguage.value = languages.value[0];
   }
 );
+
+watch(selectedLanguage, (newVal) => {
+  resetTemplate(newVal);
+});
 </script>
 ~
