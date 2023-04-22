@@ -2,13 +2,24 @@ import { defineConfig, loadEnv } from "vite";
 import vue from "@vitejs/plugin-vue";
 import vuetify from "vite-plugin-vuetify";
 import { visualizer } from "rollup-plugin-visualizer";
+import environmentPlugin from "vite-plugin-environment";
 
 // https://vitejs.dev/config/
 export default ({ mode }) => {
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
   const API_BACKEND = process.env.VITE_API_BACKEND;
   return defineConfig({
-    plugins: [vue(), vuetify(), visualizer({ filename: "visualizer.html" })],
+    plugins: [
+      vue(),
+      vuetify(),
+      visualizer({ filename: "visualizer.html" }),
+      environmentPlugin({
+        VUE_APP_HASH: (+new Date())
+          .toString(Math.floor(Math.random() * 5) + 32)
+          .slice(-8),
+        VUE_APP_VERSION: require("./package.json").version,
+      }),
+    ],
     server: {
       proxy: {
         "^/api": {

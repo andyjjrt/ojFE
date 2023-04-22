@@ -9,16 +9,41 @@
     <v-navigation-drawer v-model="drawer" temporary>
       <v-list nav active-color="primary">
         <v-list-item title="Home" to="/" :active="routes.name === 'Home'" />
-        <v-list-item title="Problem" to="/problem" :active="routes.name === 'Problems'" />
-        <v-list-item title="Status" to="/status" :active="routes.name === 'Submissions'" />
-        <v-list-item title="Contests" to="/contests" :active="routes.name === 'Contests'" />
-        <v-list-item title="Status" to="/status" :active="routes.name === 'status'" />
+        <v-list-item
+          title="Problem"
+          to="/problem"
+          :active="routes.name === 'Problems'"
+        />
+        <v-list-item
+          title="Status"
+          to="/status"
+          :active="routes.name === 'Submissions'"
+        />
+        <v-list-item
+          title="Contests"
+          to="/contests"
+          :active="routes.name === 'Contests'"
+        />
+        <v-list-item
+          title="Status"
+          to="/status"
+          :active="routes.name === 'status'"
+        />
       </v-list>
     </v-navigation-drawer>
     <v-main>
       <v-container>
         <RouterView />
       </v-container>
+      <v-footer class="bg-background">
+        <div class="text-center text-caption w-100">
+          <div v-html="constants.website?.website_footer" />
+          <span>FE redesign by</span>
+          <a href="https://andyjjrt.cc" class="ms-1 me-2"> andyjjrt </a>
+          <span>Version:</span>
+          <a class="mx-1"> {{ versionString }} </a>
+        </div>
+      </v-footer>
     </v-main>
   </v-layout>
 </template>
@@ -30,10 +55,15 @@ import { useRoute } from "vue-router";
 import ThemeButton from "../components/ThemeButton.vue";
 import UserNavButton from "../components/UserNavButton.vue";
 import { useConstantsStore } from "../store/constants";
+import { computed } from "vue";
 
 const constants = useConstantsStore();
 const { website } = storeToRefs(constants);
 const drawer = ref(false);
+
+const versionString = computed(
+  () => process.env.VUE_APP_VERSION + "-" + process.env.VUE_APP_HASH
+);
 
 const routes = useRoute();
 </script>
