@@ -18,6 +18,7 @@
     "prismjs": "^1.29.0",
     "vue": "^3.2.47",
     "vue-codemirror6": "^1.1.19",
+    "vue-m-message": "^4.0.2",
     "vue-router": "4",
     "vuetify": "^3.1.13"
   },
