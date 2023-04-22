@@ -72,7 +72,12 @@
 
       <div class="mt-3 d-flex justify-space-between">
         <div>
-          <v-btn v-if="status" :color="status.type" :to="`/status/${status.id}`">{{ status.name }}</v-btn>
+          <v-btn
+            v-if="status"
+            :color="status.type"
+            :to="`/status/${status.id}`"
+            >{{ status.name }}</v-btn
+          >
         </div>
         <v-btn @click="submit" :loading="loading">Submit</v-btn>
       </div>
@@ -81,12 +86,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, ref, watch } from "vue";
+import { computed, ref, watch } from "vue";
 import vKatex from "../plugins/vKatex";
 import CodeMirror from "../components/CodeMirror.vue";
 import { fetchApi } from "../utils/api";
 import statusList from "../utils/status";
-import { stat } from "fs";
+import Message from "vue-m-message";
 
 const props = defineProps<{
   problem: Problem;
@@ -133,6 +138,7 @@ const submit = async () => {
     },
   });
   if (response.data.error) {
+    Message.error(response.data.data);
     console.log(response.data.data);
     loading.value = false;
     return;
