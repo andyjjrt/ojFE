@@ -2,20 +2,23 @@
   <code-mirror
     v-model="value"
     basic
-    :lang="(langPlugin as LanguageSupport)"
+    :lang="langPlugin"
     :extensions="isDark"
     ref="cm"
   />
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from "vue";
+import { computed } from "vue";
 import CodeMirror from "vue-codemirror6";
-import { LanguageSupport } from "@codemirror/language";
 import { EditorView } from "@codemirror/view";
 import { oneDark } from "@codemirror/theme-one-dark";
 import { useTheme } from "vuetify";
 import { cpp } from "@codemirror/lang-cpp";
+import { python } from "@codemirror/lang-python";
+import { java } from "@codemirror/lang-java";
+import { javascript } from "@codemirror/lang-javascript";
+import { rust } from "@codemirror/lang-rust";
 
 const props = defineProps<{
   modelValue: string;
@@ -32,7 +35,22 @@ const value = computed({
   },
 });
 
-const langPlugin = ref<LanguageSupport>(cpp());
+const langPlugin = computed(() => {
+  switch (props.lang) {
+    case "C":
+    case "C++":
+      return cpp();
+    case "Java":
+      return java();
+    case "Python2":
+    case "Python3":
+      return python();
+    case "Javascript":
+      return javascript();
+    case "Rust":
+      return rust();
+  }
+});
 
 const vuetifyTheme = useTheme();
 const editorView = EditorView.theme({
@@ -44,35 +62,5 @@ const editorView = EditorView.theme({
 });
 const isDark = computed(() =>
   vuetifyTheme.current.value.dark ? [editorView, oneDark] : [editorView]
-);
-
-watch(
-  () => props.lang,
-  async (val) => {
-    switch (val) {
-      case "C":
-      case "C++":
-        const { cpp } = await import("@codemirror/lang-cpp");
-        langPlugin.value = cpp();
-        return;
-      case "Java":
-        const { java } = await import("@codemirror/lang-java");
-        langPlugin.value = java();
-        return;
-      case "Python2":
-      case "Python3":
-        const { python } = await import("@codemirror/lang-python");
-        langPlugin.value = python();
-        return;
-      case "Javascript":
-        const { javascript } = await import("@codemirror/lang-javascript");
-        langPlugin.value = javascript();
-        return;
-      case "Rust":
-        const { rust } = await import("@codemirror/lang-rust");
-        langPlugin.value = rust();
-        return;
-    }
-  }
 );
 </script>

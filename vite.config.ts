@@ -27,8 +27,19 @@ export default ({ mode }) => {
       rollupOptions: {
         output: {
           manualChunks: {
-            codemirror: ["vue-codemirror6", "codemirror", "@codemirror/view"],
-            "codemirror-lang": ["@codemirror/lang-cpp"],
+            codemirror: [
+              "vue-codemirror6",
+              "codemirror",
+              "@codemirror/view",
+              "@codemirror/theme-one-dark",
+            ],
+            "codemirror-lang": [
+              "@codemirror/lang-cpp",
+              "@codemirror/lang-java",
+              "@codemirror/lang-javascript",
+              "@codemirror/lang-python",
+              "@codemirror/lang-rust",
+            ],
             katex: ["katex"],
             "md-editor": ["@kangc/v-md-editor"],
           },
