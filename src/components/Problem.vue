@@ -67,7 +67,7 @@
       </div>
       <div class="position-relative">
         <v-progress-linear indeterminate absolute :active="loading" />
-        <CodeMirror v-model="code" />
+        <CodeMirror v-model="code" :lang="selectedLanguage" />
       </div>
 
       <div class="mt-3 d-flex justify-space-between">
