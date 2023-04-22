@@ -45,7 +45,7 @@ const langPlugin = computed(() => {
     case "Python2":
     case "Python3":
       return python();
-    case "Javascript":
+    case "JavaScript":
       return javascript();
     case "Rust":
       return rust();
