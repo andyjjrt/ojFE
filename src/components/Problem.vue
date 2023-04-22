@@ -119,6 +119,7 @@ const status = ref<{
 } | null>(null);
 
 const copy = (text: string) => {
+  Message.success("Code copied!");
   navigator.clipboard.writeText(text);
 };
 
@@ -155,8 +156,10 @@ const submit = async () => {
     ) {
       loading.value = false;
       window.clearInterval(timer.value);
-      if (res.data.error) console.log(res.data.data);
-      else {
+      if (res.data.error) {
+        console.log(res.data.data);
+        Message.error(response.data.data);
+      } else {
         status.value = {
           ...statusList[res.data.data.result],
           id: res.data.data.id,
