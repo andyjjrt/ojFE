@@ -34,3 +34,21 @@ interface Status {
   problem: number;
   can_unshare: boolean;
 }
+
+interface BriefStatus {
+  id: string;
+  problem: string;
+  show_link: boolean;
+  create_time: string;
+  user_id: number;
+  username: string;
+  result: number;
+  language: string;
+  shared: false;
+  statistic_info: {
+    score: number;
+    time_cost?: number;
+    memory_cost?: number;
+    err_info?: string;
+  };
+}
