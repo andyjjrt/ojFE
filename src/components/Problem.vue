@@ -179,7 +179,7 @@ const timer = ref<number>(-1);
 const status = ref<{
   name: string;
   short: string;
-  type: string;
+  type: "info" | "error" | "success" | "warning" | undefined;
   id: string;
 } | null>(null);
 

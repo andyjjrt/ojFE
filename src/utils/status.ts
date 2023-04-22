@@ -2,7 +2,7 @@ interface StatusList {
   [key: string | number]: {
     name: string;
     short: string;
-    type: string;
+    type: "info" | "error" | "success" | "warning" | undefined;
   };
 }
 
@@ -25,7 +25,7 @@ const statusList: StatusList = {
   1: {
     name: "Time Limit Exceeded",
     short: "TLE",
-    type: "danger",
+    type: "error",
   },
   2: {
     name: "Time Limit Exceeded",
@@ -60,7 +60,7 @@ const statusList: StatusList = {
   8: {
     name: "Partial Accepted",
     short: "PAC",
-    type: "primary",
+    type: "info",
   },
   9: {
     name: "Submitting",
