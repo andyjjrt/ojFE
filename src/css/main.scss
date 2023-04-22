@@ -1,9 +1,12 @@
-@use "vuetify";
+$font-family: "Noto Sans TC", sans-serif !default;
+
+@use "vuetify" with (
+  $body-font-family: $font-family
+);
 
 // Overwrite default css styles of vuetify
 html {
   overflow-y: auto;
-  font-family: "Noto Sans TC",  sans-serif;
 }
 
 .stroke-text {
