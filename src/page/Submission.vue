@@ -7,34 +7,24 @@
           <h6>{{ status.username }}</h6>
         </div>
       </v-alert-title>
+      <div
+        v-if="
+          status.statistic_info.time_cost && status.statistic_info.memory_cost
+        "
+        class="mt-2 d-flex align-center"
+      >
+        <v-icon icon="mdi-timer" class="me-2" />
+        {{ status.statistic_info.time_cost }}ms
+        <v-icon icon="mdi-memory" class="mx-2" />
+        {{ Math.round(status.statistic_info.memory_cost / (1024 * 1024)) }}MB
+        <v-icon icon="mdi-xml" class="mx-2" />{{ status.language }}
+      </div>
       <v-code v-if="status.statistic_info.err_info" class="overflow-auto mt-2">
         <pre><code>{{ status.statistic_info.err_info }}</code></pre>
       </v-code>
     </v-alert>
     <v-card class="mt-4 rounded" v-if="status.info?.data">
       <v-list lines="one">
-        <v-list-item>
-          <v-container fluid no-gutters class="px-0 pb-0">
-            <v-row>
-              <v-col cols="4" class="d-flex">
-                <v-icon icon="mdi-timer" class="me-1" />{{
-                  status.statistic_info.time_cost
-                }}ms
-              </v-col>
-              <v-col cols="4" class="d-flex">
-                <v-icon icon="mdi-memory" class="me-1" />
-                {{
-                  Math.round(
-                    (status.statistic_info.memory_cost || 0) / (1024 * 1024)
-                  )
-                }}MB
-              </v-col>
-              <v-col cols="4" class="d-flex">
-                <v-icon icon="mdi-xml" class="me-1" />{{ status.language }}
-              </v-col>
-            </v-row>
-          </v-container>
-        </v-list-item>
         <v-list-item
           v-for="(record, index) in status.info.data"
           :key="record.output_md5"
