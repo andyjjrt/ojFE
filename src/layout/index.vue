@@ -8,27 +8,59 @@
     </v-app-Bar>
     <v-navigation-drawer v-model="drawer" temporary>
       <v-list nav active-color="primary">
-        <v-list-item title="Home" to="/" :active="routes.name === 'Home'" />
+        <v-list-item title="Home" to="/" :active="routes.name === 'Home'">
+          <template v-slot:prepend>
+            <v-icon icon="mdi-home-variant"></v-icon>
+          </template>
+        </v-list-item>
         <v-list-item
           title="Problem"
           to="/problem"
           :active="routes.name === 'Problems'"
-        />
+        >
+          <template v-slot:prepend>
+            <v-icon icon="mdi-view-grid-outline"></v-icon>
+          </template>
+        </v-list-item>
         <v-list-item
           title="Status"
           to="/status"
           :active="routes.name === 'Submissions'"
-        />
-        <v-list-item
-          title="Contests"
-          to="/contests"
-          :active="routes.name === 'Contests'"
-        />
+        >
+          <template v-slot:prepend>
+            <v-icon icon="mdi-trophy"></v-icon>
+          </template>
+        </v-list-item>
         <v-list-item
           title="Status"
           to="/status"
           :active="routes.name === 'status'"
-        />
+        >
+          <template v-slot:prepend>
+            <v-icon icon="mdi-chart-line"></v-icon>
+          </template>
+        </v-list-item>
+        <v-list-group>
+          <template v-slot:activator="{ props }">
+            <v-list-item v-bind="props" title="About">
+              <template v-slot:prepend>
+                <v-icon icon="mdi-information-outline"></v-icon>
+              </template>
+            </v-list-item>
+          </template>
+          <v-list-item
+            title="Judger"
+            to="/judger"
+            :active="routes.name === 'Judger'"
+          >
+          </v-list-item>
+          <v-list-item
+            title="Status"
+            to="/status"
+            :active="routes.name === 'status'"
+          >
+          </v-list-item>
+        </v-list-group>
       </v-list>
     </v-navigation-drawer>
     <v-main>

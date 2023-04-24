@@ -3,7 +3,8 @@ import Index from "../page/Index.vue";
 import Problems from "../page/Problems.vue";
 import Problem from "../page/Problem.vue";
 import Submission from "../page/Submission.vue";
-import Submissions from "../page/Submissions.vue"
+import Submissions from "../page/Submissions.vue";
+import Judger from "../page/Judger.vue";
 import DefaultLayout from "../layout/index.vue";
 
 const routes = [
@@ -13,9 +14,10 @@ const routes = [
     children: [
       { name: "Home", path: "", component: Index },
       { name: "Problems", path: "problem", component: Problems },
-      { name: "Problem", path: "problem/:id", component: Problem},
-      { name: "Submissions", path: "status", component: Submissions},
-      { name: "Submission", path: "status/:id", component: Submission}
+      { name: "Problem", path: "problem/:id", component: Problem },
+      { name: "Submissions", path: "status", component: Submissions },
+      { name: "Submission", path: "status/:id", component: Submission },
+      { name: "Judger", path: "judger", component: Judger },
     ],
   },
 ];
