@@ -46,7 +46,7 @@
                 </RouterLink>
               </template>
               <template v-slot:subtitle>
-                <span class="me-2">{{ getDate(item.create_time) }}</span>
+                <span class="me-2">{{ getDate(item.create_time, mobile) }}</span>
                 <RouterLink
                   class="text-decoration-none text-primary"
                   :to="{ name: 'User', query: { username: item.username } }"
@@ -81,10 +81,12 @@ import { useDisplay } from "vuetify";
 import { fetchApi } from "../utils/api";
 import Datagrid from "./Datagrid.vue";
 import statusList from "../utils/status";
+import useDate from "../hooks/useDate";
 
 const router = useRouter();
 const routes = useRoute();
 const { mobile } = useDisplay();
+const { getDate } = useDate();
 
 const submissions = ref<BriefStatus[]>([]);
 const page = ref(1);
@@ -132,29 +134,6 @@ const handleAction = (resetPage: boolean = false) => {
     query: params,
   });
 };
-
-const getDate = computed(() => {
-  return (dateString: string) => {
-    const date = new Date(dateString);
-    return (
-      (mobile.value ? "" : date.getFullYear() + "/") +
-      (date.getMonth() < 9 ? "0" : "") +
-      (date.getMonth() + 1) +
-      "/" +
-      (date.getDate() < 10 ? "0" : "") +
-      date.getDate() +
-      " " +
-      (date.getHours() < 10 ? "0" : "") +
-      date.getHours() +
-      ":" +
-      (date.getMinutes() < 10 ? "0" : "") +
-      date.getMinutes() +
-      (mobile.value
-        ? ""
-        : ":" + (date.getSeconds() < 10 ? "0" : "") + date.getSeconds())
-    );
-  };
-});
 
 onMounted(() => {
   init();
