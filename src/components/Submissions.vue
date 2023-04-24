@@ -24,10 +24,31 @@
       @handleChangeRowPerPage="handleChangeRowPerPage"
     >
       <template v-slot="{ data }: { data: BriefStatus[] }">
-        <v-list lines="one" density="compact">
-          <template v-for="item in data">
-            <v-list-item :to="`/status/${item.id}`" :active="item.show_link">
-              <v-list-item-title>{{ item.id }}</v-list-item-title>
+        <v-list lines="one">
+          <template v-for="item in data" :key="item.id">
+            <v-list-item>
+              <template v-slot:title>
+                <RouterLink
+                  class="text-decoration-none text-primary"
+                  :to="{ name: 'Problem', params: { id: item.problem } }"
+                >
+                  {{ item.problem }}
+                </RouterLink>
+              </template>
+              <template v-slot:subtitle>
+                {{ getDate(item.create_time) }} {{ item.username }}
+              </template>
+              <template v-slot:append>
+                <v-chip
+                  size="small"
+                  label
+                  :to="item.show_link ? `/status/${item.id}` : undefined"
+                  :variant="item.show_link ? 'elevated' : 'tonal'"
+                  :color="statusList[item.result].type"
+                >
+                  {{ statusList[item.result].name }}
+                </v-chip>
+              </template>
             </v-list-item>
             <v-divider />
           </template>
@@ -40,12 +61,14 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from "vue";
 import { useRouter, useRoute } from "vue-router";
+import { useDisplay } from "vuetify";
 import { fetchApi } from "../utils/api";
 import Datagrid from "./Datagrid.vue";
-import DifficultyLabel from "../components/DifficultyLabel.vue";
+import statusList from "../utils/status";
 
 const router = useRouter();
 const routes = useRoute();
+const { mobile } = useDisplay();
 
 const submissions = ref<BriefStatus[]>([]);
 const page = ref(1);
@@ -87,6 +110,29 @@ const handleAction = () => {
     query: params,
   });
 };
+
+const getDate = computed(() => {
+  return (dateString: string) => {
+    const date = new Date(dateString);
+    return (
+      (mobile.value ? "" : date.getFullYear() + "/") +
+      (date.getMonth() < 9 ? "0" : "") +
+      (date.getMonth() + 1) +
+      "/" +
+      (date.getDate() < 10 ? "0" : "") +
+      date.getDate() +
+      " " +
+      (date.getHours() < 10 ? "0" : "") +
+      date.getHours() +
+      ":" +
+      (date.getMinutes() < 10 ? "0" : "") +
+      date.getMinutes() +
+      (mobile.value
+        ? ""
+        : ":" + (date.getSeconds() < 10 ? "0" : "") + date.getSeconds())
+    );
+  };
+});
 
 onMounted(() => {
   init();
