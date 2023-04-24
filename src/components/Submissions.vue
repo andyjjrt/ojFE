@@ -46,7 +46,13 @@
                 </RouterLink>
               </template>
               <template v-slot:subtitle>
-                {{ getDate(item.create_time) }} {{ item.username }}
+                <span class="me-2">{{ getDate(item.create_time) }}</span>
+                <RouterLink
+                  class="text-decoration-none text-primary"
+                  :to="{ name: 'User', query: { username: item.username } }"
+                >
+                  {{ item.username }}
+                </RouterLink>
               </template>
               <template v-slot:append>
                 <v-chip
