@@ -2,16 +2,26 @@
   <v-card class="pa-4">
     <div class="d-flex justify-space-between align-center">
       <v-card-title>Submissions</v-card-title>
-      <div>
-        <v-text-field
-          v-model="keyword"
+      <div class="w-50 d-flex">
+        <v-switch
+          v-model="myself"
+          label="Myself"
           density="compact"
-          variant="solo"
-          label="Search templates"
-          append-inner-icon="mdi-magnify"
-          single-line
+          inline
           hide-details
-        ></v-text-field>
+        />
+        <form class="flex-grow-1" @submit.prevent="handleAction(false)">
+          <v-text-field
+            v-model="username"
+            density="compact"
+            variant="solo"
+            label="username..."
+            append-inner-icon="mdi-magnify"
+            single-line
+            hide-details
+            @click:append-inner="handleAction"
+          ></v-text-field>
+        </form>
       </div>
     </div>
     <Datagrid
@@ -75,7 +85,8 @@ const page = ref(1);
 const limit = ref(10);
 const total = ref(0);
 const loading = ref(false);
-const keyword = ref("");
+const username = ref("");
+const myself = ref(false);
 
 const offset = computed(() => (page.value - 1) * limit.value);
 
@@ -86,13 +97,16 @@ const handleChangeRowPerPage = (newRowPerPage: number) =>
 const init = async () => {
   page.value = parseInt((routes.query.page as string) || "1");
   limit.value = parseInt((routes.query.limit as string) || "10");
-  keyword.value = routes.query.keyword as string;
+  username.value = routes.query.username as string;
+  myself.value = routes.query.myself ? true : false;
   loading.value = true;
   const response = await fetchApi("/submissions", "get", {
     params: {
       offset: offset.value,
       limit: limit.value,
-      keyword: keyword.value,
+      username: username.value,
+      problem_id: routes.query.problem_id,
+      myself: myself.value ? 1 : null,
     },
   });
   loading.value = false;
@@ -100,11 +114,13 @@ const init = async () => {
   total.value = response.data.data.total;
 };
 
-const handleAction = () => {
+const handleAction = (resetPage: boolean = false) => {
   let params: { [key: string]: any } = {};
-  if (page.value !== 1) params.page = page.value;
-  if (keyword.value !== "") params.keyword = keyword.value;
+  if (!resetPage) if (page.value !== 1) params.page = page.value;
+  if (username.value !== "") params.username = username.value;
   if (limit.value !== 10) params.limit = limit.value;
+  if (routes.query.problem_id) params.problem_id = routes.query.problem_id;
+  if (myself.value) params.myself = 1;
   router.push({
     path: routes.path,
     query: params,
@@ -139,7 +155,8 @@ onMounted(() => {
 });
 
 watch(page, () => handleAction());
-watch(limit, () => handleAction());
+watch(myself, () => handleAction(true));
+watch(limit, () => handleAction(true));
 watch(
   () => routes.query,
   () => init()

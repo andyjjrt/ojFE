@@ -2,17 +2,18 @@
   <v-card class="pa-4">
     <div class="d-flex justify-space-between align-center">
       <v-card-title>Problems</v-card-title>
-      <div>
+      <form class="w-50" @submit.prevent="handleAction">
         <v-text-field
           v-model="keyword"
           density="compact"
           variant="solo"
-          label="Search templates"
+          label="keyword..."
           append-inner-icon="mdi-magnify"
           single-line
           hide-details
+          @click:append-inner="handleAction"
         ></v-text-field>
-      </div>
+      </form>
     </div>
     <Datagrid
       :data="problems"

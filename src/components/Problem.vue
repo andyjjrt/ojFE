@@ -89,8 +89,14 @@
       </v-card>
     </v-col>
     <v-col md="3" v-if="mdAndUp">
-      <v-card class="py-1 px-2 mb-6">
-        <v-list lines="one"  density="compact">
+      <v-btn
+        block
+        class="mb-5"
+        :to="{ name: 'Submissions', query: { problem_id: problem._id } }"
+        >submissions</v-btn
+      >
+      <v-card class="py-1 px-2 mb-5">
+        <v-list lines="one" density="compact">
           <v-list-item :title="problem._id">
             <template v-slot:prepend>
               <v-icon icon="mdi-identifier" />
