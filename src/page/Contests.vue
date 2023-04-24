@@ -8,6 +8,7 @@
           defaultLabel="Status"
           :items="['-1', '0', '1']"
           @click="handleChangeStatus"
+          class="d-none d-sm-flex"
         >
           <template v-slot:label="{ item }">
             {{ contestStatusList[item].name }}
@@ -21,12 +22,13 @@
           defaultLabel="Rule"
           :items="['OI', 'ACM']"
           @click="handleChangeRuleType"
+          class="d-none d-sm-flex"
         >
           <template v-slot:item="{ item }">
             {{ item }}
           </template>
         </TypeSelection>
-        <form class="flex-grow-1" @submit.prevent="() => handleAction">
+        <form class="flex-grow-1" @submit.prevent="() => handleAction()">
           <v-text-field
             v-model="keyword"
             density="compact"
@@ -35,7 +37,7 @@
             append-inner-icon="mdi-magnify"
             single-line
             hide-details
-            @click:append-inner="() => handleAction"
+            @click:append-inner="() => handleAction()"
           ></v-text-field>
         </form>
       </div>

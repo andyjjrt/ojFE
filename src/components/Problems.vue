@@ -8,6 +8,7 @@
           defaultLabel="Difficulty"
           :items="['Low', 'Mid', 'High']"
           @click="handleChangeDifficulty"
+          class="d-none d-sm-flex"
         >
           <template v-slot:item="{ item }">
             <DifficultyLabel :difficulty="item" />

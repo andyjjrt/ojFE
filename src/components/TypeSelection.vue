@@ -1,7 +1,7 @@
 <template>
   <v-menu>
     <template v-slot:activator="{ props }">
-      <v-btn color="primary" size="small" v-bind="props" class="me-2">
+      <v-btn color="primary" size="small" v-bind="props" class="me-2" :class="class">
         <template v-if="label === '' || label === undefined">
           {{ defaultLabel }}
         </template>
@@ -36,6 +36,7 @@ const props = defineProps<{
   label: string | undefined;
   defaultLabel: string;
   items: Array<string>;
+  class?: string;
 }>();
 
 const emits = defineEmits(["click"]);
