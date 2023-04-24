@@ -65,6 +65,7 @@ const total = ref(0);
 const loading = ref(false);
 const keyword = ref("");
 const difficulty = ref("");
+const tag = ref<string | null>(null);
 
 const offset = computed(() => (page.value - 1) * limit.value);
 
@@ -77,6 +78,7 @@ const init = async () => {
   limit.value = parseInt((routes.query.limit as string) || "10");
   keyword.value = routes.query.keyword as string;
   difficulty.value = routes.query.difficulty as string;
+  tag.value = (routes.query.tag as string) || null;
   loading.value = true;
   const response = await fetchApi("/problem", "get", {
     params: {
@@ -84,6 +86,7 @@ const init = async () => {
       limit: limit.value,
       keyword: keyword.value,
       difficulty: difficulty.value,
+      tag: tag.value,
     },
   });
   loading.value = false;
@@ -96,6 +99,7 @@ const handleAction = () => {
   if (page.value !== 1) params.page = page.value;
   if (keyword.value !== "") params.keyword = keyword.value;
   if (limit.value !== 10) params.limit = limit.value;
+  if (routes.query.tag) params.tag = routes.query.tag;
   router.push({
     path: routes.path,
     query: params,
