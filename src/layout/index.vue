@@ -23,9 +23,9 @@
           </template>
         </v-list-item>
         <v-list-item
-          title="Status"
-          to="/status"
-          :active="routes.name === 'Submissions'"
+          title="Contest"
+          to="/contest"
+          :active="routes.name === 'Contests'"
         >
           <template v-slot:prepend>
             <v-icon icon="mdi-trophy"></v-icon>
@@ -34,7 +34,7 @@
         <v-list-item
           title="Status"
           to="/status"
-          :active="routes.name === 'status'"
+          :active="routes.name === 'Submissions'"
         >
           <template v-slot:prepend>
             <v-icon icon="mdi-chart-line"></v-icon>

@@ -4,6 +4,7 @@ import Problems from "../page/Problems.vue";
 import Problem from "../page/Problem.vue";
 import Submission from "../page/Submission.vue";
 import Submissions from "../page/Submissions.vue";
+import Contests from "../page/Contests.vue";
 import Judger from "../page/Judger.vue";
 import User from "../page/User.vue";
 import DefaultLayout from "../layout/index.vue";
@@ -18,6 +19,7 @@ const routes = [
       { name: "Problem", path: "problem/:id", component: Problem },
       { name: "Submissions", path: "status", component: Submissions },
       { name: "Submission", path: "status/:id", component: Submission },
+      { name: "Contests", path: "contest", component: Contests },
       { name: "Judger", path: "judger", component: Judger },
       { name: "User", path: "user", component: User },
     ],

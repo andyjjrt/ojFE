@@ -6,7 +6,7 @@ interface StatusList {
   };
 }
 
-const statusList: StatusList = {
+export const statusList: StatusList = {
   "-2": {
     name: "Compile Error",
     short: "CE",
@@ -68,5 +68,23 @@ const statusList: StatusList = {
     type: "warning",
   },
 };
+
+export const contestStatusList: StatusList = {
+  "-1": {
+    name: "Ended",
+    short: "Ended",
+    type: "error",
+  },
+  "0": {
+    name: "Underway",
+    short: "Underway",
+    type: "success",
+  },
+  "1": {
+    name: "Not Started",
+    short: "Not Started",
+    type: "warning",
+  },
+}
 
 export default statusList;
