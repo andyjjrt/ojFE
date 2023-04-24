@@ -2,18 +2,30 @@
   <v-card class="pa-4">
     <div class="d-flex justify-space-between align-center">
       <v-card-title>Problems</v-card-title>
-      <form class="w-50" @submit.prevent="handleAction">
-        <v-text-field
-          v-model="keyword"
-          density="compact"
-          variant="solo"
-          label="keyword..."
-          append-inner-icon="mdi-magnify"
-          single-line
-          hide-details
-          @click:append-inner="handleAction"
-        ></v-text-field>
-      </form>
+      <div class="d-flex align-center w-50">
+        <TypeSelection
+          :label="difficulty"
+          defaultLabel="Difficulty"
+          :items="['Low', 'Mid', 'High']"
+          @click="handleChangeDifficulty"
+        >
+          <template v-slot:default="{ item }">
+            <DifficultyLabel :difficulty="item" />
+          </template>
+        </TypeSelection>
+        <form class="flex-grow-1" @submit.prevent="() => handleAction">
+          <v-text-field
+            v-model="keyword"
+            density="compact"
+            variant="solo"
+            label="keyword..."
+            append-inner-icon="mdi-magnify"
+            single-line
+            hide-details
+            @click:append-inner="() => handleAction"
+          ></v-text-field>
+        </form>
+      </div>
     </div>
     <Datagrid
       :data="problems"
@@ -55,6 +67,7 @@ import { useRouter, useRoute } from "vue-router";
 import { fetchApi } from "../utils/api";
 import Datagrid from "./Datagrid.vue";
 import DifficultyLabel from "../components/DifficultyLabel.vue";
+import TypeSelection from "./TypeSelection.vue";
 
 const router = useRouter();
 const routes = useRoute();
@@ -73,6 +86,10 @@ const offset = computed(() => (page.value - 1) * limit.value);
 const handleNavigate = (newPage: number) => (page.value = newPage);
 const handleChangeRowPerPage = (newRowPerPage: number) =>
   (limit.value = newRowPerPage);
+const handleChangeDifficulty = (newDifficulty: string) => {
+  if (newDifficulty === "all") difficulty.value = "";
+  else difficulty.value = newDifficulty;
+};
 
 const init = async () => {
   page.value = parseInt((routes.query.page as string) || "1");
@@ -95,11 +112,12 @@ const init = async () => {
   total.value = response.data.data.total;
 };
 
-const handleAction = () => {
+const handleAction = (resetPage: boolean = false) => {
   let params: { [key: string]: any } = {};
-  if (page.value !== 1) params.page = page.value;
+  if (!resetPage) if (page.value !== 1) params.page = page.value;
   if (keyword.value !== "") params.keyword = keyword.value;
   if (limit.value !== 10) params.limit = limit.value;
+  if (difficulty.value !== "") params.difficulty = difficulty.value;
   if (routes.query.tag) params.tag = routes.query.tag;
   router.push({
     path: routes.path,
@@ -112,7 +130,8 @@ onMounted(() => {
 });
 
 watch(page, () => handleAction());
-watch(limit, () => handleAction());
+watch(limit, () => handleAction(true));
+watch(difficulty, () => handleAction(true));
 watch(
   () => routes.query,
   () => init()
