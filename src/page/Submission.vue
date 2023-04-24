@@ -9,14 +9,15 @@
       </v-alert-title>
       <div
         v-if="
-          status.statistic_info.time_cost && status.statistic_info.memory_cost
+          Object.hasOwn(status.statistic_info, 'time_cost') &&
+          Object.hasOwn(status.statistic_info, 'memory_cost')
         "
         class="mt-2 d-flex align-center"
       >
         <v-icon icon="mdi-timer" class="me-2" />
         {{ status.statistic_info.time_cost }}ms
         <v-icon icon="mdi-memory" class="mx-2" />
-        {{ Math.round(status.statistic_info.memory_cost / (1024 * 1024)) }}MB
+        {{ Math.round(status.statistic_info.memory_cost! / (1024 * 1024)) }}MB
         <v-icon icon="mdi-xml" class="mx-2" />{{ status.language }}
       </div>
       <v-code v-if="status.statistic_info.err_info" class="overflow-auto mt-2">
@@ -57,7 +58,7 @@
       </v-list>
     </v-card>
     <v-sheet rounded="xl" class="position-relative mt-4">
-      <pre class="language-clike"><code v-html="html" /></pre>
+      <pre class="language-clang"><code v-html="html" /></pre>
       <v-btn
         icon="mdi-clipboard-text"
         class="me-1 text-disabled me-2 mt-2"
@@ -105,10 +106,11 @@ const statusListDetail = computed(() => {
 });
 
 const html = computed(() =>
-  Prism.highlight(status.value?.code || "", Prism.languages.clike, "clike ")
+  Prism.highlight(status.value?.code || "", Prism.languages.clike, "clike")
 );
 
 onMounted(() => init());
+console.log(Prism.languages);
 </script>
 
 <style>
