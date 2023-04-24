@@ -2,7 +2,12 @@
   <v-menu>
     <template v-slot:activator="{ props }">
       <v-btn color="primary" size="small" v-bind="props" class="me-2">
-        {{ label === "" || label === undefined ? defaultLabel : label }}
+        <template v-if="label === '' || label === undefined">
+          {{ defaultLabel }}
+        </template>
+        <slot name="label" v-else :item="label">
+          {{ label }}
+        </slot>
       </v-btn>
     </template>
     <v-list>
@@ -19,7 +24,7 @@
         :active="label === item"
       >
         <v-list-item-title>
-          <slot :item="item" />
+          <slot name="item" :item="item" />
         </v-list-item-title>
       </v-list-item>
     </v-list>
@@ -28,7 +33,7 @@
 
 <script setup lang="ts">
 const props = defineProps<{
-  label: string;
+  label: string | undefined;
   defaultLabel: string;
   items: Array<string>;
 }>();

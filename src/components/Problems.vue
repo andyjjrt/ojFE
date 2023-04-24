@@ -9,7 +9,7 @@
           :items="['Low', 'Mid', 'High']"
           @click="handleChangeDifficulty"
         >
-          <template v-slot:default="{ item }">
+          <template v-slot:item="{ item }">
             <DifficultyLabel :difficulty="item" />
           </template>
         </TypeSelection>
@@ -94,8 +94,8 @@ const handleChangeDifficulty = (newDifficulty: string) => {
 const init = async () => {
   page.value = parseInt((routes.query.page as string) || "1");
   limit.value = parseInt((routes.query.limit as string) || "10");
-  keyword.value = routes.query.keyword as string;
-  difficulty.value = routes.query.difficulty as string;
+  keyword.value = routes.query.keyword as string || "";
+  difficulty.value = routes.query.difficulty as string || "";
   tag.value = (routes.query.tag as string) || null;
   loading.value = true;
   const response = await fetchApi("/problem", "get", {
