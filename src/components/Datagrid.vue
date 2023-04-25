@@ -14,7 +14,7 @@
         </div>
       </div>
     </slot>
-    <div class="d-flex justify-end align-center">
+    <div class="d-flex justify-end align-center" v-if="!hidePagination">
       <v-menu>
         <template v-slot:activator="{ props }">
           <v-btn color="primary" size="small" class="text-none" v-bind="props">
@@ -54,6 +54,7 @@ const props = defineProps<{
   page: number;
   rowsPerPage: 10 | 20 | 30 | number;
   total: number;
+  hidePagination?: boolean
 }>();
 const emits = defineEmits(["handleNavigate", "handleChangeRowPerPage"]);
 

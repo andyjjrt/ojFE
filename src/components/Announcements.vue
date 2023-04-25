@@ -7,6 +7,7 @@
       :total="total"
       :page="page"
       :rows-per-page="rowsPerPage"
+      :hidePagination="contestId !== undefined"
       @handleNavigate="handleNavigate"
       @handleChangeRowPerPage="handleChangeRowPerPage"
     >
@@ -41,7 +42,11 @@ import { onMounted, ref, watch } from "vue";
 import { fetchApi } from "../utils/api";
 import Datagrid from "./Datagrid.vue";
 
-const announcements = ref<Announcement[]>([]);
+const props = defineProps<{
+  contestId?: string;
+}>();
+
+const announcements = ref<Announcement[] | ContestAnnouncement[]>([]);
 const page = ref(1);
 const rowsPerPage = ref(10);
 const total = ref(0);
@@ -53,15 +58,24 @@ const handleChangeRowPerPage = (newRowPerPage: number) =>
 
 const init = async () => {
   loading.value = true;
-  const response = await fetchApi("/announcement", "get", {
-    params: {
-      offset: (page.value - 1) * rowsPerPage.value,
-      limit: rowsPerPage.value,
-    },
-  });
+  const response = await fetchApi(
+    `${props.contestId ? "/contest" : ""}/announcement`,
+    "get",
+    {
+      params: {
+        offset: (page.value - 1) * rowsPerPage.value,
+        limit: rowsPerPage.value,
+        contest_id: props.contestId,
+      },
+    }
+  );
   loading.value = false;
-  announcements.value = response.data.data.results;
-  total.value = response.data.data.total;
+  announcements.value = props.contestId
+    ? response.data.data
+    : response.data.data.results;
+  total.value = props.contestId
+    ? response.data.data.length
+    : response.data.data.total;
 };
 
 onMounted(() => {

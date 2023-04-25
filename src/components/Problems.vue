@@ -2,7 +2,7 @@
   <v-card class="pa-4">
     <div class="d-flex justify-space-between align-center">
       <v-card-title>Problems</v-card-title>
-      <div class="d-flex align-center w-50">
+      <div class="d-flex align-center w-50" v-if="contestId === undefined">
         <TypeSelection
           :label="difficulty"
           defaultLabel="Difficulty"
@@ -34,13 +34,14 @@
       :total="total"
       :page="page"
       :rows-per-page="limit"
+      :hidePagination="contestId !== undefined"
       @handleNavigate="handleNavigate"
       @handleChangeRowPerPage="handleChangeRowPerPage"
     >
       <template v-slot="{ data }: { data: Problem[] }">
         <v-list lines="one" density="compact">
           <template v-for="item in data">
-            <v-list-item :to="`/problem/${item._id}`" :active="false">
+            <v-list-item :to="getProblemLocation(item._id)" :active="false">
               <v-list-item-title>{{ item.title }}</v-list-item-title>
               <template v-slot:prepend>
                 <DifficultyLabel :difficulty="item.difficulty" />
@@ -70,6 +71,10 @@ import Datagrid from "./Datagrid.vue";
 import DifficultyLabel from "../components/DifficultyLabel.vue";
 import TypeSelection from "./TypeSelection.vue";
 
+const props = defineProps<{
+  contestId?: string;
+}>();
+
 const router = useRouter();
 const routes = useRoute();
 
@@ -95,22 +100,31 @@ const handleChangeDifficulty = (newDifficulty: string) => {
 const init = async () => {
   page.value = parseInt((routes.query.page as string) || "1");
   limit.value = parseInt((routes.query.limit as string) || "10");
-  keyword.value = routes.query.keyword as string || "";
-  difficulty.value = routes.query.difficulty as string || "";
+  keyword.value = (routes.query.keyword as string) || "";
+  difficulty.value = (routes.query.difficulty as string) || "";
   tag.value = (routes.query.tag as string) || null;
   loading.value = true;
-  const response = await fetchApi("/problem", "get", {
-    params: {
-      offset: offset.value,
-      limit: limit.value,
-      keyword: keyword.value,
-      difficulty: difficulty.value,
-      tag: tag.value,
-    },
-  });
+  const response = await fetchApi(
+    `${props.contestId ? "/contest" : ""}/problem`,
+    "get",
+    {
+      params: {
+        offset: offset.value,
+        limit: limit.value,
+        keyword: keyword.value,
+        difficulty: difficulty.value,
+        tag: tag.value,
+        contest_id: props.contestId,
+      },
+    }
+  );
   loading.value = false;
-  problems.value = response.data.data.results;
-  total.value = response.data.data.total;
+  problems.value = props.contestId
+    ? response.data.data
+    : response.data.data.results;
+  total.value = props.contestId
+    ? response.data.data.length
+    : response.data.data.total;
 };
 
 const handleAction = (resetPage: boolean = false) => {
@@ -125,6 +139,19 @@ const handleAction = (resetPage: boolean = false) => {
     query: params,
   });
 };
+
+const getProblemLocation = computed(() => {
+  return (id: string) => {
+    let params: any = {
+      problemId: id,
+    };
+    if (props.contestId) params.contestId = props.contestId;
+    return {
+      name: props.contestId ? "ContestProblem" : "Problem",
+      params,
+    };
+  };
+});
 
 onMounted(() => {
   init();

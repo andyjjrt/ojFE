@@ -89,12 +89,9 @@
       </v-card>
     </v-col>
     <v-col md="3" v-if="mdAndUp">
-      <v-btn
-        block
-        class="mb-5"
-        :to="{ name: 'Submissions', query: { problem_id: problem._id } }"
-        >submissions</v-btn
-      >
+      <v-btn block class="mb-5" :to="getSubmissionLocation(problem._id)">
+        submissions
+      </v-btn>
       <v-card class="py-1 px-2 mb-5">
         <v-list lines="one" density="compact">
           <v-list-item :title="problem._id">
@@ -207,6 +204,7 @@ const submit = async () => {
       code: code.value,
       language: selectedLanguage.value,
       problem_id: props.problem.id,
+      contest_id: props.problem.contest,
     },
   });
   if (response.data.error) {
@@ -239,6 +237,20 @@ const submit = async () => {
     }
   }, 1000);
 };
+
+const getSubmissionLocation = computed(() => {
+  return (id: string) => {
+    let params: any = {};
+    if (props.problem.contest) params.contestId = props.problem.contest;
+    return {
+      name: props.problem.contest ? "ContestSubmissions" : "Submissions",
+      params,
+      query: {
+        problem_id: id
+      }
+    };
+  };
+});
 
 watch(selectedLanguage, (newVal) => {
   resetTemplate(newVal);

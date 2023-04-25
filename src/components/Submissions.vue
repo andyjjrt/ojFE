@@ -40,13 +40,15 @@
               <template v-slot:title>
                 <RouterLink
                   class="text-decoration-none text-primary"
-                  :to="{ name: 'Problem', params: { id: item.problem } }"
+                  :to="{ name: 'Problem', params: { problemId: item.problem } }"
                 >
                   {{ item.problem }}
                 </RouterLink>
               </template>
               <template v-slot:subtitle>
-                <span class="me-2">{{ getDate(item.create_time, mobile) }}</span>
+                <span class="me-2">{{
+                  getDate(item.create_time, mobile)
+                }}</span>
                 <RouterLink
                   class="text-decoration-none text-primary"
                   :to="{ name: 'User', query: { username: item.username } }"
@@ -83,6 +85,10 @@ import Datagrid from "./Datagrid.vue";
 import statusList from "../utils/status";
 import useDate from "../hooks/useDate";
 
+const props = defineProps<{
+  contestId?: string;
+}>();
+
 const router = useRouter();
 const routes = useRoute();
 const { mobile } = useDisplay();
@@ -108,15 +114,20 @@ const init = async () => {
   username.value = routes.query.username as string;
   myself.value = routes.query.myself ? true : false;
   loading.value = true;
-  const response = await fetchApi("/submissions", "get", {
-    params: {
-      offset: offset.value,
-      limit: limit.value,
-      username: username.value,
-      problem_id: routes.query.problem_id,
-      myself: myself.value ? 1 : null,
-    },
-  });
+  const response = await fetchApi(
+    props.contestId ? "/contest_submissions" : "/submissions",
+    "get",
+    {
+      params: {
+        offset: offset.value,
+        limit: limit.value,
+        username: username.value,
+        problem_id: routes.query.problem_id,
+        myself: myself.value ? 1 : null,
+        contest_id: props.contestId,
+      },
+    }
+  );
   loading.value = false;
   submissions.value = response.data.data.results;
   total.value = response.data.data.total;
