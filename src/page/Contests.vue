@@ -54,7 +54,7 @@
       <template v-slot="{ data }: { data: Contest[] }">
         <v-list lines="two" density="compact">
           <template v-for="item in data">
-            <v-list-item :to="`/constest/${item.id}`" :active="false">
+            <v-list-item :to="`/contest/${item.id}`" :active="false">
               <template v-slot:title>
                 <div class="d-flex align-center">
                   {{ item.title }}

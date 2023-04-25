@@ -506,8 +506,9 @@
   border-left-style: solid;
 }
 .v-md-plugin-tip.tip {
-  background-color: #f3f5f7;
+  background-color: #d0fbe1;
   border-color: #42b983;
+  color: #2a2a2a;
 }
 .v-md-plugin-tip.warning {
   color: #6b5900;

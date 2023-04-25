@@ -2,9 +2,9 @@
   <v-row>
     <v-col md="9">
       <v-card class="pa-2">
-        <v-card-title class="font-weight-bold text-h5">{{
-          title
-        }}</v-card-title>
+        <v-card-title class="font-weight-bold text-h5">
+          {{ title }}
+        </v-card-title>
         <v-divider />
         <div class="pa-4">
           <h5 class="text-h5 mb-2">Description</h5>
