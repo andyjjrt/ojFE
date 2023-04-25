@@ -49,19 +49,19 @@
             </v-list-item>
           </template>
           <v-list-item
-          title="ACM Rank"
-          to="/acm-rank"
-          :active="routes.name === 'ACMRank'"
-        >
-        </v-list-item>
-        <v-list-item
-          title="OI Rank"
-          to="/oi-rank"
-          :active="routes.name === 'OIRank'"
-        >
-        </v-list-item>
+            title="ACM Rank"
+            to="/acm-rank"
+            :active="routes.name === 'ACMRank'"
+          >
+          </v-list-item>
+          <v-list-item
+            title="OI Rank"
+            to="/oi-rank"
+            :active="routes.name === 'OIRank'"
+          >
+          </v-list-item>
         </v-list-group>
-        
+
         <v-list-group>
           <template v-slot:activator="{ props }">
             <v-list-item v-bind="props" title="About">
@@ -81,7 +81,9 @@
     </v-navigation-drawer>
     <v-main>
       <v-container>
-        <RouterView />
+        <v-fade-transition>
+          <RouterView />
+        </v-fade-transition>
       </v-container>
       <v-footer class="bg-background">
         <div class="text-center text-caption w-100">

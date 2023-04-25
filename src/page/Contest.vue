@@ -21,7 +21,9 @@
       </v-tab>
     </v-tabs>
     <div class="my-6">
-      <RouterView />
+      <v-fade-transition>
+        <RouterView />
+      </v-fade-transition>
     </div>
   </template>
 </template>

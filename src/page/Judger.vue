@@ -1,20 +1,22 @@
 <template>
-  <v-card class="pa-4 mb-4">
-    <v-sheet v-for="language in constants.languages" class="pa-2">
-      <h3 class="mb-2">{{ language.name }} ({{ language.description }})</h3>
-      <v-code class="overflow-auto">
-        <code class="text-no-wrap">
-          {{ language.config.compile.compile_command }}
-        </code>
-      </v-code>
-    </v-sheet>
-  </v-card>
-  <v-card class="pa-4">
-    <v-sheet v-for="senario in explanation" class="pa-1">
-      <b>{{ senario.type }}</b>
-      <span>: {{ senario.description }}</span>
-    </v-sheet>
-  </v-card>
+  <div>
+    <v-card class="pa-4 mb-4">
+      <v-sheet v-for="language in constants.languages" class="pa-2">
+        <h3 class="mb-2">{{ language.name }} ({{ language.description }})</h3>
+        <v-code class="overflow-auto">
+          <code class="text-no-wrap">
+            {{ language.config.compile.compile_command }}
+          </code>
+        </v-code>
+      </v-sheet>
+    </v-card>
+    <v-card class="pa-4">
+      <v-sheet v-for="senario in explanation" class="pa-1">
+        <b>{{ senario.type }}</b>
+        <span>: {{ senario.description }}</span>
+      </v-sheet>
+    </v-card>
+  </div>
 </template>
 
 <script setup lang="ts">

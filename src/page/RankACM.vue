@@ -1,65 +1,66 @@
 <template>
-  <v-card
-    class="pa-4 mb-6"
-    style="margin: 0 auto; position: relative; width: 100%"
-    :style="{ height: mobile ? '300px' : '400px' }"
-  >
-    <BarChart :chartData="chartData" />
-  </v-card>
-
-  <v-card class="pa-4">
-    <v-card-title>Rank</v-card-title>
-    <ErrorMessage :message="error" v-if="error" class="mx-4" />
-    <Datagrid
-      :data="ranks"
-      :loading="loading"
-      :total="total"
-      :page="page"
-      :rows-per-page="limit"
-      @handleNavigate="handleNavigate"
-      @handleChangeRowPerPage="handleChangeRowPerPage"
-      v-else
+  <div>
+    <v-card
+      class="pa-4 mb-6"
+      style="margin: 0 auto; position: relative; width: 100%"
+      :style="{ height: mobile ? '300px' : '400px' }"
     >
-      <template v-slot="{ data }: { data: RankUser[] }">
-        <v-list lines="two" density="compact">
-          <template v-for="item in data">
-            <v-list-item>
-              <v-list-item-title>
-                <RouterLink
-                  class="text-decoration-none text-primary"
-                  :to="{
-                    name: 'User',
-                    query: { username: item.user.username },
-                  }"
-                >
-                  {{ item.user.username }}
-                </RouterLink>
-              </v-list-item-title>
-              <v-list-item-subtitle class="d-inline-block text-truncate">
-                {{ item.mood }}
-              </v-list-item-subtitle>
-              <template v-slot:prepend>
-                <v-avatar :image="item.avatar" />
-              </template>
-              <template v-slot:append>
-                {{ item.accepted_number }}
-                /
-                {{ item.submission_number }}
-                |
-                {{
-                  (
-                    (item.accepted_number * 100) /
-                    item.submission_number
-                  ).toFixed(2)
-                }}%
-              </template>
-            </v-list-item>
-            <v-divider />
-          </template>
-        </v-list>
-      </template>
-    </Datagrid>
-  </v-card>
+      <BarChart :chartData="chartData" />
+    </v-card>
+    <v-card class="pa-4">
+      <v-card-title>Rank</v-card-title>
+      <ErrorMessage :message="error" v-if="error" class="mx-4" />
+      <Datagrid
+        :data="ranks"
+        :loading="loading"
+        :total="total"
+        :page="page"
+        :rows-per-page="limit"
+        @handleNavigate="handleNavigate"
+        @handleChangeRowPerPage="handleChangeRowPerPage"
+        v-else
+      >
+        <template v-slot="{ data }: { data: RankUser[] }">
+          <v-list lines="two" density="compact">
+            <template v-for="item in data">
+              <v-list-item>
+                <v-list-item-title>
+                  <RouterLink
+                    class="text-decoration-none text-primary"
+                    :to="{
+                      name: 'User',
+                      query: { username: item.user.username },
+                    }"
+                  >
+                    {{ item.user.username }}
+                  </RouterLink>
+                </v-list-item-title>
+                <v-list-item-subtitle class="d-inline-block text-truncate">
+                  {{ item.mood }}
+                </v-list-item-subtitle>
+                <template v-slot:prepend>
+                  <v-avatar :image="item.avatar" />
+                </template>
+                <template v-slot:append>
+                  {{ item.accepted_number }}
+                  /
+                  {{ item.submission_number }}
+                  |
+                  {{
+                    (
+                      (item.accepted_number * 100) /
+                      item.submission_number
+                    ).toFixed(2)
+                  }}%
+                </template>
+              </v-list-item>
+              <v-divider />
+            </template>
+          </v-list>
+        </template>
+      </Datagrid>
+    </v-card>
+  </div>
 </template>
 
 <script setup lang="ts">

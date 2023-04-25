@@ -1,59 +1,60 @@
 <template>
-  <v-card
-    class="pa-4 mb-6"
-    style="margin: 0 auto; position: relative; width: 100%"
-    :style="{ height: mobile ? '300px' : '400px' }"
-  >
-    <BarChart :chartData="chartData" />
-  </v-card>
-
-  <v-card class="pa-4">
-    <v-card-title>Rank</v-card-title>
-    <ErrorMessage :message="error" v-if="error" class="mx-4" />
-    <Datagrid
-      :data="ranks"
-      :loading="loading"
-      :total="total"
-      :page="page"
-      :rows-per-page="limit"
-      @handleNavigate="handleNavigate"
-      @handleChangeRowPerPage="handleChangeRowPerPage"
-      v-else
+  <div>
+    <v-card
+      class="pa-4 mb-6"
+      style="margin: 0 auto; position: relative; width: 100%"
+      :style="{ height: mobile ? '300px' : '400px' }"
     >
-      <template v-slot="{ data }: { data: ContestRankUser[] }">
-        <v-table>
-          <thead>
-            <tr>
-              <th>Username</th>
-              <th>Score</th>
-              <th v-for="problem in problems">{{ problem._id }}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="item in data" :key="item.id">
-              <td>
-                <RouterLink
-                  class="text-decoration-none text-primary"
-                  :to="{
-                    name: 'User',
-                    query: { username: item.user.username },
-                  }"
-                >
-                  {{ item.user.username }}
-                </RouterLink>
-              </td>
-              <td>
-                {{ item.total_score }}
-              </td>
-              <td v-for="problem in problems">
-                {{ item.submission_info[problem.id] }}
-              </td>
-            </tr>
-          </tbody>
-        </v-table>
-      </template>
-    </Datagrid>
-  </v-card>
+      <BarChart :chartData="chartData" />
+    </v-card>
+    <v-card class="pa-4">
+      <v-card-title>Rank</v-card-title>
+      <ErrorMessage :message="error" v-if="error" class="mx-4" />
+      <Datagrid
+        :data="ranks"
+        :loading="loading"
+        :total="total"
+        :page="page"
+        :rows-per-page="limit"
+        @handleNavigate="handleNavigate"
+        @handleChangeRowPerPage="handleChangeRowPerPage"
+        v-else
+      >
+        <template v-slot="{ data }: { data: ContestRankUser[] }">
+          <v-table>
+            <thead>
+              <tr>
+                <th>Username</th>
+                <th>Score</th>
+                <th v-for="problem in problems">{{ problem._id }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="item in data" :key="item.id">
+                <td>
+                  <RouterLink
+                    class="text-decoration-none text-primary"
+                    :to="{
+                      name: 'User',
+                      query: { username: item.user.username },
+                    }"
+                  >
+                    {{ item.user.username }}
+                  </RouterLink>
+                </td>
+                <td>
+                  {{ item.total_score }}
+                </td>
+                <td v-for="problem in problems">
+                  {{ item.submission_info[problem.id] }}
+                </td>
+              </tr>
+            </tbody>
+          </v-table>
+        </template>
+      </Datagrid>
+    </v-card>
+  </div>
 </template>
 
 <script setup lang="ts">
