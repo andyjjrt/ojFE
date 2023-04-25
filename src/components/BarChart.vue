@@ -10,14 +10,25 @@ import {
   Tooltip,
   Legend,
   ArcElement,
+  CategoryScale,
+  LinearScale,
   ChartData,
+  BarElement,
 } from "chart.js";
 
 const props = defineProps<{
   chartData: ChartData<"bar", (number | [number, number] | null)[], unknown>;
 }>();
 
-ChartJS.register(Title, Tooltip, Legend, ArcElement);
+ChartJS.register(
+  Title,
+  Tooltip,
+  Legend,
+  ArcElement,
+  CategoryScale,
+  LinearScale,
+  BarElement
+);
 
 const chartOptions: any = {
   responsive: true,

@@ -24,7 +24,17 @@
         <v-list lines="two" density="compact">
           <template v-for="item in data">
             <v-list-item>
-              <v-list-item-title>{{ item.user.username }}</v-list-item-title>
+              <v-list-item-title>
+                <RouterLink
+                  class="text-decoration-none text-primary"
+                  :to="{
+                    name: 'User',
+                    query: { username: item.user.username },
+                  }"
+                >
+                  {{ item.user.username }}
+                </RouterLink>
+              </v-list-item-title>
               <v-list-item-subtitle class="d-inline-block text-truncate">
                 {{ item.mood }}
               </v-list-item-subtitle>
