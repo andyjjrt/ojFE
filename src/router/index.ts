@@ -11,6 +11,8 @@ import ContestProblems from "../page/Contest/Problems.vue";
 import ContestSubmissions from "../page/Contest/Submissions.vue";
 import ContestRank from "../page/Contest/Rank.vue";
 import Contests from "../page/Contests.vue";
+import ACMRank from "../page/RankACM.vue";
+import OIRank from "../page/RankOI.vue";
 import Judger from "../page/Judger.vue";
 import User from "../page/User.vue";
 import DefaultLayout from "../layout/index.vue";
@@ -53,6 +55,8 @@ const routes = [
           },
         ],
       },
+      { name: "ACMRank", path: "acm-rank", component: ACMRank },
+      { name: "OIRank", path: "oi-rank", component: OIRank },
       { name: "Judger", path: "judger", component: Judger },
       { name: "User", path: "user", component: User },
     ],

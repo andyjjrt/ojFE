@@ -42,6 +42,28 @@
         </v-list-item>
         <v-list-group>
           <template v-slot:activator="{ props }">
+            <v-list-item v-bind="props" title="Rank">
+              <template v-slot:prepend>
+                <v-icon icon="mdi-chart-bar"></v-icon>
+              </template>
+            </v-list-item>
+          </template>
+          <v-list-item
+          title="ACM Rank"
+          to="/acm-rank"
+          :active="routes.name === 'ACMRank'"
+        >
+        </v-list-item>
+        <v-list-item
+          title="OI Rank"
+          to="/oi-rank"
+          :active="routes.name === 'OIRank'"
+        >
+        </v-list-item>
+        </v-list-group>
+        
+        <v-list-group>
+          <template v-slot:activator="{ props }">
             <v-list-item v-bind="props" title="About">
               <template v-slot:prepend>
                 <v-icon icon="mdi-information-outline"></v-icon>
@@ -52,12 +74,6 @@
             title="Judger"
             to="/judger"
             :active="routes.name === 'Judger'"
-          >
-          </v-list-item>
-          <v-list-item
-            title="Status"
-            to="/status"
-            :active="routes.name === 'status'"
           >
           </v-list-item>
         </v-list-group>
