@@ -1,6 +1,7 @@
 <template>
   <v-card class="pa-4">
     <v-card-title>Announcements</v-card-title>
+    <ErrorMessage :message="error" v-if="error" class="mx-4" />
     <Datagrid
       :data="announcements"
       :loading="loading"
@@ -41,6 +42,7 @@
 import { onMounted, ref, watch } from "vue";
 import { fetchApi } from "../utils/api";
 import Datagrid from "./Datagrid.vue";
+import ErrorMessage from "./ErrorMessage.vue";
 
 const props = defineProps<{
   contestId?: string;
@@ -51,6 +53,7 @@ const page = ref(1);
 const rowsPerPage = ref(10);
 const total = ref(0);
 const loading = ref(false);
+const error = ref<string | null>(null);
 
 const handleNavigate = (newPage: number) => (page.value = newPage);
 const handleChangeRowPerPage = (newRowPerPage: number) =>
@@ -70,12 +73,15 @@ const init = async () => {
     }
   );
   loading.value = false;
-  announcements.value = props.contestId
-    ? response.data.data
-    : response.data.data.results;
-  total.value = props.contestId
-    ? response.data.data.length
-    : response.data.data.total;
+  if (response.data.error) error.value = response.data.data;
+  else {
+    announcements.value = props.contestId
+      ? response.data.data
+      : response.data.data.results;
+    total.value = props.contestId
+      ? response.data.data.length
+      : response.data.data.total;
+  }
 };
 
 onMounted(() => {

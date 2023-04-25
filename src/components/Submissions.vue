@@ -2,13 +2,14 @@
   <v-card class="pa-4">
     <div class="d-flex justify-space-between align-center">
       <v-card-title>Submissions</v-card-title>
-      <div class="w-50 d-flex">
+      <div class="w-50 d-flex" v-if="!error">
         <v-switch
           v-model="myself"
           label="Myself"
           density="compact"
           inline
           hide-details
+          class="d-none d-sm-flex"
         />
         <form class="flex-grow-1" @submit.prevent="() => handleAction()">
           <v-text-field
@@ -24,6 +25,7 @@
         </form>
       </div>
     </div>
+    <ErrorMessage :message="error" v-if="error" class="mx-4" />
     <Datagrid
       :data="submissions"
       :loading="loading"
@@ -32,6 +34,7 @@
       :rows-per-page="limit"
       @handleNavigate="handleNavigate"
       @handleChangeRowPerPage="handleChangeRowPerPage"
+      v-else
     >
       <template v-slot="{ data }: { data: BriefStatus[] }">
         <v-list lines="one">
@@ -84,6 +87,7 @@ import { fetchApi } from "../utils/api";
 import Datagrid from "./Datagrid.vue";
 import statusList from "../utils/status";
 import useDate from "../hooks/useDate";
+import ErrorMessage from "./ErrorMessage.vue";
 
 const props = defineProps<{
   contestId?: string;
@@ -99,6 +103,7 @@ const page = ref(1);
 const limit = ref(10);
 const total = ref(0);
 const loading = ref(false);
+const error = ref<string | null>(null);
 const username = ref("");
 const myself = ref(false);
 
@@ -129,8 +134,11 @@ const init = async () => {
     }
   );
   loading.value = false;
-  submissions.value = response.data.data.results;
-  total.value = response.data.data.total;
+  if (response.data.error) error.value = response.data.data;
+  else {
+    submissions.value = response.data.data.results;
+    total.value = response.data.data.total;
+  }
 };
 
 const handleAction = (resetPage: boolean = false) => {

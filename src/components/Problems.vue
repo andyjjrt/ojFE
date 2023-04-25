@@ -2,7 +2,7 @@
   <v-card class="pa-4">
     <div class="d-flex justify-space-between align-center">
       <v-card-title>Problems</v-card-title>
-      <div class="d-flex align-center w-50" v-if="contestId === undefined">
+      <div class="d-flex align-center w-50" v-if="contestId === undefined && !error">
         <TypeSelection
           :label="difficulty"
           defaultLabel="Difficulty"
@@ -28,6 +28,7 @@
         </form>
       </div>
     </div>
+    <ErrorMessage :message="error" v-if="error" class="mx-4" />
     <Datagrid
       :data="problems"
       :loading="loading"
@@ -37,6 +38,7 @@
       :hidePagination="contestId !== undefined"
       @handleNavigate="handleNavigate"
       @handleChangeRowPerPage="handleChangeRowPerPage"
+      v-else
     >
       <template v-slot="{ data }: { data: Problem[] }">
         <v-list lines="one" density="compact">
@@ -70,6 +72,7 @@ import { fetchApi } from "../utils/api";
 import Datagrid from "./Datagrid.vue";
 import DifficultyLabel from "../components/DifficultyLabel.vue";
 import TypeSelection from "./TypeSelection.vue";
+import ErrorMessage from "./ErrorMessage.vue";
 
 const props = defineProps<{
   contestId?: string;
@@ -83,6 +86,7 @@ const page = ref(1);
 const limit = ref(10);
 const total = ref(0);
 const loading = ref(false);
+const error = ref<string | null>(null);
 const keyword = ref("");
 const difficulty = ref("");
 const tag = ref<string | null>(null);
@@ -119,12 +123,15 @@ const init = async () => {
     }
   );
   loading.value = false;
-  problems.value = props.contestId
-    ? response.data.data
-    : response.data.data.results;
-  total.value = props.contestId
-    ? response.data.data.length
-    : response.data.data.total;
+  if (response.data.error) error.value = response.data.data;
+  else {
+    problems.value = props.contestId
+      ? response.data.data
+      : response.data.data.results;
+    total.value = props.contestId
+      ? response.data.data.length
+      : response.data.data.total;
+  }
 };
 
 const handleAction = (resetPage: boolean = false) => {

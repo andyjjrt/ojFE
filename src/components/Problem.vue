@@ -204,7 +204,7 @@ const submit = async () => {
       code: code.value,
       language: selectedLanguage.value,
       problem_id: props.problem.id,
-      contest_id: props.problem.contest,
+      contest_id: props.problem.contest || undefined,
     },
   });
   if (response.data.error) {
