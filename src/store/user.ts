@@ -1,9 +1,11 @@
 import { defineStore } from "pinia";
-import { computed, ref } from "vue";
+import { ref } from "vue";
+import { useRouter } from "vue-router";
 import { fetchApi } from "../utils/api";
 
 export const useUserStore = defineStore("user", () => {
   const profile = ref<User | null>(null);
+  const router = useRouter();
 
   const getProfile = async () => {
     const response = await fetchApi("/profile", "get");
@@ -29,6 +31,8 @@ export const useUserStore = defineStore("user", () => {
   const logout = async () => {
     const response = await fetchApi("/logout", "get");
     if (response.data.error) throw new Error(response.data.data);
+    profile.value = null;
+    router.push({ name: "Home" });
     await getProfile();
   };
 
