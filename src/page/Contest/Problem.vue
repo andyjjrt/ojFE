@@ -1,6 +1,8 @@
 <template>
-  <ErrorMessage :message="error" v-if="error" />
-  <Problem :problem="problem" v-else-if="problem" />
+  <div>
+    <ErrorMessage :message="error" v-if="error" />
+    <Problem :problem="problem" v-else-if="problem" />
+  </div>
 </template>
 
 <script setup lang="ts">

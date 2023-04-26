@@ -1,43 +1,47 @@
 <template>
-  <ErrorMessage :message="error" v-if="error" />
-  <template v-else-if="contest">
-    <div class="d-flex justify-space-between">
-      <h1>{{ contest.title }}</h1>
-      <v-chip
-        class="ma-1 me-2"
-        size="large"
-        label
-        :color="remainTimeString.type"
-        variant="elevated"
-      >
-        {{ remainTimeString.value }}
-      </v-chip>
-    </div>
+  <div>
+    <ErrorMessage :message="error" v-if="error" />
+    <template v-else-if="contest">
+      <div class="d-flex justify-space-between">
+        <h1>{{ contest.title }}</h1>
+        <v-chip
+          class="ma-1 me-2"
+          size="large"
+          label
+          :color="remainTimeString.type"
+          variant="elevated"
+        >
+          {{ remainTimeString.value }}
+        </v-chip>
+      </div>
 
-    <v-tabs>
-      <v-tab :to="{ name: 'Contest', params: { contestId: contestId } }">
-        Overview
-      </v-tab>
-      <v-tab
-        :to="{ name: 'ContestProblems', params: { contestId: contestId } }"
-      >
-        Problems
-      </v-tab>
-      <v-tab
-        :to="{ name: 'ContestSubmissions', params: { contestId: contestId } }"
-      >
-        Status
-      </v-tab>
-      <v-tab :to="{ name: 'ContestRank', params: { contestId: contestId } }">
-        Rank
-      </v-tab>
-    </v-tabs>
-    <div class="my-6">
-      <v-fade-transition>
-        <RouterView />
-      </v-fade-transition>
-    </div>
-  </template>
+      <v-tabs>
+        <v-tab :to="{ name: 'Contest', params: { contestId: contestId } }">
+          Overview
+        </v-tab>
+        <v-tab
+          :to="{ name: 'ContestProblems', params: { contestId: contestId } }"
+        >
+          Problems
+        </v-tab>
+        <v-tab
+          :to="{ name: 'ContestSubmissions', params: { contestId: contestId } }"
+        >
+          Status
+        </v-tab>
+        <v-tab :to="{ name: 'ContestRank', params: { contestId: contestId } }">
+          Rank
+        </v-tab>
+      </v-tabs>
+      <div class="my-6">
+        <RouterView v-slot="{ Component }">
+          <v-fade-transition mode="out-in">
+            <component :is="Component" />
+          </v-fade-transition>
+        </RouterView>
+      </div>
+    </template>
+  </div>
 </template>
 
 <script setup lang="ts">

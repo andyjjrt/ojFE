@@ -81,9 +81,11 @@
     </v-navigation-drawer>
     <v-main>
       <v-container>
-        <v-fade-transition>
-          <RouterView />
-        </v-fade-transition>
+        <RouterView v-slot="{ Component }">
+          <v-fade-transition mode="out-in">
+            <component :is="Component" />
+          </v-fade-transition>
+        </RouterView>
       </v-container>
       <v-footer class="bg-background">
         <div class="text-center text-caption w-100">
