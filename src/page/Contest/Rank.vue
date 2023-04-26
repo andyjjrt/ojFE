@@ -21,7 +21,7 @@
         v-else
       >
         <template v-slot="{ data }: { data: ContestRankUser[] }">
-          <v-table>
+          <v-table v-if="data.length">
             <thead>
               <tr>
                 <th>Username</th>
