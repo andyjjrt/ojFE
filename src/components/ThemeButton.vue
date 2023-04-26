@@ -1,15 +1,17 @@
 <template>
-  <v-menu location="bottom">
+  <v-menu>
     <template v-slot:activator="{ props }">
-      <v-btn icon v-bind="props">
-        <v-icon icon="mdi-palette" />
-      </v-btn>
+      <slot name="activator" :props="props">
+        <v-btn icon v-bind="props">
+          <v-icon icon="mdi-palette" />
+        </v-btn>
+      </slot>
     </template>
 
     <v-list>
       <v-list-item
         v-for="theme in themes"
-        :value="theme"
+        :active="theme === currentTheme"
         @click="changeTheme(theme)"
       >
         <v-list-item-title>{{ theme }}</v-list-item-title>
@@ -24,6 +26,7 @@ import { useTheme } from "vuetify";
 const vuetifyTheme = useTheme();
 
 const themes = computed(() => Object.keys(vuetifyTheme.themes.value));
+const currentTheme = computed(() => vuetifyTheme.global.name.value);
 
 const changeTheme = (name: string) => {
   vuetifyTheme.global.name.value = name;

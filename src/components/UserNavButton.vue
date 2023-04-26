@@ -1,7 +1,8 @@
 <template>
-  <v-btn color="primary" @click="open" v-if="user.profile === null"
-    >login</v-btn
-  >
+  <template v-if="user.profile === null">
+    <v-btn color="primary" @click="open"> login </v-btn>
+    <ThemeButton />
+  </template>
   <v-menu v-else>
     <template v-slot:activator="{ props }">
       <v-btn icon v-bind="props">
@@ -11,6 +12,38 @@
       </v-btn>
     </template>
     <v-list>
+      <v-list-item
+        :to="{
+          name: 'User',
+        }"
+      >
+        <v-list-item-title>Home</v-list-item-title>
+      </v-list-item>
+      <v-list-item
+        :to="{
+          name: 'Submissions',
+          query: {
+            myself: 1,
+          },
+        }"
+      >
+        <v-list-item-title>Submissions</v-list-item-title>
+      </v-list-item>
+      <v-list-item
+        :to="{
+          name: 'Setting',
+        }"
+      >
+        <v-list-item-title>Setting</v-list-item-title>
+      </v-list-item>
+      <ThemeButton>
+        <template v-slot:activator="{ props }">
+          <v-list-item v-bind="props">
+            <v-list-item-title>Theme</v-list-item-title>
+          </v-list-item>
+        </template>
+      </ThemeButton>
+      <v-divider />
       <v-list-item @click="user.logout()">
         <v-list-item-title>Logout</v-list-item-title>
       </v-list-item>
@@ -63,6 +96,7 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
 import { useUserStore } from "../store/user";
+import ThemeButton from "./ThemeButton.vue";
 
 const user = useUserStore();
 const tab = ref("one");
