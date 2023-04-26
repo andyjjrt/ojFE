@@ -25,7 +25,7 @@
                 {{ getDate(item.last_activity, mobile) }}
               </template>
             </v-list-item>
-            <v-dialog width="auto" v-else>
+            <v-dialog width="auto" :disabled="revokeLoading" v-else>
               <template v-slot:activator="{ props }">
                 <v-list-item v-bind="props">
                   <v-list-item-title>

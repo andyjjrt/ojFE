@@ -50,8 +50,8 @@
     </v-list>
   </v-menu>
 
-  <v-dialog width="auto" v-model="dialog">
-    <v-card width="400px">
+  <v-dialog width="auto" :disabled="loading" v-model="dialog">
+    <v-card width="400px" :loading="loading" :disabled="loading">
       <v-tabs v-model="tab" bg-color="primary">
         <v-tab value="Login">Login</v-tab>
         <v-tab value="Register">Register</v-tab>
