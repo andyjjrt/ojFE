@@ -15,6 +15,10 @@ import ACMRank from "../page/RankACM.vue";
 import OIRank from "../page/RankOI.vue";
 import Judger from "../page/Judger.vue";
 import User from "../page/User.vue";
+import Setting from "../page/Setting.vue";
+import SettingIndex from "../page/Setting/Index.vue";
+import SettingAccount from "../page/Setting/Account.vue";
+import SettingSecurity from "../page/Setting/Security.vue";
 import DefaultLayout from "../layout/index.vue";
 
 const routes = [
@@ -59,6 +63,19 @@ const routes = [
       { name: "OIRank", path: "oi-rank", component: OIRank },
       { name: "Judger", path: "judger", component: Judger },
       { name: "User", path: "user", component: User },
+      {
+        path: "setting",
+        component: Setting,
+        children: [
+          { name: "Setting", path: "", component: SettingIndex },
+          { name: "SettingAccount", path: "account", component: SettingAccount },
+          {
+            name: "SettingSecurity",
+            path: "security",
+            component: SettingSecurity,
+          },
+        ],
+      },
     ],
   },
 ];
