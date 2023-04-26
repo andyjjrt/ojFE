@@ -2,11 +2,13 @@
   <v-sheet class="d-flex flex-column h-100">
     <v-overlay
       contained
+      disabled
       class="align-center justify-center"
       :modelValue="loading"
     >
       <v-progress-circular indeterminate color="primary" />
     </v-overlay>
+    <div class="text-center" v-if="!loading && data.length === 0">No Data</div>
     <slot :data="data">
       <div class="flex-grow-1">
         <div v-for="item in data">
@@ -54,7 +56,7 @@ const props = defineProps<{
   page: number;
   rowsPerPage: 10 | 20 | 30 | number;
   total: number;
-  hidePagination?: boolean
+  hidePagination?: boolean;
 }>();
 const emits = defineEmits(["handleNavigate", "handleChangeRowPerPage"]);
 
