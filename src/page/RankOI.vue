@@ -35,7 +35,7 @@
                     {{ item.user.username }}
                   </RouterLink>
                 </v-list-item-title>
-                <v-list-item-subtitle class="d-inline-block text-truncate">
+                <v-list-item-subtitle subtitleclass="d-inline-block text-truncate">
                   {{ item.mood }}
                 </v-list-item-subtitle>
                 <template v-slot:prepend>
