@@ -90,7 +90,12 @@ const remainTimeString = computed(() => {
   const minutes = Math.floor(remainTime.value / 60) % 60;
   const hours = Math.floor((remainTime.value / (60 * 60)) % 24);
   const days = Math.floor(remainTime.value / (60 * 60 * 24));
-  return { type: "success", value: `${days}D ${hours}:${minutes}:${seconds}` };
+  return {
+    type: "success",
+    value: `${days}D ${hours < 10 ? "0" : ""}${hours}:${
+      minutes < 10 ? "0" : ""
+    }${minutes}:${seconds < 10 ? "0" : ""}${seconds}`,
+  };
 });
 
 provide("contest", readonly(contest));
