@@ -1,8 +1,10 @@
 <template>
-  <v-card class="pa-4 mb-6">
-    <v-md-preview v-katex :text="contest.description" />
-  </v-card>
-  <Announcements :contestId="contest.id.toString()" />
+  <div>
+    <v-card class="pa-4 mb-6">
+      <v-md-preview v-katex :text="contest.description" />
+    </v-card>
+    <Announcements :contestId="contest.id.toString()" />
+  </div>
 </template>
 
 <script setup lang="ts">
