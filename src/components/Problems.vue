@@ -2,7 +2,10 @@
   <v-card class="pa-4">
     <div class="d-flex justify-space-between align-center">
       <v-card-title>Problems</v-card-title>
-      <div class="d-flex align-center w-50" v-if="contestId === undefined && !error">
+      <div
+        class="d-flex align-center w-50"
+        v-if="contestId === undefined && !error"
+      >
         <TypeSelection
           :label="difficulty"
           defaultLabel="Difficulty"
@@ -50,10 +53,12 @@
               </template>
               <template v-slot:append>
                 {{
-                  (
-                    (item.accepted_number * 100) /
-                    item.submission_number
-                  ).toFixed(2)
+                  item.submission_number
+                    ? (
+                        (item.accepted_number * 100) /
+                        item.submission_number
+                      ).toFixed(2)
+                    : "-- "
                 }}%
               </template>
             </v-list-item>
