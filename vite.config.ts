@@ -53,6 +53,7 @@ export default ({ mode }) => {
             ],
             katex: ["katex"],
             "md-editor": ["@kangc/v-md-editor"],
+            "chartjs": ["chart.js"],
           },
         },
       },
