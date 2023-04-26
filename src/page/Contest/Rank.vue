@@ -1,11 +1,18 @@
 <template>
   <div>
-    <v-card
-      class="pa-4 mb-6"
-      style="margin: 0 auto; position: relative; width: 100%"
-      :style="{ height: mobile ? '300px' : '400px' }"
-    >
-      <BarChart :chartData="chartData" />
+    <v-card class="pa-4 mb-6">
+      <v-switch
+        label="Auto Refresh"
+        v-model="autoReload"
+        hide-details
+        density="compact"
+      />
+      <div
+        style="margin: 0 auto; position: relative; width: 100%"
+        :style="{ height: mobile ? '300px' : '400px' }"
+      >
+        <BarChart :chartData="chartData" />
+      </div>
     </v-card>
     <v-card class="pa-4">
       <v-card-title>Rank</v-card-title>
@@ -58,7 +65,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from "vue";
+import { computed, onMounted, ref, watch, onBeforeUnmount } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useDisplay } from "vuetify";
 import { fetchApi } from "../../utils/api";
@@ -77,6 +84,8 @@ const limit = ref(10);
 const total = ref(0);
 const loading = ref(false);
 const error = ref<string | null>(null);
+const autoReload = ref(false);
+const autoreloadTimer = ref(0);
 const contestId = routes.params.contestId;
 
 const offset = computed(() => (page.value - 1) * limit.value);
@@ -88,7 +97,7 @@ const handleChangeRowPerPage = (newRowPerPage: number) =>
 const init = async () => {
   page.value = parseInt((routes.query.page as string) || "1");
   limit.value = parseInt((routes.query.limit as string) || "10");
-  loading.value = true;
+  if (!autoReload.value) loading.value = true;
   const response = await fetchApi("/contest_rank", "get", {
     params: {
       offset: offset.value,
@@ -130,6 +139,8 @@ onMounted(async () => {
   }
 });
 
+onBeforeUnmount(() => window.clearInterval(autoreloadTimer.value));
+
 const chartData = computed(() => {
   return {
     labels: ranks.value.map((rank) => rank.user.username),
@@ -151,4 +162,11 @@ watch(
   () => routes.query,
   () => init()
 );
+watch(autoReload, (newVal) => {
+  if (newVal) {
+    autoreloadTimer.value = window.setInterval(() => init(), 10000);
+  } else {
+    window.clearInterval(autoreloadTimer.value);
+  }
+});
 </script>
