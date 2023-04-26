@@ -25,7 +25,7 @@ const dark: ThemeDefinition = {
 export default createVuetify({
   defaults: {
     VCard: {
-      elevation: 3,
+      elevation: 5,
       rounded: "lg"
     }
   },
