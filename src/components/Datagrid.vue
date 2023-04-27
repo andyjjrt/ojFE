@@ -2,13 +2,15 @@
   <v-sheet class="d-flex flex-column h-100">
     <v-overlay
       contained
-      disabled
+      persistent
       class="align-center justify-center"
       :modelValue="loading"
     >
       <v-progress-circular indeterminate color="primary" />
     </v-overlay>
-    <div class="text-center" v-if="!loading && data.length === 0">No Data</div>
+    <div class="my-4 text-center" v-if="!loading && data.length === 0">
+      No Data
+    </div>
     <slot :data="data">
       <div class="flex-grow-1">
         <div v-for="item in data">
