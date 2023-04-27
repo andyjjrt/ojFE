@@ -43,7 +43,7 @@
               <template v-slot:title>
                 <RouterLink
                   class="text-decoration-none text-primary"
-                  :to="{ name: 'Problem', params: { problemId: item.problem } }"
+                  :to="getProblemLocation(item.problem)"
                 >
                   {{ item.problem }}
                 </RouterLink>
@@ -153,6 +153,17 @@ const handleAction = (resetPage: boolean = false) => {
     query: params,
   });
 };
+
+const getProblemLocation = computed(() => {
+  return (id: string) => {
+    let params: any = {problemId: id};
+    if (props.contestId) params.contestId = props.contestId;
+    return {
+      name: props.contestId ? "ContestProblem" : "Problem",
+      params,
+    };
+  };
+});
 
 onMounted(() => {
   init();
