@@ -28,6 +28,23 @@ export const useUserStore = defineStore("user", () => {
     await getProfile();
   };
 
+  const register = async (
+    username: string,
+    email: string,
+    password: string,
+    captcha: string
+  ) => {
+    const response = await fetchApi("/register", "post", {
+      data: {
+        username,
+        email,
+        password,
+        captcha,
+      },
+    });
+    if (response.data.error) throw new Error(response.data.data);
+  };
+
   const logout = async () => {
     const response = await fetchApi("/logout", "get");
     if (response.data.error) throw new Error(response.data.data);
@@ -36,5 +53,5 @@ export const useUserStore = defineStore("user", () => {
     await getProfile();
   };
 
-  return { profile, getProfile, login, logout };
+  return { profile, getProfile, login, register, logout };
 });
