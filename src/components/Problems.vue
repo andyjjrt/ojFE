@@ -181,7 +181,7 @@ const getProblemLocation = computed(() => {
 
 const getProblemStatus = computed(() => {
   return (problem: Problem) => {
-    if (problem.my_status !== null) {
+    if (problem.my_status !== null && problem.my_status !== undefined) {
       return problem.my_status ? -1 : 1;
     } else if (profile) {
       if (Object.hasOwn(profile.acm_problems_status.problems, problem._id)) {

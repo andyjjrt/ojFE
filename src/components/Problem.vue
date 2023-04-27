@@ -266,7 +266,7 @@ const getSubmissionLocation = computed(() => {
 });
 
 const getProblemStatus = computed(() => {
-  if (props.problem.my_status !== null) {
+  if (props.problem.my_status !== null && props.problem.my_status !== undefined) {
     return props.problem.my_status ? -1 : 1;
   } else {
     return 0;
