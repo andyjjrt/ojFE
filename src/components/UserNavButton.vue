@@ -50,8 +50,8 @@
     </v-list>
   </v-menu>
 
-  <v-dialog width="auto" :disabled="loading" v-model="dialog">
-    <v-card width="400px" :loading="loading" :disabled="loading">
+  <v-dialog max-width="400" :persistent="loading" v-model="dialog">
+    <v-card :loading="loading" :disabled="loading">
       <v-tabs v-model="tab" bg-color="primary">
         <v-tab value="Login">Login</v-tab>
         <v-tab value="Register">Register</v-tab>
@@ -59,7 +59,7 @@
       <v-card-text>
         <v-window v-model="tab">
           <v-window-item value="Login">
-            <v-form @submit.prevent="handleSubmit" class="pa-2">
+            <v-form class="pa-2">
               <v-text-field
                 label="username"
                 v-model="username"
@@ -113,14 +113,9 @@ const open = () => (dialog.value = true);
 const handleSubmit = async () => {
   errorMessage.value = null;
   loading.value = true;
-  await user
-    .login(username.value, password.value)
-    .then(() => (dialog.value = false))
-    .catch((err) => {
-      errorMessage.value = err.message;
-      console.log(err);
-    });
+  await user.login(username.value, password.value);
   loading.value = false;
+  dialog.value = false;
 };
 
 watch(dialog, () => (errorMessage.value = null));

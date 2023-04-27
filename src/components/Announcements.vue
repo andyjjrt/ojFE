@@ -14,7 +14,7 @@
     >
       <template v-slot="{ data }: { data: Announcement[] }">
         <v-list lines="one">
-          <v-dialog scrollable width="auto " v-for="item in data">
+          <v-dialog scrollable max-width="900" v-for="item in data">
             <template v-slot:activator="{ props }">
               <v-list-item v-bind="props" :title="item.title"></v-list-item>
             </template>
@@ -40,6 +40,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref, watch } from "vue";
+import { useDisplay } from "vuetify";
 import { fetchApi } from "../utils/api";
 import Datagrid from "./Datagrid.vue";
 import ErrorMessage from "./ErrorMessage.vue";
@@ -47,6 +48,8 @@ import ErrorMessage from "./ErrorMessage.vue";
 const props = defineProps<{
   contestId?: string;
 }>();
+
+const { smAndUp } = useDisplay();
 
 const announcements = ref<Announcement[] | ContestAnnouncement[]>([]);
 const page = ref(1);
