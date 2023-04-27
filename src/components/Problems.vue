@@ -52,14 +52,26 @@
                 <DifficultyLabel :difficulty="item.difficulty" />
               </template>
               <template v-slot:append>
-                {{
-                  item.submission_number
-                    ? (
-                        (item.accepted_number * 100) /
-                        item.submission_number
-                      ).toFixed(2)
-                    : "-- "
-                }}%
+                <v-icon
+                  icon="mdi-check-circle"
+                  color="success"
+                  v-if="getProblemStatus(item) === 1"
+                />
+                <v-icon
+                  icon="mdi-close-circle"
+                  color="error"
+                  v-else-if="getProblemStatus(item) === -1"
+                />
+                <span class="ms-1">
+                  {{
+                    item.submission_number
+                      ? (
+                          (item.accepted_number * 100) /
+                          item.submission_number
+                        ).toFixed(2)
+                      : "-- "
+                  }}%
+                </span>
               </template>
             </v-list-item>
             <v-divider />
@@ -73,6 +85,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from "vue";
 import { useRouter, useRoute } from "vue-router";
+import { useUserStore } from "../store/user";
 import { fetchApi } from "../utils/api";
 import Datagrid from "./Datagrid.vue";
 import DifficultyLabel from "../components/DifficultyLabel.vue";
@@ -85,6 +98,7 @@ const props = defineProps<{
 
 const router = useRouter();
 const routes = useRoute();
+const { profile } = useUserStore();
 
 const problems = ref<Problem[]>([]);
 const page = ref(1);
@@ -162,6 +176,24 @@ const getProblemLocation = computed(() => {
       name: props.contestId ? "ContestProblem" : "Problem",
       params,
     };
+  };
+});
+
+const getProblemStatus = computed(() => {
+  return (problem: Problem) => {
+    if (problem.my_status !== null) {
+      return problem.my_status ? -1 : 1;
+    } else if (profile) {
+      if (Object.hasOwn(profile.acm_problems_status.problems, problem._id)) {
+        return profile.acm_problems_status.problems[problem._id].status
+          ? -1
+          : 1;
+      } else if (
+        Object.hasOwn(profile.oi_problems_status.problems, problem._id)
+      ) {
+        return profile.oi_problems_status.problems[problem._id].status ? -1 : 1;
+      } else return 0;
+    } else return 0;
   };
 });
 

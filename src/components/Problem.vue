@@ -2,9 +2,22 @@
   <v-row>
     <v-col md="9">
       <v-card class="pa-2">
-        <v-card-title class="font-weight-bold text-h5">
-          {{ title }}
-        </v-card-title>
+        <div class="d-flex justify-space-between align-center">
+          <v-card-title class="font-weight-bold text-h5">
+            {{ title }}
+          </v-card-title>
+          <v-icon
+            icon="mdi-check-circle"
+            color="success"
+            v-if="getProblemStatus === 1"
+          />
+          <v-icon
+            icon="mdi-close-circle"
+            color="error"
+            v-else-if="getProblemStatus === -1"
+          />
+        </div>
+
         <v-divider />
         <div class="pa-4">
           <h5 class="text-h5 mb-2">Description</h5>
@@ -246,10 +259,18 @@ const getSubmissionLocation = computed(() => {
       name: props.problem.contest ? "ContestSubmissions" : "Submissions",
       params,
       query: {
-        problem_id: id
-      }
+        problem_id: id,
+      },
     };
   };
+});
+
+const getProblemStatus = computed(() => {
+  if (props.problem.my_status !== null) {
+    return props.problem.my_status ? -1 : 1;
+  } else {
+    return 0;
+  }
 });
 
 watch(selectedLanguage, (newVal) => {
