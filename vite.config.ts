@@ -11,7 +11,7 @@ export default ({ mode }) => {
   return defineConfig({
     plugins: [
       vue(),
-      vuetify(),
+      vuetify({ styles: { configFile: "./src/css/settings.scss" } }),
       visualizer({ filename: "visualizer.html" }),
       environmentPlugin({
         VUE_APP_HASH: (+new Date())
@@ -53,7 +53,7 @@ export default ({ mode }) => {
             ],
             katex: ["katex"],
             "md-editor": ["@kangc/v-md-editor"],
-            "chartjs": ["chart.js"],
+            chartjs: ["chart.js"],
           },
         },
       },
