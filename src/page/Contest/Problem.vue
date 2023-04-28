@@ -7,12 +7,15 @@
 
 <script setup lang="ts">
 import { useRoute } from "vue-router";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { fetchApi } from "../../utils/api";
 import Problem from "../../components/Problem.vue";
 import ErrorMessage from "../../components/ErrorMessage.vue";
+import { useUserStore } from "../../store/user";
 
 const routes = useRoute();
+const user = useUserStore();
+
 const problem = ref<Problem | null>(null);
 const loading = ref(false);
 const error = ref<string | null>(null);
@@ -20,6 +23,7 @@ const problemId = routes.params.problemId;
 const contestId = routes.params.contestId;
 
 const init = async () => {
+  error.value = null;
   loading.value = true;
   const response = await fetchApi("/contest/problem", "get", {
     params: {
@@ -33,4 +37,8 @@ const init = async () => {
 };
 
 onMounted(() => init());
+watch(
+  () => user.profile,
+  () => init()
+);
 </script>

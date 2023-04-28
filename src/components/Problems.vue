@@ -98,7 +98,7 @@ const props = defineProps<{
 
 const router = useRouter();
 const routes = useRoute();
-const { profile } = useUserStore();
+const user = useUserStore();
 
 const problems = ref<Problem[]>([]);
 const page = ref(1);
@@ -126,6 +126,7 @@ const init = async () => {
   keyword.value = (routes.query.keyword as string) || "";
   difficulty.value = (routes.query.difficulty as string) || "";
   tag.value = (routes.query.tag as string) || null;
+  error.value = null;
   loading.value = true;
   const response = await fetchApi(
     `${props.contestId ? "/contest" : ""}/problem`,
@@ -183,15 +184,15 @@ const getProblemStatus = computed(() => {
   return (problem: Problem) => {
     if (problem.my_status !== null && problem.my_status !== undefined) {
       return problem.my_status ? -1 : 1;
-    } else if (profile) {
-      if (Object.hasOwn(profile.acm_problems_status.problems, problem._id)) {
-        return profile.acm_problems_status.problems[problem._id].status
+    } else if (user.profile) {
+      if (Object.hasOwn(user.profile.acm_problems_status.problems, problem._id)) {
+        return user.profile.acm_problems_status.problems[problem._id].status
           ? -1
           : 1;
       } else if (
-        Object.hasOwn(profile.oi_problems_status.problems, problem._id)
+        Object.hasOwn(user.profile.oi_problems_status.problems, problem._id)
       ) {
-        return profile.oi_problems_status.problems[problem._id].status ? -1 : 1;
+        return user.profile.oi_problems_status.problems[problem._id].status ? -1 : 1;
       } else return 0;
     } else return 0;
   };
@@ -206,6 +207,10 @@ watch(limit, () => handleAction(true));
 watch(difficulty, () => handleAction(true));
 watch(
   () => routes.query,
+  () => init()
+);
+watch(
+  () => user.profile,
   () => init()
 );
 </script>

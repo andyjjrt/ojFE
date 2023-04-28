@@ -46,12 +46,14 @@
 
 <script setup lang="ts">
 import { useRoute } from "vue-router";
-import { ref, onMounted, provide, readonly, computed } from "vue";
+import { ref, onMounted, provide, readonly, computed, watch } from "vue";
 import { fetchApi } from "../utils/api";
 import ErrorMessage from "../components/ErrorMessage.vue";
-import { time } from "console";
+import { useUserStore } from "../store/user";
 
 const routes = useRoute();
+const user = useUserStore();
+
 const contest = ref<Contest | null>(null);
 const loading = ref(false);
 const error = ref<string | null>(null);
@@ -60,6 +62,7 @@ const remainTime = ref(0);
 const timer = ref(0);
 
 const init = async () => {
+  error.value = null;
   loading.value = true;
   const response = await fetchApi("/contest", "get", {
     params: {
@@ -105,4 +108,8 @@ const remainTimeString = computed(() => {
 provide("contest", readonly(contest));
 
 onMounted(() => init());
+watch(
+  () => user.profile,
+  () => init()
+);
 </script>

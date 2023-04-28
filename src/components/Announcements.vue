@@ -11,6 +11,7 @@
       :hidePagination="contestId !== undefined"
       @handleNavigate="handleNavigate"
       @handleChangeRowPerPage="handleChangeRowPerPage"
+      v-else
     >
       <template v-slot="{ data }: { data: Announcement[] }">
         <v-list lines="one">
@@ -58,6 +59,7 @@ import useDate from "../hooks/useDate";
 import { fetchApi } from "../utils/api";
 import Datagrid from "./Datagrid.vue";
 import ErrorMessage from "./ErrorMessage.vue";
+import { useUserStore } from "../store/user";
 
 const props = defineProps<{
   contestId?: string;
@@ -65,6 +67,7 @@ const props = defineProps<{
 
 const { smAndUp } = useDisplay();
 const { getDate } = useDate();
+const user = useUserStore();
 
 const announcements = ref<Announcement[] | ContestAnnouncement[]>([]);
 const page = ref(1);
@@ -78,6 +81,7 @@ const handleChangeRowPerPage = (newRowPerPage: number) =>
   (rowsPerPage.value = newRowPerPage);
 
 const init = async () => {
+  error.value = null;
   loading.value = true;
   const response = await fetchApi(
     `${props.contestId ? "/contest" : ""}/announcement`,
@@ -108,4 +112,8 @@ onMounted(() => {
 
 watch(page, () => init());
 watch(rowsPerPage, () => init());
+watch(
+  () => user.profile,
+  () => init()
+);
 </script>

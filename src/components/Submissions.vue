@@ -88,6 +88,7 @@ import Datagrid from "./Datagrid.vue";
 import statusList from "../utils/status";
 import useDate from "../hooks/useDate";
 import ErrorMessage from "./ErrorMessage.vue";
+import { useUserStore } from "../store/user";
 
 const props = defineProps<{
   contestId?: string;
@@ -97,6 +98,7 @@ const router = useRouter();
 const routes = useRoute();
 const { mobile } = useDisplay();
 const { getDate } = useDate();
+const user = useUserStore();
 
 const submissions = ref<BriefStatus[]>([]);
 const page = ref(1);
@@ -118,6 +120,7 @@ const init = async () => {
   limit.value = parseInt((routes.query.limit as string) || "10");
   username.value = routes.query.username as string;
   myself.value = routes.query.myself ? true : false;
+  error.value = null;
   loading.value = true;
   const response = await fetchApi(
     props.contestId ? "/contest_submissions" : "/submissions",
@@ -156,7 +159,7 @@ const handleAction = (resetPage: boolean = false) => {
 
 const getProblemLocation = computed(() => {
   return (id: string) => {
-    let params: any = {problemId: id};
+    let params: any = { problemId: id };
     if (props.contestId) params.contestId = props.contestId;
     return {
       name: props.contestId ? "ContestProblem" : "Problem",
@@ -174,6 +177,10 @@ watch(myself, () => handleAction(true));
 watch(limit, () => handleAction(true));
 watch(
   () => routes.query,
+  () => init()
+);
+watch(
+  () => user.profile,
   () => init()
 );
 </script>

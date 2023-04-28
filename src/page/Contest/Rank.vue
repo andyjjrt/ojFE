@@ -72,10 +72,13 @@ import { fetchApi } from "../../utils/api";
 import Datagrid from "../../components/Datagrid.vue";
 import BarChart from "../../components/BarChart.vue";
 import ErrorMessage from "../../components/ErrorMessage.vue";
+import { userInfo } from "os";
+import { useUserStore } from "../../store/user";
 
 const router = useRouter();
 const routes = useRoute();
 const { mobile } = useDisplay();
+const user = useUserStore();
 
 const ranks = ref<ContestRankUser[]>([]);
 const problems = ref<Problem[]>([]);
@@ -97,6 +100,7 @@ const handleChangeRowPerPage = (newRowPerPage: number) =>
 const init = async () => {
   page.value = parseInt((routes.query.page as string) || "1");
   limit.value = parseInt((routes.query.limit as string) || "10");
+  error.value = null;
   if (!autoReload.value) loading.value = true;
   const response = await fetchApi("/contest_rank", "get", {
     params: {
@@ -169,4 +173,21 @@ watch(autoReload, (newVal) => {
     window.clearInterval(autoreloadTimer.value);
   }
 });
+watch(
+  () => user.profile,
+  async () => {
+    init();
+    const response = await fetchApi("/contest/problem", "get", {
+      params: {
+        contest_id: contestId,
+      },
+    });
+    loading.value = false;
+    if (response.data.error) {
+      error.value = response.data.data;
+    } else {
+      problems.value = response.data.data;
+    }
+  }
+);
 </script>
