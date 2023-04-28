@@ -14,24 +14,37 @@
     >
       <template v-slot="{ data }: { data: Announcement[] }">
         <v-list lines="one">
-          <v-dialog scrollable max-width="900" v-for="item in data">
-            <template v-slot:activator="{ props }">
-              <v-list-item v-bind="props" :title="item.title"></v-list-item>
-            </template>
-            <template v-slot:default="{ isActive }">
-              <v-card>
-                <v-toolbar color="primary" :title="item.title" />
-                <v-card-text>
-                  <v-md-preview :text="item.content" />
-                </v-card-text>
-                <v-card-actions class="justify-end">
-                  <v-btn variant="text" @click="isActive.value = false">
-                    Close
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </template>
-          </v-dialog>
+          <template v-for="item in data">
+            <v-dialog scrollable max-width="900">
+              <template v-slot:activator="{ props }">
+                <v-list-item v-bind="props" :title="item.title">
+                  <template v-slot:append v-if="smAndUp">
+                    {{
+                      getDate(item.last_update_time || item.create_time, false)
+                    }}
+                  </template>
+                </v-list-item>
+              </template>
+              <template v-slot:default="{ isActive }">
+                <v-card>
+                  <v-toolbar color="primary" :title="item.title">
+                    <template v-slot:append>
+                      {{ item.created_by.username }}
+                    </template>
+                  </v-toolbar>
+                  <v-card-text>
+                    <v-md-preview :text="item.content" />
+                  </v-card-text>
+                  <v-card-actions class="justify-end">
+                    <v-btn variant="text" @click="isActive.value = false">
+                      Close
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </template>
+            </v-dialog>
+            <v-divider />
+          </template>
         </v-list>
       </template>
     </Datagrid>
@@ -41,6 +54,7 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from "vue";
 import { useDisplay } from "vuetify";
+import useDate from "../hooks/useDate";
 import { fetchApi } from "../utils/api";
 import Datagrid from "./Datagrid.vue";
 import ErrorMessage from "./ErrorMessage.vue";
@@ -50,6 +64,7 @@ const props = defineProps<{
 }>();
 
 const { smAndUp } = useDisplay();
+const { getDate } = useDate();
 
 const announcements = ref<Announcement[] | ContestAnnouncement[]>([]);
 const page = ref(1);
