@@ -6,6 +6,7 @@
         v-model="autoReload"
         hide-details
         density="compact"
+        :disabled="loading"
       />
       <div
         style="margin: 0 auto; position: relative; width: 100%"

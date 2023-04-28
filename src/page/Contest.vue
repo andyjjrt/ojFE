@@ -1,6 +1,7 @@
 <template>
   <div>
     <ErrorMessage :message="error" v-if="error" />
+    <Loader v-else-if="loading" />
     <template v-else-if="contest">
       <div class="d-flex justify-space-between">
         <h1>{{ contest.title }}</h1>
@@ -49,6 +50,7 @@ import { useRoute } from "vue-router";
 import { ref, onMounted, provide, readonly, computed, watch } from "vue";
 import { fetchApi } from "../utils/api";
 import ErrorMessage from "../components/ErrorMessage.vue";
+import Loader from "../components/Loader.vue";
 import { useUserStore } from "../store/user";
 
 const routes = useRoute();
@@ -108,8 +110,4 @@ const remainTimeString = computed(() => {
 provide("contest", readonly(contest));
 
 onMounted(() => init());
-watch(
-  () => user.profile,
-  () => init()
-);
 </script>

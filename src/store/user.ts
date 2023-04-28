@@ -49,7 +49,7 @@ export const useUserStore = defineStore("user", () => {
     const response = await fetchApi("/logout", "get");
     if (response.data.error) throw new Error(response.data.data);
     profile.value = null;
-    router.push({ name: "Home" });
+    // router.push({ name: "Home" });
     await getProfile();
   };
 

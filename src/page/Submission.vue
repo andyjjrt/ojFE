@@ -69,6 +69,7 @@
       />
     </v-sheet>
   </div>
+  <Loader v-else />
 </template>
 
 <script setup lang="ts">
@@ -76,6 +77,7 @@ import { useRoute } from "vue-router";
 import { ref, onMounted, computed } from "vue";
 import { fetchApi } from "../utils/api";
 import statusList from "../utils/status";
+import Loader from "../components/Loader.vue";
 import Prism from "prismjs";
 import Message from "vue-m-message";
 

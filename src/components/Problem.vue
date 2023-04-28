@@ -277,4 +277,3 @@ watch(selectedLanguage, (newVal) => {
   resetTemplate(newVal);
 });
 </script>
-~

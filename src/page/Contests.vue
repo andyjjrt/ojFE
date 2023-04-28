@@ -1,5 +1,5 @@
 <template>
-  <v-card class="pa-4" v-if="contests">
+  <v-card class="pa-4">
     <div class="d-flex justify-space-between align-center">
       <v-card-title>Contests</v-card-title>
       <div class="d-flex align-center w-50">

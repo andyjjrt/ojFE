@@ -1,6 +1,7 @@
 <template>
   <div>
     <ErrorMessage :message="error" v-if="error" />
+    <Loader v-else-if="loading" />
     <Problem :problem="problem" v-else-if="problem" />
   </div>
 </template>
@@ -11,6 +12,7 @@ import { ref, onMounted, watch } from "vue";
 import { fetchApi } from "../../utils/api";
 import Problem from "../../components/Problem.vue";
 import ErrorMessage from "../../components/ErrorMessage.vue";
+import Loader from "../../components/Loader.vue";
 import { useUserStore } from "../../store/user";
 
 const routes = useRoute();
