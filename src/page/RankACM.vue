@@ -22,15 +22,12 @@
       >
         <template v-slot="{ data }: { data: RankUser[] }">
           <v-list lines="two" density="compact">
-            <template v-for="item in data">
+            <template v-for="item in data" :key="item.user.id">
               <v-list-item>
                 <v-list-item-title>
                   <RouterLink
                     class="text-decoration-none text-primary"
-                    :to="{
-                      name: 'User',
-                      query: { username: item.user.username },
-                    }"
+                    :to="`/user?username=${item.user.username}`"
                   >
                     {{ item.user.username }}
                   </RouterLink>
@@ -146,8 +143,8 @@ const chartData = computed(() => {
 
 watch(page, () => handleAction());
 watch(limit, () => handleAction(true));
-watch(
-  () => routes.query,
-  () => init()
-);
+
+watch(routes, (newVal, oldVal) => {
+  if (newVal.name === "ACMRank") init();
+});
 </script>
