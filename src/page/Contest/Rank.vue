@@ -66,7 +66,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref, watch, onBeforeUnmount } from "vue";
+import { computed, onMounted, ref, watch, onBeforeUnmount, inject, Ref } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useDisplay } from "vuetify";
 import { fetchApi } from "../../utils/api";
@@ -75,11 +75,15 @@ import BarChart from "../../components/BarChart.vue";
 import ErrorMessage from "../../components/ErrorMessage.vue";
 import { userInfo } from "os";
 import { useUserStore } from "../../store/user";
+import { useConstantsStore } from "../../store/constants";
 
 const router = useRouter();
 const routes = useRoute();
 const { mobile } = useDisplay();
 const user = useUserStore();
+const constants = useConstantsStore();
+
+const contest = inject("contest") as Ref<Contest>;
 
 const ranks = ref<ContestRankUser[]>([]);
 const problems = ref<Problem[]>([]);
@@ -130,6 +134,9 @@ const handleAction = (resetPage: boolean = false) => {
 };
 
 onMounted(async () => {
+  document.title = `${constants.website!.website_name_shortcut} | ${
+    contest.value.title
+  }`;
   init();
   const response = await fetchApi("/contest/problem", "get", {
     params: {

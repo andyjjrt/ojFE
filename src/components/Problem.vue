@@ -162,7 +162,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import { useDisplay } from "vuetify";
 import CodeMirror from "../components/CodeMirror.vue";
 import PieChart from "./PieChart.vue";
@@ -171,12 +171,14 @@ import vKatex from "../plugins/vKatex";
 import { fetchApi } from "../utils/api";
 import statusList from "../utils/status";
 import Message from "vue-m-message";
+import { useConstantsStore } from "../store/constants";
 
 const props = defineProps<{
   problem: Problem;
 }>();
 
 const { mdAndUp } = useDisplay();
+const constants = useConstantsStore();
 
 const title = computed(() => props.problem?.title);
 const description = computed(() => decodeURI(props.problem.description));
@@ -266,11 +268,20 @@ const getSubmissionLocation = computed(() => {
 });
 
 const getProblemStatus = computed(() => {
-  if (props.problem.my_status !== null && props.problem.my_status !== undefined) {
+  if (
+    props.problem.my_status !== null &&
+    props.problem.my_status !== undefined
+  ) {
     return props.problem.my_status ? -1 : 1;
   } else {
     return 0;
   }
+});
+
+onMounted(() => {
+  document.title = `${constants.website!.website_name_shortcut} | ${
+    props.problem.title
+  }`;
 });
 
 watch(selectedLanguage, (newVal) => {
