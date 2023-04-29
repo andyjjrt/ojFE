@@ -12,6 +12,7 @@
       </v-btn>
     </template>
     <v-list>
+      <v-list-subheader>{{ user.profile.user.username }}</v-list-subheader>
       <v-list-item
         :to="{
           name: 'User',
