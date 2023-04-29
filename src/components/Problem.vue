@@ -96,7 +96,9 @@
                 >{{ status.name }}</v-btn
               >
             </div>
-            <v-btn @click="submit" :loading="loading">Submit</v-btn>
+            <v-btn color="primary" @click="submit" :loading="loading"
+              >Submit</v-btn
+            >
           </div>
         </div>
       </v-card>
@@ -155,7 +157,7 @@
         </v-list>
       </v-card>
       <v-card class="pa-4">
-        <PieChart />
+        <PieChart :chartData="getProblemChart" />
       </v-card>
     </v-col>
   </v-row>
@@ -163,7 +165,7 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from "vue";
-import { useDisplay } from "vuetify";
+import { useDisplay, useTheme } from "vuetify";
 import CodeMirror from "../components/CodeMirror.vue";
 import PieChart from "./PieChart.vue";
 import DifficultyLabel from "./DifficultyLabel.vue";
@@ -178,6 +180,7 @@ const props = defineProps<{
 }>();
 
 const { mdAndUp } = useDisplay();
+const theme = useTheme();
 const constants = useConstantsStore();
 
 const title = computed(() => props.problem?.title);
@@ -276,6 +279,22 @@ const getProblemStatus = computed(() => {
   } else {
     return 0;
   }
+});
+
+const getProblemChart = computed(() => {
+  return {
+    labels: Object.keys(props.problem.statistic_info).map(
+      (key) => statusList[key].name
+    ),
+    datasets: [
+      {
+        backgroundColor: Object.keys(props.problem.statistic_info).map(
+          (key) => theme.current.value.colors[statusList[key].type || ""]
+        ),
+        data: Object.values(props.problem.statistic_info),
+      },
+    ],
+  };
 });
 
 onMounted(() => {
