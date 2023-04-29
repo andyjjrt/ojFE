@@ -75,6 +75,12 @@
             :active="routes.name === 'Judger'"
           >
           </v-list-item>
+          <v-list-item
+            title="FAQ"
+            to="/faq"
+            :active="routes.name === 'FAQ'"
+          >
+          </v-list-item>
         </v-list-group>
       </v-list>
     </v-navigation-drawer>
