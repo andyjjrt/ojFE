@@ -39,7 +39,7 @@ onMounted(() => {
 
 const generateTitle = (route: RouteLocationNormalized) => {
   if (!constants.website) {
-    document.title = "OJ";
+    document.title = "OnlineJudge";
   } else {
     document.title = `${constants.website.website_name_shortcut} | ${String(
       route.name
