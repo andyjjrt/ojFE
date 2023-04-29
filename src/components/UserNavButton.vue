@@ -66,6 +66,7 @@
                 clearable
                 hide-details="auto"
                 class="mb-4"
+                @blur="handleDetect2FA"
               />
               <v-text-field
                 label="Password"
@@ -74,6 +75,14 @@
                 hide-details="auto"
                 type="password"
                 class="mb-4"
+              />
+              <v-text-field
+                label="2FA Code"
+                v-model="twoFA"
+                clearable
+                hide-details="auto"
+                class="mb-4"
+                v-if="twoFARequired"
               />
               <v-alert
                 v-if="errorMessage"
@@ -217,6 +226,8 @@ const dialog = ref(false);
 
 const username = ref("");
 const password = ref("");
+const twoFA = ref("");
+const twoFARequired = ref(false);
 
 const registerUsername = ref("");
 const registerEmail = ref("");
@@ -238,7 +249,11 @@ const handleSubmit = async () => {
   errorMessage.value = null;
   loading.value = true;
   try {
-    await user.login(username.value, password.value);
+    await user.login(
+      username.value,
+      password.value,
+      twoFA.value === "" ? undefined : twoFA.value
+    );
     loading.value = false;
     dialog.value = false;
   } catch (e: any) {
@@ -297,6 +312,16 @@ const handleGetCaptchaImage = async () => {
   captchaImage.value = response.data.data;
 };
 
+const handleDetect2FA = async () => {
+  const response = await fetchApi("/tfa_required", "post", {
+    data: {
+      username: username.value,
+    },
+  });
+  twoFARequired.value = response.data.data.result;
+  twoFA.value = "";
+};
+
 watch(dialog, (newVal) => {
   if (!newVal) {
     errorMessage.value = null;
@@ -304,6 +329,8 @@ watch(dialog, (newVal) => {
     tab.value = "Login";
     username.value = "";
     password.value = "";
+    twoFA.value = "";
+    twoFARequired.value = false;
     registerUsername.value = "";
     registerEmail.value = "";
     registerPassword.value = "";
