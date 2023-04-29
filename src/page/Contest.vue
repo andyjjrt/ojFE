@@ -35,7 +35,13 @@
         </v-tab>
       </v-tabs>
       <div class="my-6">
-        <RouterView v-slot="{ Component }">
+        <v-card v-if="!access" title="Password Required" class="pa-4">
+          <v-text-field label="Password" v-model="password"></v-text-field>
+          <v-card-action class="d-flex justify-end">
+            <v-btn color="primary" @click="handleAccess">Access</v-btn>
+          </v-card-action>
+        </v-card>
+        <RouterView v-slot="{ Component }" v-else>
           <v-fade-transition mode="out-in">
             <component :is="Component" />
           </v-fade-transition>
@@ -52,6 +58,7 @@ import { fetchApi } from "../utils/api";
 import ErrorMessage from "../components/ErrorMessage.vue";
 import Loader from "../components/Loader.vue";
 import { useUserStore } from "../store/user";
+import Message from "vue-m-message";
 
 const routes = useRoute();
 const user = useUserStore();
@@ -63,8 +70,12 @@ const contestId = routes.params.contestId;
 const remainTime = ref(0);
 const timer = ref(0);
 
+const access = ref(true);
+const password = ref("");
+
 const init = async () => {
   error.value = null;
+  access.value = true;
   loading.value = true;
   const response = await fetchApi("/contest", "get", {
     params: {
@@ -72,21 +83,39 @@ const init = async () => {
     },
   });
   loading.value = false;
-  if (response.data.error) error.value = response.data.data;
-  else {
-    contest.value = response.data.data;
-    remainTime.value = Math.round(
+  if (response.data.error) {
+    error.value = response.data.data;
+    return;
+  }
+  contest.value = response.data.data;
+  remainTime.value = Math.round(
+    (new Date(contest.value!.end_time).getTime() - new Date().getTime()) / 1000
+  );
+  timer.value = window.setInterval(() => {
+    const time = Math.round(
       (new Date(contest.value!.end_time).getTime() - new Date().getTime()) /
         1000
     );
-    timer.value = window.setInterval(() => {
-      const time = Math.round(
-        (new Date(contest.value!.end_time).getTime() - new Date().getTime()) /
-          1000
-      );
-      if (time < 0) window.clearInterval(timer.value);
-      else remainTime.value = time;
-    }, 1000);
+    if (time < 0) window.clearInterval(timer.value);
+    else remainTime.value = time;
+  }, 1000);
+
+  if (
+    (response.data.data as Contest).contest_type === "Password Protected" &&
+    !user.profile!.user.admin_type.includes("Admin")
+  ) {
+    loading.value = true;
+    const response = await fetchApi("/contest/access", "get", {
+      params: {
+        contest_id: contestId,
+      },
+    });
+    loading.value = false;
+    if (response.data.error) {
+      error.value = response.data.data;
+      return;
+    }
+    access.value = response.data.data.access;
   }
 };
 
@@ -107,7 +136,28 @@ const remainTimeString = computed(() => {
   };
 });
 
+const handleAccess = async () => {
+  loading.value = true;
+  const response = await fetchApi("/contest/password", "post", {
+    data: {
+      contest_id: contestId,
+      password: password.value,
+    },
+  });
+  loading.value = false;
+  if (response.data.error) {
+    Message.error(response.data.data);
+    password.value = "";
+  } else {
+    init();
+  }
+};
+
 provide("contest", readonly(contest));
 
 onMounted(() => init());
+watch(
+  () => user.profile,
+  () => init()
+);
 </script>
