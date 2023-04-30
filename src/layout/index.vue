@@ -60,7 +60,6 @@
           >
           </v-list-item>
         </v-list-group>
-
         <v-list-group>
           <template v-slot:activator="{ props }">
             <v-list-item v-bind="props" title="About">
@@ -75,12 +74,27 @@
             :active="routes.name === 'Judger'"
           >
           </v-list-item>
-          <v-list-item
-            title="FAQ"
-            to="/faq"
-            :active="routes.name === 'FAQ'"
-          >
+          <v-list-item title="FAQ" to="/faq" :active="routes.name === 'FAQ'">
           </v-list-item>
+        </v-list-group>
+        <v-list-group>
+          <template v-slot:activator="{ props }">
+            <v-list-item v-bind="props" title="Management">
+              <template v-slot:prepend>
+                <v-icon icon="mdi-cog"></v-icon>
+              </template>
+            </v-list-item>
+          </template>
+          <v-list-item
+            title="Dashboard"
+            :to="{ name: 'AdminDashboard' }"
+            :active="routes.name === 'AdminDashboard'"
+          />
+          <v-list-item
+            title="User"
+            :to="{ name: 'AdminUser' }"
+            :active="routes.name === 'AdminUser'"
+          />
         </v-list-group>
       </v-list>
     </v-navigation-drawer>

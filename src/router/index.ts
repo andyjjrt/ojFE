@@ -20,6 +20,9 @@ import Setting from "../page/Setting.vue";
 import SettingIndex from "../page/Setting/Index.vue";
 import SettingAccount from "../page/Setting/Account.vue";
 import SettingSecurity from "../page/Setting/Security.vue";
+import Admin from "../page/Admin.vue";
+import AdminDashboard from "../page/Admin/Dashboard.vue";
+import AdminUser from "../page/Admin/User.vue";
 import DefaultLayout from "../layout/index.vue";
 
 const routes = [
@@ -79,6 +82,28 @@ const routes = [
             name: "SettingSecurity",
             path: "security",
             component: SettingSecurity,
+          },
+        ],
+      },
+      {
+        path: "/admin",
+        component: Admin,
+        children: [
+          {
+            name: "AdminDashboard",
+            path: "",
+            component: AdminDashboard,
+            meta: {
+              admin: true,
+            },
+          },
+          {
+            name: "AdminUser",
+            path: "users",
+            component: AdminUser,
+            meta: {
+              admin: true,
+            },
           },
         ],
       },

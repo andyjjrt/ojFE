@@ -46,3 +46,17 @@ interface User {
   total_score: number;
   submission_number: number;
 }
+
+interface ManagementUser {
+  id: number;
+  username: string;
+  email: string;
+  admin_type: "Regular User" | "Admin" | "Super Admin";
+  problem_permission: "None" | "Own" | "All";
+  real_name: string | null;
+  create_time: string;
+  last_login: string;
+  two_factor_auth: boolean;
+  open_api: boolean;
+  is_disabled: boolean;
+}
