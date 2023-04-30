@@ -25,9 +25,12 @@ const dark: ThemeDefinition = {
 export default createVuetify({
   defaults: {
     VCard: {
-      elevation: 3,
-      rounded: "lg"
-    }
+      elevation: 5,
+      rounded: "lg",
+    },
+    VDialog: {
+      transition: "scroll-y-transition",
+    },
   },
   theme: {
     defaultTheme: "light",
