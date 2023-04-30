@@ -103,7 +103,7 @@
                   :loading="loading"
                   color="primary"
                   variant="elevated"
-                  @click="handleSubmit"
+                  type="submit"
                 >
                   Login
                 </v-btn>
@@ -150,7 +150,7 @@
                   hide-details="auto"
                   class="mb-4 flex align-center"
                 />
-                <v-img :src="captchaImage" lazy-src="/vite.svg" class="ms-4" />
+                <v-img :src="captchaImage" class="ms-4" />
               </div>
               <v-alert
                 v-if="errorMessage"
@@ -163,7 +163,7 @@
                   :loading="loading"
                   color="primary"
                   variant="elevated"
-                  @click="handleRegister"
+                  type="submit"
                 >
                   Register
                 </v-btn>
@@ -171,42 +171,44 @@
             </form>
           </v-window-item>
           <v-window-item value="ResetPassword">
-            <v-text-field
-              label="Email"
-              v-model="resetPasswordEmail"
-              clearable
-              hide-details="auto"
-              class="mb-4"
-            />
-            <div class="d-flex align-center">
+            <form class="pa-2" @submit.prevent="handleResetPassword">
               <v-text-field
-                label="Captcha"
-                v-model="resetPasswordCaptcha"
+                label="Email"
+                v-model="resetPasswordEmail"
                 clearable
                 hide-details="auto"
-                class="mb-4 flex align-center"
+                class="mb-4"
               />
-              <v-img :src="captchaImage" lazy-src="/vite.svg" class="ms-4" />
-            </div>
-            <v-alert
-              v-if="errorMessage"
-              class="mb-4"
-              color="error"
-              :text="errorMessage"
-            ></v-alert>
-            <div class="d-flex justify-space-between align-center">
-              <a role="button" class="text-primary" @click="tab = 'Login'">
-                Got Password?
-              </a>
-              <v-btn
-                :loading="loading"
-                color="primary"
-                variant="elevated"
-                @click="handleResetPassword"
-              >
-                Send email
-              </v-btn>
-            </div>
+              <div class="d-flex align-center">
+                <v-text-field
+                  label="Captcha"
+                  v-model="resetPasswordCaptcha"
+                  clearable
+                  hide-details="auto"
+                  class="mb-4 flex align-center"
+                />
+                <v-img :src="captchaImage" class="ms-4" />
+              </div>
+              <v-alert
+                v-if="errorMessage"
+                class="mb-4"
+                color="error"
+                :text="errorMessage"
+              ></v-alert>
+              <div class="d-flex justify-space-between align-center">
+                <a role="button" class="text-primary" @click="tab = 'Login'">
+                  Got Password?
+                </a>
+                <v-btn
+                  :loading="loading"
+                  color="primary"
+                  variant="elevated"
+                  type="submit"
+                >
+                  Send email
+                </v-btn>
+              </div>
+            </form>
           </v-window-item>
         </v-window>
       </v-card-text>
