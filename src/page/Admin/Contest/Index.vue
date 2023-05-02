@@ -11,6 +11,7 @@ import { fetchApi } from "../../../utils/api";
 import { useUserStore } from "../../../store/user";
 import Message from "vue-m-message";
 import Contest from "../../../components/Admin/Contest.vue";
+import { provide } from "vue";
 
 const routes = useRoute();
 const user = useUserStore();

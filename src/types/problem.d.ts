@@ -6,7 +6,9 @@ interface Problem {
     username: string;
     real_name: string | null;
   };
-  template: any;
+  template: {
+    [key: string]: string;
+  };
   _id: string;
   title: string;
   description: string;
@@ -29,7 +31,7 @@ interface Problem {
   };
   spj: boolean;
   spj_language: string[] | null;
-  rule_type: string;
+  rule_type: "ACM" | "OI";
   difficulty: string;
   source: string;
   total_score: number;
@@ -39,4 +41,23 @@ interface Problem {
   share_submission: boolean;
   contest: number | null;
   my_status: number | null;
+}
+
+interface ManagementProblem extends Problem {
+  is_public: false;
+  test_case_id: string;
+  test_case_score: {
+    score: number;
+    input_name: string;
+    output_name: string;
+  }[];
+  io_mode: {
+    input: "input.txt";
+    output: "output.txt";
+    io_mode: "Standard IO";
+  };
+  spj_code: string | null;
+  spj_version: string | null;
+  spj_compile_ok: boolean;
+  visible: boolean;
 }

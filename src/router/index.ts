@@ -24,7 +24,9 @@ import Admin from "../page/Admin.vue";
 import AdminDashboard from "../page/Admin/Dashboard.vue";
 import AdminUser from "../page/Admin/User.vue";
 import AdminContests from "../page/Admin/Contests.vue";
-import AdminContest from "../page/Admin/Contest/Index.vue";
+import AdminContest from "../page/Admin/Contest.vue";
+import AdminContestIndex from "../page/Admin/Contest/Index.vue";
+import AdminContestProblems from "../page/Admin/Contest/Problems.vue"
 import DefaultLayout from "../layout/index.vue";
 
 const routes = [
@@ -116,12 +118,26 @@ const routes = [
             },
           },
           {
-            name: "AdminContest",
             path: "contest/:contestId",
             component: AdminContest,
-            meta: {
-              admin: true,
-            },
+            children: [
+              {
+                name: "AdminContest",
+                path: "",
+                component: AdminContestIndex,
+                meta: {
+                  admin: true,
+                },
+              },
+              {
+                name: "AdminContestProblems",
+                path: "problem",
+                component: AdminContestProblems,
+                meta: {
+                  admin: true,
+                },
+              },
+            ],
           },
         ],
       },
