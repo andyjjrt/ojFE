@@ -23,6 +23,8 @@ import SettingSecurity from "../page/Setting/Security.vue";
 import Admin from "../page/Admin.vue";
 import AdminDashboard from "../page/Admin/Dashboard.vue";
 import AdminUser from "../page/Admin/User.vue";
+import AdminContests from "../page/Admin/Contests.vue";
+import AdminContest from "../page/Admin/Contest/Index.vue";
 import DefaultLayout from "../layout/index.vue";
 
 const routes = [
@@ -101,6 +103,22 @@ const routes = [
             name: "AdminUser",
             path: "users",
             component: AdminUser,
+            meta: {
+              admin: true,
+            },
+          },
+          {
+            name: "AdminContests",
+            path: "contest",
+            component: AdminContests,
+            meta: {
+              admin: true,
+            },
+          },
+          {
+            name: "AdminContest",
+            path: "contest/:contestId",
+            component: AdminContest,
             meta: {
               admin: true,
             },

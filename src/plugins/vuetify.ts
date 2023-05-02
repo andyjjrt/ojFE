@@ -31,6 +31,9 @@ export default createVuetify({
     VDialog: {
       transition: "scroll-y-transition",
     },
+    VTextField: {
+      "hide-details": true,
+    },
   },
   theme: {
     defaultTheme: "light",

@@ -95,6 +95,11 @@
             :to="{ name: 'AdminUser' }"
             :active="routes.name === 'AdminUser'"
           />
+          <v-list-item
+            title="Contest"
+            :to="{ name: 'AdminContests' }"
+            :active="routes.name === 'AdminContests'"
+          />
         </v-list-group>
       </v-list>
     </v-navigation-drawer>

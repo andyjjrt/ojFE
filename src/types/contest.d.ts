@@ -16,3 +16,9 @@ interface Contest {
   create_time: string;
   last_update_time: string;
 }
+
+interface ManagementContest extends Contest {
+  password: string;
+  visible: boolean;
+  allowed_ip_ranges: string[];
+}
