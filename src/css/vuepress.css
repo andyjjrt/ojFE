@@ -365,6 +365,9 @@
 .vuepress-markdown-body p a code {
   font-weight: 400;
 }
+.vuepress-markdown-body p {
+  padding: 10px 0px;
+}
 .vuepress-markdown-body kbd {
   padding: 0 0.15em;
   background: #eee;

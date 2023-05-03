@@ -51,11 +51,6 @@ interface ManagementProblem extends Problem {
     input_name: string;
     output_name: string;
   }[];
-  io_mode: {
-    input: "input.txt";
-    output: "output.txt";
-    io_mode: "Standard IO";
-  };
   spj_code: string | null;
   spj_version: string | null;
   spj_compile_ok: boolean;

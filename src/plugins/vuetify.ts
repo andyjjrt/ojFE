@@ -32,7 +32,7 @@ export default createVuetify({
       transition: "scroll-y-transition",
     },
     VTextField: {
-      "hide-details": true,
+      color: "primary"
     },
   },
   theme: {

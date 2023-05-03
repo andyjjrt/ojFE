@@ -1,6 +1,6 @@
 <template>
-  <div v-if="contest">
-    <Contest :contest="contest" @handleUpdate="handleUpdate" />
+  <div>
+    <Contest v-if="contest" :contest="contest" @handleUpdate="handleUpdate" />
   </div>
 </template>
 

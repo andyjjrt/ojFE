@@ -6,11 +6,7 @@
           <v-card-title class="font-weight-bold text-h5">
             {{ title }}
           </v-card-title>
-          <v-icon
-            icon="mdi-check-circle"
-            color="success"
-            v-if="getProblemStatus === 1"
-          />
+          <v-icon icon="mdi-check-circle" color="success" v-if="getProblemStatus === 1" />
           <v-icon
             icon="mdi-close-circle"
             color="error"
@@ -21,15 +17,15 @@
         <v-divider />
         <div class="pa-4">
           <h5 class="text-h5 mb-2">Description</h5>
-          <v-md-preview v-katex :text="description" />
+          <v-md-preview :text="description" />
         </div>
         <div class="pa-4">
           <h5 class="text-h5 mb-2">Input</h5>
-          <v-md-preview v-katex :text="input" />
+          <v-md-preview :text="input" />
         </div>
         <div class="pa-4">
           <h5 class="text-h5 mb-2">Output</h5>
-          <v-md-preview v-katex :text="output" />
+          <v-md-preview :text="output" />
         </div>
         <v-row class="pa-4">
           <template v-for="(sample, index) in samples" :key="index">
@@ -69,7 +65,7 @@
         </v-row>
         <div class="pa-4" v-if="hint">
           <h5 class="text-h5 mb-2">Hint</h5>
-          <v-md-preview v-katex :text="hint" />
+          <v-md-preview :text="hint" />
         </div>
         <div class="pa-4 d-flex flex-column">
           <div class="mb-3 d-flex">
@@ -89,16 +85,11 @@
 
           <div class="mt-3 d-flex justify-space-between">
             <div>
-              <v-btn
-                v-if="status"
-                :color="status.type"
-                :to="`/status/${status.id}`"
-                >{{ status.name }}</v-btn
-              >
+              <v-btn v-if="status" :color="status.type" :to="`/status/${status.id}`">{{
+                status.name
+              }}</v-btn>
             </div>
-            <v-btn color="primary" @click="submit" :loading="loading"
-              >Submit</v-btn
-            >
+            <v-btn color="primary" @click="submit" :loading="loading">Submit</v-btn>
           </div>
         </div>
       </v-card>
@@ -169,7 +160,6 @@ import { useDisplay, useTheme } from "vuetify";
 import CodeMirror from "../components/CodeMirror.vue";
 import PieChart from "./PieChart.vue";
 import DifficultyLabel from "./DifficultyLabel.vue";
-import vKatex from "../plugins/vKatex";
 import { fetchApi } from "../utils/api";
 import statusList from "../utils/status";
 import Message from "vue-m-message";
@@ -210,8 +200,7 @@ const copy = (text: string) => {
 };
 
 const resetTemplate = (language: string) => {
-  if (Object.hasOwn(templates.value, language))
-    code.value = templates.value[language];
+  if (Object.hasOwn(templates.value, language)) code.value = templates.value[language];
 };
 
 const submit = async () => {
@@ -237,10 +226,7 @@ const submit = async () => {
         id: response.data.data.submission_id,
       },
     });
-    if (
-      (res.data.data.result != 7 && res.data.data.result != 9) ||
-      res.data.error
-    ) {
+    if ((res.data.data.result != 7 && res.data.data.result != 9) || res.data.error) {
       loading.value = false;
       window.clearInterval(timer.value);
       if (res.data.error) {
@@ -271,10 +257,7 @@ const getSubmissionLocation = computed(() => {
 });
 
 const getProblemStatus = computed(() => {
-  if (
-    props.problem.my_status !== null &&
-    props.problem.my_status !== undefined
-  ) {
+  if (props.problem.my_status !== null && props.problem.my_status !== undefined) {
     return props.problem.my_status ? -1 : 1;
   } else {
     return 0;
@@ -283,9 +266,7 @@ const getProblemStatus = computed(() => {
 
 const getProblemChart = computed(() => {
   return {
-    labels: Object.keys(props.problem.statistic_info).map(
-      (key) => statusList[key].name
-    ),
+    labels: Object.keys(props.problem.statistic_info).map((key) => statusList[key].name),
     datasets: [
       {
         backgroundColor: Object.keys(props.problem.statistic_info).map(
@@ -298,9 +279,7 @@ const getProblemChart = computed(() => {
 });
 
 onMounted(() => {
-  document.title = `${constants.website!.website_name_shortcut} | ${
-    props.problem.title
-  }`;
+  document.title = `${constants.website!.website_name_shortcut} | ${props.problem.title}`;
 });
 
 watch(selectedLanguage, (newVal) => {

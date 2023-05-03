@@ -26,7 +26,8 @@ import AdminUser from "../page/Admin/User.vue";
 import AdminContests from "../page/Admin/Contests.vue";
 import AdminContest from "../page/Admin/Contest.vue";
 import AdminContestIndex from "../page/Admin/Contest/Index.vue";
-import AdminContestProblems from "../page/Admin/Contest/Problems.vue"
+import AdminContestProblems from "../page/Admin/Contest/Problems.vue";
+import AdminContestProblem from "../page/Admin/Contest/Problem.vue";
 import DefaultLayout from "../layout/index.vue";
 
 const routes = [
@@ -133,6 +134,14 @@ const routes = [
                 name: "AdminContestProblems",
                 path: "problem",
                 component: AdminContestProblems,
+                meta: {
+                  admin: true,
+                },
+              },
+              {
+                name: "AdminContestProblem",
+                path: "problem/:problemId",
+                component: AdminContestProblem,
                 meta: {
                   admin: true,
                 },
