@@ -1,6 +1,12 @@
 <template>
   <div>
-    <Contest v-if="contest" :contest="contest" @handleUpdate="handleUpdate" />
+    <Loader v-if="loading" />
+    <Contest
+      v-else-if="contest"
+      :contest="contest"
+      @handleUpdate="handleUpdate"
+      @handleSave="handleSave"
+    />
   </div>
 </template>
 
@@ -12,6 +18,7 @@ import { useUserStore } from "../../../store/user";
 import Message from "vue-m-message";
 import Contest from "../../../components/Admin/Contest.vue";
 import { provide } from "vue";
+import Loader from "../../../components/Loader.vue";
 
 const routes = useRoute();
 const user = useUserStore();
@@ -28,6 +35,20 @@ const init = async () => {
     params: {
       id: contestId,
     },
+  });
+  loading.value = false;
+  if (response.data.error) {
+    error.value = response.data.data;
+    return;
+  }
+  contest.value = response.data.data;
+};
+
+const handleSave = async () => {
+  error.value = null;
+  loading.value = true;
+  const response = await fetchApi("/admin/contest", "put", {
+    data: contest.value,
   });
   loading.value = false;
   if (response.data.error) {

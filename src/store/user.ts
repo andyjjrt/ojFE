@@ -5,11 +5,12 @@ import { fetchApi } from "../utils/api";
 
 export const useUserStore = defineStore("user", () => {
   const profile = ref<User | null>(null);
-  const router = useRouter();
+  const isReady = ref(false)
 
   const getProfile = async () => {
     const response = await fetchApi("/profile", "get");
     profile.value = response.data.data;
+    isReady.value = true;
   };
 
   const login = async (
@@ -53,5 +54,5 @@ export const useUserStore = defineStore("user", () => {
     await getProfile();
   };
 
-  return { profile, getProfile, login, register, logout };
+  return { profile, isReady, getProfile, login, register, logout };
 });

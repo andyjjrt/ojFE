@@ -216,9 +216,11 @@
           </v-col>
         </v-row>
       </v-container>
-      <v-card-action class="d-flex justify-end gutter">
-        <v-btn color="primary" class="mx-1">save</v-btn>
-      </v-card-action>
+      <v-card-actions class="d-flex justify-end gutter">
+        <v-btn color="primary" variant="elevated" class="mx-1" @click="handleSave"
+          >save</v-btn
+        >
+      </v-card-actions>
     </v-card>
   </div>
 </template>
@@ -233,6 +235,7 @@ import Loader from "../Loader.vue";
 
 const routes = useRoute();
 const constant = useConstantsStore();
+const contestId = routes.params.contestId;
 const problemId = routes.params.problemId;
 
 const loading = ref(false);
@@ -300,12 +303,34 @@ const init = async () => {
   });
   const tagResponse = await fetchApi("/problem/tags", "get");
   loading.value = false;
-  Object.assign(problem, response.data.data);
   tags.value = tagResponse.data.data;
-  constant.languages!.map((language) => {
-    problem.template[language.name] = language.config.template;
-    defaultTemplate.value[language.name] = language;
+  if (response.data.error) {
+  } else {
+    Object.assign(problem, response.data.data);
+    constant.languages!.map((language) => {
+      if (!problem.template[language.name])
+        problem.template[language.name] = language.config.template;
+      defaultTemplate.value[language.name] = language;
+    });
+  }
+};
+
+const handleSave = async () => {
+  loading.value = true;
+  Object.keys(problem.template).map((key) => {
+    if (problem.template[key] === defaultTemplate.value[key].config.template)
+      delete problem.template[key];
   });
+  const response = await fetchApi("/admin/contest/problem", "put", {
+    data: {
+      ...problem,
+      contest_id: contestId,
+    },
+  });
+  loading.value = false;
+  if (response.data.error) {
+  }
+  init();
 };
 
 const handleDeleteSample = (index: number) => {

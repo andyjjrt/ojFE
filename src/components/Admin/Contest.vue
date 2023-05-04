@@ -1,56 +1,60 @@
 <template>
-  <v-card>
-    <v-container>
-      <v-row>
-        <v-col cols="12">
-          <v-text-field label="Title" v-model="title" hide-details />
-        </v-col>
-        <v-col cols="12">
-          <v-md-editor height="400px" v-model="description" />
-        </v-col>
-        <v-col cols="12" sm="4">
-          <DatePicker mode="dateTime" :is-dark="true" v-model="startTime">
-            <template #default="{ inputValue, inputEvents }">
-              <v-text-field
-                label="Start Time"
-                hide-details
-                :modelValue="inputValue"
-                v-on="inputEvents"
-              />
-            </template>
-          </DatePicker>
-        </v-col>
-        <v-col cols="12" sm="4">
-          <DatePicker mode="dateTime" :is-dark="true" v-model="endTime">
-            <template #default="{ inputValue, inputEvents }">
-              <v-text-field
-                label="End Time"
-                hide-details
-                :modelValue="inputValue"
-                v-on="inputEvents"
-              />
-            </template>
-          </DatePicker>
-        </v-col>
-        <v-col cols="12" sm="4">
-          <v-text-field label="Password" hide-details v-model="password" />
-        </v-col>
-        <v-col cols="12" sm="4">
-          <v-select
-            label="Rule Type"
-            :items="['ACM', 'OI']"
-            hide-details
-            v-model="ruleType"
-          />
-        </v-col>
-        <v-col cols="12" sm="4">
-          <v-switch label="Real Time Rank" hide-details v-model="realTimeRank" />
-        </v-col>
-        <v-col cols="12" sm="4">
-          <v-switch label="Visible" hide-details v-model="visible" />
-        </v-col>
-      </v-row>
-    </v-container>
+  <v-card class="pa-4">
+    <v-row>
+      <v-col cols="12">
+        <v-text-field label="Title" v-model="title" hide-details />
+      </v-col>
+      <v-col cols="12">
+        <v-md-editor height="400px" v-model="description" />
+      </v-col>
+      <v-col cols="12" sm="4">
+        <DatePicker mode="dateTime" :is-dark="true" v-model="startTime">
+          <template #default="{ inputValue, inputEvents }">
+            <v-text-field
+              label="Start Time"
+              hide-details
+              :modelValue="inputValue"
+              v-on="inputEvents"
+            />
+          </template>
+        </DatePicker>
+      </v-col>
+      <v-col cols="12" sm="4">
+        <DatePicker mode="dateTime" :is-dark="true" v-model="endTime">
+          <template #default="{ inputValue, inputEvents }">
+            <v-text-field
+              label="End Time"
+              hide-details
+              :modelValue="inputValue"
+              v-on="inputEvents"
+            />
+          </template>
+        </DatePicker>
+      </v-col>
+      <v-col cols="12" sm="4">
+        <v-text-field label="Password" hide-details v-model="password" />
+      </v-col>
+      <v-col cols="12" sm="4">
+        <v-select
+          label="Rule Type"
+          :items="['ACM', 'OI']"
+          hide-details
+          v-model="ruleType"
+        />
+      </v-col>
+      <v-col cols="12" sm="4">
+        <v-switch label="Real Time Rank" hide-details v-model="realTimeRank" />
+      </v-col>
+      <v-col cols="12" sm="4">
+        <v-switch label="Visible" hide-details v-model="visible" />
+      </v-col>
+      <v-col cols="12">
+        <v-combobox v-model="allowIp" label="Allow IP Ranges" multiple chips></v-combobox>
+      </v-col>
+    </v-row>
+    <v-card-actions class="d-flex justify-end">
+      <v-btn color="primary" variant="elevated" @click="handleSave">Save</v-btn>
+    </v-card-actions>
   </v-card>
 </template>
 
@@ -62,7 +66,11 @@ import "v-calendar/style.css";
 const props = defineProps<{
   contest: ManagementContest;
 }>();
-const emits = defineEmits(["handleUpdate"]);
+const emits = defineEmits(["handleUpdate", "handleSave"]);
+
+const handleSave = () => {
+  emits("handleSave", _contest);
+};
 
 const _contest = computed({
   get: () => props.contest,
@@ -111,5 +119,10 @@ const realTimeRank = computed({
 const visible = computed({
   get: () => _contest.value.visible,
   set: (val) => (_contest.value = { ..._contest.value, visible: val }),
+});
+
+const allowIp = computed({
+  get: () => _contest.value.allowed_ip_ranges,
+  set: (val) => (_contest.value = { ..._contest.value, allowed_ip_ranges: val }),
 });
 </script>
