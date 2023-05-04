@@ -56,6 +56,7 @@ export default ({ mode }) => {
               "@kangc/v-md-editor/lib/plugins/katex/npm",
               "@kangc/v-md-editor/lib/preview",
               "@kangc/v-md-editor/lib/theme/vuepress.js",
+              "@kangc/v-md-editor/lib/lang/en-US",
             ],
             utils: [
               "chart.js",
