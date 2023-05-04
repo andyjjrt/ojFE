@@ -23,11 +23,15 @@ import SettingSecurity from "../page/Setting/Security.vue";
 import Admin from "../page/Admin.vue";
 import AdminDashboard from "../page/Admin/Dashboard.vue";
 import AdminUser from "../page/Admin/User.vue";
+import AdminProblems from "../page/Admin/Problems.vue";
+import AdminProblem from "../page/Admin/Problem.vue";
+import AdminProblemCreate from "../page/Admin/ProblemCreate.vue";
 import AdminContests from "../page/Admin/Contests.vue";
 import AdminContest from "../page/Admin/Contest.vue";
 import AdminContestIndex from "../page/Admin/Contest/Index.vue";
 import AdminContestProblems from "../page/Admin/Contest/Problems.vue";
 import AdminContestProblem from "../page/Admin/Contest/Problem.vue";
+import AdminContestProblemCreate from "../page/Admin/Contest/ProblemCreate.vue";
 import DefaultLayout from "../layout/index.vue";
 
 const routes = [
@@ -111,6 +115,30 @@ const routes = [
             },
           },
           {
+            name: "AdminProblems",
+            path: "problem",
+            component: AdminProblems,
+            meta: {
+              admin: true,
+            },
+          },
+          {
+            name: "AdminProblemCreate",
+            path: "problem/create",
+            component: AdminProblemCreate,
+            meta: {
+              admin: true,
+            },
+          },
+          {
+            name: "AdminProblem",
+            path: "problem/:problemId",
+            component: AdminProblem,
+            meta: {
+              admin: true,
+            },
+          },
+          {
             name: "AdminContests",
             path: "contest",
             component: AdminContests,
@@ -134,6 +162,14 @@ const routes = [
                 name: "AdminContestProblems",
                 path: "problem",
                 component: AdminContestProblems,
+                meta: {
+                  admin: true,
+                },
+              },
+              {
+                name: "AdminContestProblemCreate",
+                path: "problem/create",
+                component: AdminContestProblemCreate,
                 meta: {
                   admin: true,
                 },

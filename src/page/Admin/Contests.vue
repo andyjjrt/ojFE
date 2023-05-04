@@ -31,12 +31,13 @@
       <template v-slot="{ data }: { data: ManagementContest[] }">
         <v-list lines="one" density="compact">
           <template v-for="item in data">
-            <v-list-item
-              :title="item.title"
-              :to="{ name: 'AdminContest', params: { contestId: item.id } }"
-            >
+            <v-list-item :to="{ name: 'AdminContest', params: { contestId: item.id } }">
+              <template v-slot:title>
+                {{ item.title }}
+              </template>
+
               <template v-slot:append>
-                <div class="d-flex align-center">
+                <div class="d-flex align-center" @click.stop.prevent>
                   <v-chip
                     class="mx-2"
                     size="small"
@@ -45,7 +46,29 @@
                   >
                     {{ contestStatusList[item.status].name }}
                   </v-chip>
-                  <div class="d-flex-inline">
+                  <Downloader
+                    :link="`/admin/download_submissions?contest_id=${item.id}&exclude_admin=1`"
+                    :title="`${item.id}_${item.title}_submissions`"
+                  >
+                    <template v-slot="{ handleDownload, loading }">
+                      <v-tooltip text="Download Submissions" location="top">
+                        <template v-slot:activator="{ props }">
+                          <v-btn
+                            @click.stop.prevent="handleDownload"
+                            :loading="loading"
+                            v-bind="props"
+                            variant="text"
+                            icon
+                            size="small"
+                            class="mx-1"
+                          >
+                            <v-icon icon="mdi-download" />
+                          </v-btn>
+                        </template>
+                      </v-tooltip>
+                    </template>
+                  </Downloader>
+                  <div class="d-flex-inline mx-1">
                     <v-switch
                       color="primary"
                       hide-details
@@ -55,9 +78,7 @@
                       @update:modelValue="() => handleChangeVisibility(item)"
                     >
                       <template v-slot:label>
-                        <v-icon
-                          :icon="item.visible ? 'mdi-eye' : 'mdi-eye-off'"
-                        />
+                        <v-icon :icon="item.visible ? 'mdi-eye' : 'mdi-eye-off'" />
                       </template>
                     </v-switch>
                   </div>
@@ -78,6 +99,7 @@ import { useRouter, useRoute } from "vue-router";
 import { useUserStore } from "../../store/user";
 import { fetchApi } from "../../utils/api";
 import Datagrid from "../../components/Datagrid.vue";
+import Downloader from "../../components/Admin/Downloader.vue";
 import ErrorMessage from "../../components/ErrorMessage.vue";
 import useDate from "../../hooks/useDate";
 import { contestStatusList } from "../../utils/status";
@@ -98,8 +120,7 @@ const keyword = ref("");
 const offset = computed(() => (page.value - 1) * limit.value);
 
 const handleNavigate = (newPage: number) => (page.value = newPage);
-const handleChangeRowPerPage = (newRowPerPage: number) =>
-  (limit.value = newRowPerPage);
+const handleChangeRowPerPage = (newRowPerPage: number) => (limit.value = newRowPerPage);
 
 const init = async () => {
   page.value = parseInt((routes.query.page as string) || "1");

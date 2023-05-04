@@ -235,7 +235,12 @@ import Loader from "../Loader.vue";
 
 const routes = useRoute();
 const constant = useConstantsStore();
-const contestId = routes.params.contestId;
+
+const props = defineProps<{
+  contestId?: string;
+  create?: boolean;
+}>();
+
 const problemId = routes.params.problemId;
 
 const loading = ref(false);
@@ -266,17 +271,17 @@ const problem = reactive<ManagementProblem>({
   languages: [],
   create_time: "",
   last_update_time: null,
-  time_limit: 0,
-  memory_limit: 0,
+  time_limit: 1000,
+  memory_limit: 256,
   io_mode: {
-    input: "",
-    output: "",
-    io_mode: "",
+    input: "input.txt",
+    output: "output.txt",
+    io_mode: "Standard IO",
   },
   spj: false,
   spj_language: null,
   rule_type: "OI",
-  difficulty: "",
+  difficulty: "Low",
   source: "",
   total_score: 0,
   submission_number: 0,
@@ -295,24 +300,32 @@ const problem = reactive<ManagementProblem>({
 });
 
 const init = async () => {
-  loading.value = true;
-  const response = await fetchApi("/admin/contest/problem", "get", {
-    params: {
-      id: problemId,
-    },
+  constant.languages!.map((language) => {
+    if (!problem.template[language.name])
+      problem.template[language.name] = language.config.template;
+    defaultTemplate.value[language.name] = language;
   });
-  const tagResponse = await fetchApi("/problem/tags", "get");
-  loading.value = false;
-  tags.value = tagResponse.data.data;
-  if (response.data.error) {
-  } else {
-    Object.assign(problem, response.data.data);
-    constant.languages!.map((language) => {
-      if (!problem.template[language.name])
-        problem.template[language.name] = language.config.template;
-      defaultTemplate.value[language.name] = language;
-    });
+  if (!props.create) {
+    loading.value = true;
+    const response = await fetchApi(
+      `/admin${props.contestId ? "/contest" : ""}/problem`,
+      "get",
+      {
+        params: {
+          id: problemId,
+        },
+      }
+    );
+    loading.value = false;
+    if (response.data.error) {
+    } else {
+      Object.assign(problem, response.data.data);
+    }
   }
+  loading.value = true;
+  const tagResponse = await fetchApi("/problem/tags", "get");
+  tags.value = tagResponse.data.data;
+  loading.value = false;
 };
 
 const handleSave = async () => {
@@ -321,12 +334,16 @@ const handleSave = async () => {
     if (problem.template[key] === defaultTemplate.value[key].config.template)
       delete problem.template[key];
   });
-  const response = await fetchApi("/admin/contest/problem", "put", {
-    data: {
-      ...problem,
-      contest_id: contestId,
-    },
-  });
+  const response = await fetchApi(
+    `/admin${props.contestId ? "/contest" : ""}/problem`,
+    "put",
+    {
+      data: {
+        ...problem,
+        contest_id: props.contestId,
+      },
+    }
+  );
   loading.value = false;
   if (response.data.error) {
   }
@@ -351,7 +368,9 @@ const handleUploadTestcase = async (e: Event) => {
   });
   uploadLoading.value = false;
   if (response.data.error) {
-    // error
+    problem.test_case_id = "";
+    problem.test_case_score = [];
+    problem.spj = false;
   } else {
     problem.test_case_id = response.data.data.id;
     problem.test_case_score = response.data.data.info.map((item: any) => ({

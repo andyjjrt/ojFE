@@ -37,6 +37,28 @@
                 <DifficultyLabel :difficulty="item.difficulty" />
               </template>
               <template v-slot:append>
+                <Downloader
+                  :link="`/admin/test_case?problem_id=${item.id}`"
+                  :title="`${item.id}_${item.title}_testcase`"
+                >
+                  <template v-slot="{ handleDownload, loading }">
+                    <v-tooltip text="Download Testcases" location="top">
+                      <template v-slot:activator="{ props }">
+                        <v-btn
+                          @click.stop.prevent="handleDownload"
+                          :loading="loading"
+                          v-bind="props"
+                          variant="text"
+                          icon
+                          size="small"
+                          class="mx-1"
+                        >
+                          <v-icon icon="mdi-download" />
+                        </v-btn>
+                      </template>
+                    </v-tooltip>
+                  </template>
+                </Downloader>
                 <div class="d-flex-inline">
                   <v-switch
                     color="primary"
@@ -57,6 +79,9 @@
           </template>
         </v-list>
       </template>
+      <template v-slot:footer>
+        <v-btn color="primary" :to="getCreateProblem">Create</v-btn>
+      </template>
     </Datagrid>
   </v-card>
 </template>
@@ -67,6 +92,7 @@ import { useRouter, useRoute } from "vue-router";
 import { useUserStore } from "../../store/user";
 import { fetchApi } from "../../utils/api";
 import Datagrid from "../../components/Datagrid.vue";
+import Downloader from "../../components/Admin/Downloader.vue";
 import DifficultyLabel from "../DifficultyLabel.vue";
 import ErrorMessage from "../ErrorMessage.vue";
 
@@ -147,7 +173,7 @@ const handleChangeVisibility = async (problem: ManagementProblem) => {
 
 const getProblemLocation = computed(() => {
   return (id: number) => {
-    if (props.contestId)
+    if (props.contestId) {
       return {
         name: "AdminContestProblem",
         params: {
@@ -155,7 +181,30 @@ const getProblemLocation = computed(() => {
           problemId: id,
         },
       };
+    } else {
+      return {
+        name: "AdminProblem",
+        params: {
+          problemId: id,
+        },
+      };
+    }
   };
+});
+
+const getCreateProblem = computed(() => {
+  if (props.contestId) {
+    return {
+      name: "AdminContestProblemCreate",
+      params: {
+        contestId: props.contestId,
+      },
+    };
+  } else {
+    return {
+      name: "AdminProblemCreate",
+    };
+  }
 });
 
 onMounted(() => {

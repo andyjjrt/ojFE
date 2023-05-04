@@ -1,5 +1,5 @@
 <template>
-  <Problem :contestId="contestId" />
+  <Problem create :contestId="contestId" />
 </template>
 
 <script setup lang="ts">

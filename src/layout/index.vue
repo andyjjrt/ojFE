@@ -76,6 +76,11 @@
             :active="routes.name === 'AdminUser'"
           />
           <v-list-item
+            title="Problem"
+            :to="{ name: 'AdminProblems' }"
+            :active="routes.name === 'AdminProblems'"
+          />
+          <v-list-item
             title="Contest"
             :to="{ name: 'AdminContests' }"
             :active="routes.name === 'AdminContests'"
