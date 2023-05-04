@@ -129,8 +129,9 @@
                   class="mx-2"
                   color="success"
                   v-if="
+                    problem.template[language] &&
                     problem.template[language] !==
-                    defaultTemplate[language]?.config.template
+                      defaultTemplate[language]?.config.template
                   "
                 />
               </v-expansion-panel-title>

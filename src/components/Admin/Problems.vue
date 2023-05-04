@@ -51,7 +51,6 @@
                           variant="text"
                           icon
                           size="small"
-                          class="mx-1"
                         >
                           <v-icon icon="mdi-download" />
                         </v-btn>
@@ -59,7 +58,43 @@
                     </v-tooltip>
                   </template>
                 </Downloader>
-                <div class="d-flex-inline">
+                <v-dialog width="auto">
+                  <template v-slot:activator="dialog">
+                    <v-tooltip text="Delete" location="top">
+                      <template v-slot:activator="{ props }">
+                        <v-btn
+                          @click.stop.prevent=""
+                          v-bind="{ ...props, ...dialog.props }"
+                          variant="text"
+                          color="error"
+                          icon
+                          size="small"
+                        >
+                          <v-icon icon="mdi-delete" />
+                        </v-btn>
+                      </template>
+                    </v-tooltip>
+                  </template>
+                  <template v-slot:default="{ isActive }">
+                    <v-card>
+                      <v-toolbar color="error" title="Comfirm" />
+                      <v-card-text>
+                        Are you sure you want to delete this problem?
+                      </v-card-text>
+                      <v-card-actions class="justify-end">
+                        <v-btn
+                          color="error"
+                          variant="elevated"
+                          @click="() => handleDelete(isActive, item)"
+                        >
+                          Delete
+                        </v-btn>
+                      </v-card-actions>
+                    </v-card>
+                  </template>
+                </v-dialog>
+
+                <div class="d-flex-inline ms-1">
                   <v-switch
                     color="primary"
                     hide-details
@@ -69,7 +104,9 @@
                     @update:modelValue="() => handleChangeVisibility(item)"
                   >
                     <template v-slot:label>
-                      <v-icon :icon="item.visible ? 'mdi-eye' : 'mdi-eye-off'" />
+                      <v-icon
+                        :icon="item.visible ? 'mdi-eye' : 'mdi-eye-off'"
+                      />
                     </template>
                   </v-switch>
                 </div>
@@ -87,7 +124,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from "vue";
+import { Ref, computed, onMounted, ref, watch } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useUserStore } from "../../store/user";
 import { fetchApi } from "../../utils/api";
@@ -115,7 +152,8 @@ const keyword = ref("");
 const offset = computed(() => (page.value - 1) * limit.value);
 
 const handleNavigate = (newPage: number) => (page.value = newPage);
-const handleChangeRowPerPage = (newRowPerPage: number) => (limit.value = newRowPerPage);
+const handleChangeRowPerPage = (newRowPerPage: number) =>
+  (limit.value = newRowPerPage);
 
 const init = async () => {
   page.value = parseInt((routes.query.page as string) || "1");
@@ -171,6 +209,25 @@ const handleChangeVisibility = async (problem: ManagementProblem) => {
   init();
 };
 
+const handleDelete = async (
+  isActive: Ref<boolean>,
+  problem: ManagementProblem
+) => {
+  isActive.value = false;
+  loading.value = true;
+  const response = await fetchApi(
+    `/admin/${props.contestId ? "contest/" : ""}problem`,
+    "delete",
+    {
+      params: {
+        id: problem.id,
+      },
+    }
+  );
+  loading.value = false;
+  init();
+};
+
 const getProblemLocation = computed(() => {
   return (id: number) => {
     if (props.contestId) {
@@ -214,7 +271,8 @@ onMounted(() => {
 watch(page, () => handleAction());
 watch(limit, () => handleAction(true));
 watch(routes, (newVal, oldVal) => {
-  if (newVal.name === "AdminContestProblems" || newVal.name === "AdminProblems") init();
+  if (newVal.name === "AdminContestProblems" || newVal.name === "AdminProblems")
+    init();
 });
 watch(
   () => user.profile,
