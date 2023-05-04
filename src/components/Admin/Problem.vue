@@ -130,7 +130,7 @@
                   color="success"
                   v-if="
                     problem.template[language] !==
-                    defaultTemplate[language].config.template
+                    defaultTemplate[language]?.config.template
                   "
                 />
               </v-expansion-panel-title>
@@ -138,6 +138,7 @@
                 <CodeMirror
                   :lang="language"
                   v-model="problem.template[language]"
+                  v-if="problem.template[language]"
                 />
               </v-expansion-panel-text>
             </v-expansion-panel>
@@ -324,11 +325,6 @@ const problem = reactive<ManagementProblem>({
 });
 
 const init = async () => {
-  constant.languages!.map((language) => {
-    if (!problem.template[language.name])
-      problem.template[language.name] = language.config.template;
-    defaultTemplate.value[language.name] = language;
-  });
   if (!props.create) {
     loading.value = true;
     const response = await fetchApi(
@@ -349,6 +345,11 @@ const init = async () => {
   loading.value = true;
   const tagResponse = await fetchApi("/problem/tags", "get");
   tags.value = tagResponse.data.data;
+  constant.languages!.map((language) => {
+    if (!problem.template[language.name])
+      problem.template[language.name] = language.config.template;
+    defaultTemplate.value[language.name] = language;
+  });
   loading.value = false;
 };
 

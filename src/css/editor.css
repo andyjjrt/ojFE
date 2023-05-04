@@ -496,7 +496,7 @@
   position: relative;
   height: 38px;
   overflow: hidden;
-  color: #2c3e50;
+  color: rgb(var(--v-theme-primary));
   line-height: 38px;
   white-space: nowrap;
   text-overflow: ellipsis;
