@@ -10,15 +10,15 @@
         </v-col>
         <v-col cols="12">
           <h4 class="mb-2">Description</h4>
-          <v-md-editor height="400px" v-model="description" />
+          <MDEditor height="400px" v-model="description" />
         </v-col>
         <v-col cols="12">
           <h4 class="mb-2">Input Description</h4>
-          <v-md-editor height="400px" v-model="inputDescription" />
+          <MDEditor height="400px" v-model="inputDescription" />
         </v-col>
         <v-col cols="12">
           <h4 class="mb-2">Output Description</h4>
-          <v-md-editor height="400px" v-model="outputDescription" />
+          <MDEditor height="400px" v-model="outputDescription" />
         </v-col>
         <v-col cols="12" sm="4">
           <v-text-field
@@ -80,8 +80,9 @@
                 size="small"
                 color="warning"
                 @click="() => handleDeleteSample(i)"
-                >delete</v-btn
               >
+                delete
+              </v-btn>
             </div>
             <v-row>
               <v-col cols="12" sm="6">
@@ -106,13 +107,13 @@
           </v-sheet>
         </v-col>
         <v-col cols="12">
-          <v-btn block color="primary" @click="handleCreateSample"
-            >Add sample</v-btn
-          >
+          <v-btn block color="primary" @click="handleCreateSample">
+            Add sample
+          </v-btn>
         </v-col>
         <v-col cols="12">
           <h4 class="mb-2">Hint</h4>
-          <v-md-editor height="400px" v-model="hint" />
+          <MDEditor height="400px" v-model="hint" />
         </v-col>
         <v-col cols="12">
           <h4 class="mb-3">Template</h4>
@@ -253,6 +254,7 @@ import { reactive, ref, onMounted, computed } from "vue";
 import { useConstantsStore } from "../../store/constants";
 import { fetchApi } from "../../utils/api";
 import CodeMirror from "../CodeMirror.vue";
+import MDEditor from "../MDEditor.vue";
 import Message from "vue-m-message";
 
 const routes = useRoute();
@@ -368,11 +370,10 @@ const handleSave = async () => {
   );
   loading.value = false;
   if (response.data.error) {
-    Message.error(response.data.data)
-  }else {
+    Message.error(response.data.data);
+  } else {
     init();
   }
-  
 };
 
 const handleDeleteSample = (index: number) => {
@@ -396,7 +397,7 @@ const handleUploadTestcase = async (e: Event) => {
     problem.test_case_id = "";
     problem.test_case_score = [];
     problem.spj = false;
-    Message.error(response.data.data)
+    Message.error(response.data.data);
   } else {
     problem.test_case_id = response.data.data.id;
     problem.test_case_score = response.data.data.info.map((item: any) => ({
@@ -405,7 +406,7 @@ const handleUploadTestcase = async (e: Event) => {
       score: (100 / response.data.data.info.length).toFixed(0),
     }));
     problem.spj = response.data.data.spj;
-    Message.success(response.data.data.id)
+    Message.success(response.data.data.id);
   }
   (e.target as HTMLInputElement)!.value = "";
 };

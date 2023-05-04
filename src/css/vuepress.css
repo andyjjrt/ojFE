@@ -540,7 +540,7 @@
   display: block;
   margin: 1.6em 0;
   padding: 1.6em;
-  background-color: #eee;
+  background-color: rgb(var(--v-theme-on-surface-variant));
   border-radius: 2px;
 }
 .v-md-plugin-tip.details h4 {

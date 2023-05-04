@@ -8,6 +8,7 @@ import VMdEditor from "@kangc/v-md-editor";
 import Message from "vue-m-message";
 import vuepressTheme from "@kangc/v-md-editor/lib/theme/vuepress.js";
 import createKatexPlugin from '@kangc/v-md-editor/lib/plugins/katex/npm';
+import enUS from '@kangc/v-md-editor/lib/lang/en-US';
 import "@kangc/v-md-editor/lib/style/preview.css";
 import "./css/editor.css";
 import "./css/message.css";
@@ -29,6 +30,8 @@ VMdPreview.use(vuepressTheme, {
 VMdEditor.use(vuepressTheme, {
   Prism,
 }).use(createKatexPlugin());
+
+VMdEditor.lang.use('en-US', enUS);
 
 Message.setDefault({ className: "elevation-4" });
 

@@ -5,7 +5,7 @@
         <v-text-field label="Title" v-model="title" hide-details />
       </v-col>
       <v-col cols="12">
-        <v-md-editor height="400px" v-model="description" />
+        <MDEditor v-model="description" />
       </v-col>
       <v-col cols="12" sm="4">
         <DatePicker mode="dateTime" :is-dark="true" v-model="startTime">
@@ -61,6 +61,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { DatePicker } from "v-calendar";
+import MDEditor from "../MDEditor.vue";
 import "v-calendar/style.css";
 
 const props = defineProps<{
