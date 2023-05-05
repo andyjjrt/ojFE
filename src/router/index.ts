@@ -23,6 +23,7 @@ import SettingSecurity from "../page/Setting/Security.vue";
 import Admin from "../page/Admin.vue";
 import AdminDashboard from "../page/Admin/Dashboard.vue";
 import AdminUser from "../page/Admin/User.vue";
+import AdminJudgeServer from "../page/Admin/JudgeServer.vue";
 import AdminAnnouncement from "../page/Admin/Announcement.vue";
 import AdminProblems from "../page/Admin/Problems.vue";
 import AdminProblem from "../page/Admin/Problem.vue";
@@ -99,62 +100,49 @@ const routes = [
       {
         path: "/admin",
         component: Admin,
+        meta: {
+          admin: true,
+        },
         children: [
           {
             name: "AdminDashboard",
             path: "",
             component: AdminDashboard,
-            meta: {
-              admin: true,
-            },
+          },
+          {
+            name: "AdminJudgeServer",
+            path: "judgeserver",
+            component: AdminJudgeServer,
           },
           {
             name: "AdminUser",
             path: "users",
             component: AdminUser,
-            meta: {
-              admin: true,
-            },
           },
           {
             name: "AdminAnnouncement",
             path: "announcement",
             component: AdminAnnouncement,
-            meta: {
-              admin: true,
-            },
           },
           {
             name: "AdminProblems",
             path: "problem",
             component: AdminProblems,
-            meta: {
-              admin: true,
-            },
           },
           {
             name: "AdminProblemCreate",
             path: "problem/create",
             component: AdminProblemCreate,
-            meta: {
-              admin: true,
-            },
           },
           {
             name: "AdminProblem",
             path: "problem/:problemId",
             component: AdminProblem,
-            meta: {
-              admin: true,
-            },
           },
           {
             name: "AdminContests",
             path: "contest",
             component: AdminContests,
-            meta: {
-              admin: true,
-            },
           },
           {
             path: "contest/:contestId",
@@ -164,41 +152,26 @@ const routes = [
                 name: "AdminContest",
                 path: "",
                 component: AdminContestIndex,
-                meta: {
-                  admin: true,
-                },
               },
               {
                 name: "AdminContestAnnouncement",
                 path: "announement",
                 component: AdminContestAnnouncement,
-                meta: {
-                  admin: true,
-                },
               },
               {
                 name: "AdminContestProblems",
                 path: "problem",
                 component: AdminContestProblems,
-                meta: {
-                  admin: true,
-                },
               },
               {
                 name: "AdminContestProblemCreate",
                 path: "problem/create",
                 component: AdminContestProblemCreate,
-                meta: {
-                  admin: true,
-                },
               },
               {
                 name: "AdminContestProblem",
                 path: "problem/:problemId",
                 component: AdminContestProblem,
-                meta: {
-                  admin: true,
-                },
               },
             ],
           },
