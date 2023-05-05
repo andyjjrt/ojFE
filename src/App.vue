@@ -28,7 +28,12 @@ constants.init();
 user.getProfile();
 
 onMounted(() => {
-  if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+  if (localStorage.getItem("theme")) {
+    vuetifyTheme.global.name.value = localStorage.getItem("theme") as string;
+  } else if (
+    window.matchMedia &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches
+  ) {
     vuetifyTheme.global.name.value = "dark";
   }
 });

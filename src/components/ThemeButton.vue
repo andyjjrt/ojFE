@@ -30,5 +30,6 @@ const currentTheme = computed(() => vuetifyTheme.global.name.value);
 
 const changeTheme = (name: string) => {
   vuetifyTheme.global.name.value = name;
+  localStorage.setItem("theme", name)
 };
 </script>
