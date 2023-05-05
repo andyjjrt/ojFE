@@ -30,6 +30,7 @@ import AdminProblem from "../page/Admin/Problem.vue";
 import AdminProblemCreate from "../page/Admin/ProblemCreate.vue";
 import AdminContests from "../page/Admin/Contests.vue";
 import AdminContest from "../page/Admin/Contest.vue";
+import AdminContestCreate from "../page/Admin/ContestCreate.vue";
 import AdminContestIndex from "../page/Admin/Contest/Index.vue";
 import AdminContestAnnouncement from "../page/Admin/Contest/Announcement.vue";
 import AdminContestProblems from "../page/Admin/Contest/Problems.vue";
@@ -143,6 +144,11 @@ const routes = [
             name: "AdminContests",
             path: "contest",
             component: AdminContests,
+          },
+          {
+            name: "AdminContestCreate",
+            path: "contest/create",
+            component: AdminContestCreate,
           },
           {
             path: "contest/:contestId",

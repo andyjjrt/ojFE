@@ -89,6 +89,9 @@
           </template>
         </v-list>
       </template>
+      <template v-slot:footer>
+        <v-btn color="primary" :to="{name: 'AdminContestCreate'}">Create</v-btn>
+      </template>
     </Datagrid>
   </v-card>
 </template>
