@@ -1,8 +1,11 @@
 <template>
   <div>
-    <v-tabs>
+    <v-tabs class="mb-3">
       <v-tab :to="{ name: 'AdminContest', params: { contestId: contestId } }">
         Overview
+      </v-tab>
+      <v-tab :to="{ name: 'AdminContestAnnouncement', params: { contestId: contestId } }">
+        Announement
       </v-tab>
       <v-tab :to="{ name: 'AdminContestProblems', params: { contestId: contestId } }">
         Problems

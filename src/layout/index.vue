@@ -57,7 +57,7 @@
           <v-list-item title="FAQ" to="/faq" :active="routes.name === 'FAQ'">
           </v-list-item>
         </v-list-group>
-        <v-list-group v-if="user.profile?.user.admin_type.includes('Admin')">
+        <v-list-group v-if="user.profile?.user.admin_type.includes('Admin') && smAndDown">
           <template v-slot:activator="{ props }">
             <v-list-item v-bind="props" title="Management">
               <template v-slot:prepend>
@@ -65,26 +65,7 @@
               </template>
             </v-list-item>
           </template>
-          <v-list-item
-            title="Dashboard"
-            :to="{ name: 'AdminDashboard' }"
-            :active="routes.name === 'AdminDashboard'"
-          />
-          <v-list-item
-            title="User"
-            :to="{ name: 'AdminUser' }"
-            :active="routes.name === 'AdminUser'"
-          />
-          <v-list-item
-            title="Problem"
-            :to="{ name: 'AdminProblems' }"
-            :active="routes.name === 'AdminProblems'"
-          />
-          <v-list-item
-            title="Contest"
-            :to="{ name: 'AdminContests' }"
-            :active="routes.name === 'AdminContests'"
-          />
+          <AdminNav />
         </v-list-group>
       </v-list>
     </v-navigation-drawer>
@@ -114,12 +95,15 @@ import { onMounted, ref, watch } from "vue";
 import { storeToRefs } from "pinia";
 import { RouteLocationNormalized, useRoute, useRouter } from "vue-router";
 import UserNavButton from "../components/UserNavButton.vue";
+import AdminNav from "../components/Admin/Nav.vue";
 import { useConstantsStore } from "../store/constants";
 import { computed } from "vue";
 import { useUserStore } from "../store/user";
+import { useDisplay } from "vuetify";
 
 const constants = useConstantsStore();
 const user = useUserStore();
+const { smAndDown } = useDisplay()
 const { website } = storeToRefs(constants);
 const drawer = ref(false);
 

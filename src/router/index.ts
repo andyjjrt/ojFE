@@ -23,12 +23,14 @@ import SettingSecurity from "../page/Setting/Security.vue";
 import Admin from "../page/Admin.vue";
 import AdminDashboard from "../page/Admin/Dashboard.vue";
 import AdminUser from "../page/Admin/User.vue";
+import AdminAnnouncement from "../page/Admin/Announcement.vue";
 import AdminProblems from "../page/Admin/Problems.vue";
 import AdminProblem from "../page/Admin/Problem.vue";
 import AdminProblemCreate from "../page/Admin/ProblemCreate.vue";
 import AdminContests from "../page/Admin/Contests.vue";
 import AdminContest from "../page/Admin/Contest.vue";
 import AdminContestIndex from "../page/Admin/Contest/Index.vue";
+import AdminContestAnnouncement from "../page/Admin/Contest/Announcement.vue";
 import AdminContestProblems from "../page/Admin/Contest/Problems.vue";
 import AdminContestProblem from "../page/Admin/Contest/Problem.vue";
 import AdminContestProblemCreate from "../page/Admin/Contest/ProblemCreate.vue";
@@ -115,6 +117,14 @@ const routes = [
             },
           },
           {
+            name: "AdminAnnouncement",
+            path: "announcement",
+            component: AdminAnnouncement,
+            meta: {
+              admin: true,
+            },
+          },
+          {
             name: "AdminProblems",
             path: "problem",
             component: AdminProblems,
@@ -154,6 +164,14 @@ const routes = [
                 name: "AdminContest",
                 path: "",
                 component: AdminContestIndex,
+                meta: {
+                  admin: true,
+                },
+              },
+              {
+                name: "AdminContestAnnouncement",
+                path: "problem",
+                component: AdminContestAnnouncement,
                 meta: {
                   admin: true,
                 },

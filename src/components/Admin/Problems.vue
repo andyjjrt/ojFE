@@ -82,6 +82,9 @@
                         Are you sure you want to delete this problem?
                       </v-card-text>
                       <v-card-actions class="justify-end">
+                        <v-btn variant="text" @click="isActive.value = false">
+                          Close
+                        </v-btn>
                         <v-btn
                           color="error"
                           variant="elevated"
