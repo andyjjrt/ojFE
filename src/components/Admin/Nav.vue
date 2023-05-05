@@ -5,6 +5,11 @@
     :active="routes.name === 'AdminDashboard'"
   />
   <v-list-item
+    title="Config"
+    :to="{ name: 'AdminConfig' }"
+    :active="routes.name === 'AdminConfig'"
+  />
+  <v-list-item
     title="JudgeServer"
     :to="{ name: 'AdminJudgeServer' }"
     :active="routes.name === 'AdminJudgeServer'"

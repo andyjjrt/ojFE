@@ -23,6 +23,7 @@ import SettingSecurity from "../page/Setting/Security.vue";
 import Admin from "../page/Admin.vue";
 import AdminDashboard from "../page/Admin/Dashboard.vue";
 import AdminUser from "../page/Admin/User.vue";
+import AdminConfig from "../page/Admin/Config.vue";
 import AdminJudgeServer from "../page/Admin/JudgeServer.vue";
 import AdminAnnouncement from "../page/Admin/Announcement.vue";
 import AdminProblems from "../page/Admin/Problems.vue";
@@ -119,6 +120,11 @@ const routes = [
             name: "AdminUser",
             path: "users",
             component: AdminUser,
+          },
+          {
+            name: "AdminConfig",
+            path: "config",
+            component: AdminConfig,
           },
           {
             name: "AdminAnnouncement",
