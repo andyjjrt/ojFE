@@ -1,11 +1,14 @@
 <template>
   <v-card class="pa-4" :loading="loading" :disabled="loading">
     <div class="my-2">
-      <h4 class="mb-2">Judge Server Token</h4>
-      <v-code>{{ judgeServerStatus.token }}</v-code>
+      <v-card-title class="mb-2">Judge Server Token</v-card-title>
+      <v-card-text>
+        <v-code>{{ judgeServerStatus.token }}</v-code>
+      </v-card-text>
+      
     </div>
     <div class="my-2">
-      <h4 class="mb-2">Judge Server</h4>
+      <v-card-title  class="mb-2">Judge Server</v-card-title>
       <v-expansion-panels>
         <v-expansion-panel
           v-for="server in judgeServerStatus.servers"
