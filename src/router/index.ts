@@ -170,7 +170,7 @@ const routes = [
               },
               {
                 name: "AdminContestAnnouncement",
-                path: "problem",
+                path: "announement",
                 component: AdminContestAnnouncement,
                 meta: {
                   admin: true,
