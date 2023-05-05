@@ -1,5 +1,5 @@
 <template>
-  <v-card class="pa-4">
+  <v-card class="pa-4" :loading="loading" :disabled="loading">
     <div class="my-2">
       <h4 class="mb-2">Judge Server Token</h4>
       <v-code>{{ judgeServerStatus.token }}</v-code>
@@ -67,8 +67,10 @@ const judgeServerStatus = reactive<JudgeServerStatus>({
 const loading = ref(false);
 const timer = ref<number>(-1);
 
-const init = async () => {
+const init = async (triggerLoading: boolean = false) => {
+  if (triggerLoading) loading.value = true;
   const response = await fetchApi("/admin/judge_server", "get");
+  loading.value = false;
   Object.assign(judgeServerStatus, response.data.data);
 };
 
@@ -91,7 +93,7 @@ const handleDisabled = async (id: number, disabled: boolean) => {
 };
 
 onMounted(() => {
-  init();
+  init(true);
   timer.value = window.setInterval(() => {
     init();
   }, 5000);
