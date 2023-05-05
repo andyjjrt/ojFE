@@ -13,7 +13,7 @@ export default ({ mode }) => {
     plugins: [
       vue(),
       vuetify({ styles: { configFile: "./src/css/settings.scss" } }),
-      VitePWA({ registerType: "autoUpdate" }),
+      // VitePWA({ registerType: "autoUpdate" }),
       visualizer({ filename: "visualizer.html" }),
       environmentPlugin({
         VUE_APP_HASH: (+new Date())
