@@ -1,5 +1,9 @@
 <template>
   <v-card class="pa-4" :loading="loading" :disabled="loading">
+    <v-card-title>Avatar</v-card-title>
+    <v-card-text>
+      <ImageCropper />
+    </v-card-text>
     <v-card-title>Profile</v-card-title>
     <v-row class="mb-1">
       <v-col cols="12" sm="6">
@@ -54,6 +58,7 @@ import { computed, ref } from "vue";
 import Message from "vue-m-message";
 import { useUserStore } from "../../store/user";
 import { fetchApi } from "../../utils/api";
+import ImageCropper from "../../components/ImageCropper.vue";
 
 const user = useUserStore();
 const profile = computed(() => user.profile);

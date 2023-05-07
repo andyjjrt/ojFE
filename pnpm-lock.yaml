@@ -43,6 +43,9 @@ dependencies:
   vue-codemirror6:
     specifier: ^1.1.20
     version: 1.1.20(@lezer/common@1.0.2)(vue@3.2.47)
+  vue-cropper:
+    specifier: ^1.0.8
+    version: 1.0.8
   vue-m-message:
     specifier: ^4.0.2
     version: 4.0.2
@@ -5416,6 +5419,10 @@ packages:
     transitivePeerDependencies:
       - '@lezer/common'
       - '@vue/composition-api'
+    dev: false
+
+  /vue-cropper@1.0.8:
+    resolution: {integrity: sha512-EX9XoT5a/PQ62J6KDZz8hhaFi9ME1k2yBZlRfYCm8iySzTcjw0nDBq8Y65HtyHaH2jJwUKgYfD6mdFCE0GhUzA==}
     dev: false
 
   /vue-demi@0.14.0(vue@3.2.47):

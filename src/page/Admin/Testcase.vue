@@ -46,7 +46,6 @@ import { ref, onMounted } from "vue";
 import useDate from "../../hooks/useDate";
 import { useDisplay } from "vuetify";
 import { fetchApi } from "../../utils/api";
-import { test } from "node:test";
 
 const testcases = ref<TestCase[]>([]);
 const loading = ref(false);
