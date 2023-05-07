@@ -163,6 +163,7 @@ onMounted(() => {
   ) {
     router.push({ name: "Home" });
   }
+  generateTitle(routes);
 });
 
 router.beforeEach((to, from, next) => {

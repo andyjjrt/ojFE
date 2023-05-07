@@ -18,6 +18,12 @@
     :prepend-icon="icon ? 'mdi-server' : undefined"
   />
   <v-list-item
+    title="Testcase"
+    :to="{ name: 'AdminTestcase' }"
+    :active="routes.name === 'AdminTestcase'"
+    :prepend-icon="icon ? 'mdi-treasure-chest' : undefined"
+  />
+  <v-list-item
     title="User"
     :to="{ name: 'AdminUser' }"
     :active="routes.name === 'AdminUser'"

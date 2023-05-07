@@ -24,6 +24,7 @@ import Admin from "../page/Admin.vue";
 import AdminDashboard from "../page/Admin/Dashboard.vue";
 import AdminUser from "../page/Admin/User.vue";
 import AdminConfig from "../page/Admin/Config.vue";
+import AdminTestcase from "../page/Admin/Testcase.vue";
 import AdminJudgeServer from "../page/Admin/JudgeServer.vue";
 import AdminAnnouncement from "../page/Admin/Announcement.vue";
 import AdminProblems from "../page/Admin/Problems.vue";
@@ -125,6 +126,11 @@ const routes = [
             name: "AdminConfig",
             path: "config",
             component: AdminConfig,
+          },
+          {
+            name: "AdminTestcase",
+            path: "prunetestcase",
+            component: AdminTestcase,
           },
           {
             name: "AdminAnnouncement",
