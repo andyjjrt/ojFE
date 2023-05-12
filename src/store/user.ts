@@ -1,11 +1,13 @@
 import { defineStore } from "pinia";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { useRouter } from "vue-router";
 import { fetchApi } from "../utils/api";
 
 export const useUserStore = defineStore("user", () => {
   const profile = ref<User | null>(null);
   const isReady = ref(false)
+
+  const isAdmin = computed(() => profile.value?.user.admin_type.includes("Admin") || false)
 
   const getProfile = async () => {
     const response = await fetchApi("/profile", "get");
@@ -54,5 +56,5 @@ export const useUserStore = defineStore("user", () => {
     await getProfile();
   };
 
-  return { profile, isReady, getProfile, login, register, logout };
+  return { profile, isReady, isAdmin, getProfile, login, register, logout };
 });

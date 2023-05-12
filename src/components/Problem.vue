@@ -95,7 +95,7 @@
       </v-card>
     </v-col>
     <v-col md="3" v-if="mdAndUp">
-      <v-btn block class="mb-5" :to="getSubmissionLocation(problem._id)">
+      <v-btn block class="mb-5" :to="getSubmissionLocation(problem._id)" prepend-icon="mdi-format-list-bulleted">
         submissions
       </v-btn>
       <v-card class="py-1 px-2 mb-5">
