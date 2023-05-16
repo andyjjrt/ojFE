@@ -2,17 +2,23 @@
   <v-row>
     <v-col md="9">
       <v-card class="pa-2">
-        <div class="d-flex justify-space-between align-center">
-          <v-card-title class="font-weight-bold text-h5">
+        <v-card-title class="d-flex justify-space-between align-center">
+          <p class="font-weight-bold text-h5">
             {{ title }}
-          </v-card-title>
-          <v-icon icon="mdi-check-circle" color="success" v-if="getProblemStatus === 1" />
-          <v-icon
-            icon="mdi-close-circle"
-            color="error"
-            v-else-if="getProblemStatus === -1"
-          />
-        </div>
+          </p>
+          <div>
+            <v-icon
+              icon="mdi-check-circle"
+              color="success"
+              v-if="getProblemStatus === 1"
+            />
+            <v-icon
+              icon="mdi-close-circle"
+              color="error"
+              v-else-if="getProblemStatus === -1"
+            />
+          </div>
+        </v-card-title>
 
         <v-divider />
         <div class="pa-4">
@@ -85,17 +91,27 @@
 
           <div class="mt-3 d-flex justify-space-between">
             <div>
-              <v-btn v-if="status" :color="status.type" :to="`/status/${status.id}`">{{
-                status.name
-              }}</v-btn>
+              <v-btn
+                v-if="status"
+                :color="status.type"
+                :to="`/status/${status.id}`"
+                >{{ status.name }}</v-btn
+              >
             </div>
-            <v-btn color="primary" @click="submit" :loading="loading">Submit</v-btn>
+            <v-btn color="primary" @click="submit" :loading="loading"
+              >Submit</v-btn
+            >
           </div>
         </div>
       </v-card>
     </v-col>
     <v-col md="3" v-if="mdAndUp">
-      <v-btn block class="mb-5" :to="getSubmissionLocation(problem._id)" prepend-icon="mdi-format-list-bulleted">
+      <v-btn
+        block
+        class="mb-5"
+        :to="getSubmissionLocation(problem._id)"
+        prepend-icon="mdi-format-list-bulleted"
+      >
         submissions
       </v-btn>
       <v-card class="py-1 px-2 mb-5">
@@ -155,7 +171,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from "vue";
+import { computed, onMounted, onBeforeUnmount, ref, watch } from "vue";
+import { useRoute } from "vue-router";
 import { useDisplay, useTheme } from "vuetify";
 import CodeMirror from "../components/CodeMirror.vue";
 import PieChart from "./PieChart.vue";
@@ -171,6 +188,7 @@ const props = defineProps<{
 
 const { mdAndUp } = useDisplay();
 const theme = useTheme();
+const routes = useRoute();
 const constants = useConstantsStore();
 
 const title = computed(() => props.problem?.title);
@@ -185,6 +203,9 @@ const templates = computed(() => props.problem.template);
 const loading = ref(false);
 const selectedLanguage = ref(languages.value[0]);
 const code = ref("");
+const problemkey = ref(
+  `problemCode_${routes.params.contestid || "NaN"}_${routes.params.problemId}`
+);
 
 const timer = ref<number>(-1);
 const status = ref<{
@@ -200,7 +221,8 @@ const copy = (text: string) => {
 };
 
 const resetTemplate = (language: string) => {
-  if (Object.hasOwn(templates.value, language)) code.value = templates.value[language];
+  if (Object.hasOwn(templates.value, language))
+    code.value = templates.value[language];
 };
 
 const submit = async () => {
@@ -226,7 +248,10 @@ const submit = async () => {
         id: response.data.data.submission_id,
       },
     });
-    if ((res.data.data.result != 7 && res.data.data.result != 9) || res.data.error) {
+    if (
+      (res.data.data.result != 7 && res.data.data.result != 9) ||
+      res.data.error
+    ) {
       loading.value = false;
       window.clearInterval(timer.value);
       if (res.data.error) {
@@ -257,7 +282,10 @@ const getSubmissionLocation = computed(() => {
 });
 
 const getProblemStatus = computed(() => {
-  if (props.problem.my_status !== null && props.problem.my_status !== undefined) {
+  if (
+    props.problem.my_status !== null &&
+    props.problem.my_status !== undefined
+  ) {
     return props.problem.my_status ? -1 : 1;
   } else {
     return 0;
@@ -266,7 +294,9 @@ const getProblemStatus = computed(() => {
 
 const getProblemChart = computed(() => {
   return {
-    labels: Object.keys(props.problem.statistic_info).map((key) => statusList[key].name),
+    labels: Object.keys(props.problem.statistic_info).map(
+      (key) => statusList[key].name
+    ),
     datasets: [
       {
         backgroundColor: Object.keys(props.problem.statistic_info).map(
@@ -279,7 +309,23 @@ const getProblemChart = computed(() => {
 });
 
 onMounted(() => {
-  document.title = `${constants.website!.website_name_shortcut} | ${props.problem.title}`;
+  document.title = `${constants.website!.website_name_shortcut} | ${
+    props.problem.title
+  }`;
+  const history = localStorage.getItem(problemkey.value);
+  console.log(history);
+  if (history) {
+    code.value = JSON.parse(history).code;
+    selectedLanguage.value = JSON.parse(history).language;
+  }
+});
+
+onBeforeUnmount(() => {
+  const history = JSON.stringify({
+    code: code.value,
+    language: selectedLanguage.value,
+  });
+  localStorage.setItem(problemkey.value, history);
 });
 
 watch(selectedLanguage, (newVal) => {
