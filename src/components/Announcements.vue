@@ -1,6 +1,17 @@
 <template>
   <v-card class="pa-4">
-    <v-card-title>Announcements</v-card-title>
+    <v-card-title class="d-flex justify-space-between align-center">
+      <p>Announcements</p>
+      <v-btn
+        :to="getAdminLocation"
+        variant="elevated"
+        size="small"
+        color="primary"
+        v-if="user.isAdmin"
+      >
+        <v-icon icon="mdi-file-edit" />
+      </v-btn>
+    </v-card-title>
     <ErrorMessage :message="error" v-if="error" class="mx-4" />
     <Datagrid
       :data="announcements"
@@ -53,7 +64,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch } from "vue";
+import { onMounted, ref, watch, computed } from "vue";
 import { useDisplay } from "vuetify";
 import useDate from "../hooks/useDate";
 import { fetchApi } from "../utils/api";
@@ -105,6 +116,15 @@ const init = async () => {
       : response.data.data.total;
   }
 };
+
+const getAdminLocation = computed(() => {
+  return {
+    name: props.contestId ? "AdminContestAnnouncement" : "AdminAnnouncement",
+    params: {
+      contestId: props.contestId,
+    },
+  };
+});
 
 onMounted(() => {
   init();

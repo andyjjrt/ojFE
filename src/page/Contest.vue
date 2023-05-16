@@ -33,6 +33,9 @@
         <v-tab :to="{ name: 'ContestRank', params: { contestId: contestId } }">
           Rank
         </v-tab>
+        <v-tab :to="{ name: 'AdminContest', params: { contestId: contestId } }" v-if="user.isAdmin">
+          Management
+        </v-tab>
       </v-tabs>
       <div class="my-6">
         <v-card v-if="!access" title="Password Required" class="pa-4">

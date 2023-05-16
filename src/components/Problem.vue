@@ -6,7 +6,17 @@
           <p class="font-weight-bold text-h5">
             {{ title }}
           </p>
-          <div>
+          <div class="d-flex align-center">
+            <v-btn
+              :to="getAdminLocation"
+              variant="elevated"
+              size="small"
+              color="primary"
+              class="me-2"
+              v-if="user.isAdmin"
+            >
+              <v-icon icon="mdi-file-edit" />
+            </v-btn>
             <v-icon
               icon="mdi-check-circle"
               color="success"
@@ -181,6 +191,7 @@ import { fetchApi } from "../utils/api";
 import statusList from "../utils/status";
 import Message from "vue-m-message";
 import { useConstantsStore } from "../store/constants";
+import { useUserStore } from "../store/user";
 
 const props = defineProps<{
   problem: Problem;
@@ -190,6 +201,7 @@ const { mdAndUp } = useDisplay();
 const theme = useTheme();
 const routes = useRoute();
 const constants = useConstantsStore();
+const user = useUserStore();
 
 const title = computed(() => props.problem?.title);
 const description = computed(() => decodeURI(props.problem.description));
@@ -278,6 +290,16 @@ const getSubmissionLocation = computed(() => {
         problem_id: id,
       },
     };
+  };
+});
+
+const getAdminLocation = computed(() => {
+  return {
+    name: props.problem.contest ? "AdminContestProblem" : "AdminProblem",
+    params: {
+      problemId: props.problem.id,
+      contestId: props.problem.contest,
+    },
   };
 });
 
