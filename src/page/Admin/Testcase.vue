@@ -36,7 +36,7 @@
       </v-list>
     </v-card-text>
     <v-card-actions>
-      <v-btn variant="elevated" color="error" @click="handleDelete">Delete all</v-btn>
+      <v-btn variant="elevated" color="error" @click="handleDeleteAll">Delete all</v-btn>
     </v-card-actions>
   </v-card>
 </template>
