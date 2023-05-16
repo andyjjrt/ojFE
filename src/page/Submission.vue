@@ -57,7 +57,7 @@
         </v-list-item>
       </v-list>
     </v-card>
-    <v-sheet rounded="xl" class="position-relative mt-4">
+    <v-card class="position-relative mt-4">
       <pre class="language-clang"><code v-html="html" /></pre>
       <v-btn
         icon="mdi-clipboard-text"
@@ -67,7 +67,7 @@
         variant="text"
         @click="copy(status?.code as string)"
       />
-    </v-sheet>
+    </v-card>
   </div>
   <Loader v-else />
 </template>
@@ -80,6 +80,10 @@ import statusList from "../utils/status";
 import Loader from "../components/Loader.vue";
 import Prism from "prismjs";
 import Message from "vue-m-message";
+import "prismjs/components/prism-python";
+import "prismjs/components/prism-javascript";
+import "prismjs/components/prism-java";
+import "prismjs/components/prism-rust";
 
 const routes = useRoute();
 const status = ref<Status | null>(null);
@@ -108,8 +112,27 @@ const statusListDetail = computed(() => {
 });
 
 const html = computed(() =>
-  Prism.highlight(status.value?.code || "", Prism.languages.clike, "clike")
+  Prism.highlight(status.value?.code || "", langPlugin.value, "clike")
 );
+
+const langPlugin = computed(() => {
+  switch (status.value?.language) {
+    case "C":
+    case "C++":
+      return Prism.languages.clike;
+    case "Java":
+      return Prism.languages.java;
+    case "Python2":
+    case "Python3":
+      return Prism.languages.python;
+    case "JavaScript":
+      return Prism.languages.javascript;
+    case "Rust":
+      return Prism.languages.rust;
+    default:
+      return Prism.languages.plain
+  }
+});
 
 onMounted(() => init());
 console.log(Prism.languages);
@@ -120,38 +143,50 @@ console.log(Prism.languages);
 
 .v-theme--light {
   --prism-foreground: #393a34;
-  --prism-background: #f8f8f8;
-
-  --prism-comment: #758575;
-  --prism-namespace: #444444;
-  --prism-string: #bc8671;
-  --prism-punctuation: #80817d;
-  --prism-literal: #36acaa;
-  --prism-keyword: #248459;
-  --prism-function: #849145;
-  --prism-deleted: #9a050f;
-  --prism-class: #2b91af;
-  --prism-builtin: #800000;
-  --prism-property: #ce9178;
-  --prism-regex: #ad502b;
+  --prism-background: #fbfbfb;
+  --prism-comment: #a0ada0;
+  --prism-string: #b56959;
+  --prism-literal: #2f8a89;
+  --prism-number: #296aa3;
+  --prism-keyword: #1c6b48;
+  --prism-function: #6c7834;
+  --prism-boolean: #1c6b48;
+  --prism-constant: #a65e2b;
+  --prism-deleted: #a14f55;
+  --prism-class: #2993a3;
+  --prism-builtin: #ab5959;
+  --prism-property: #b58451;
+  --prism-namespace: #b05a78;
+  --prism-punctuation: #8e8f8b;
+  --prism-decorator: #bd8f8f;
+  --prism-regex: #ab5e3f;
+  --prism-json-property: #698c96;
 }
 
 .v-theme--dark {
-  --prism-foreground: #d4d4d4;
+  --prism-scheme: dark;
+  --prism-foreground: #d4cfbf;
   --prism-background: #1e1e1e;
-
-  --prism-namespace: #aaaaaa;
   --prism-comment: #758575;
-  --prism-namespace: #444444;
-  --prism-string: #ce9178;
-  --prism-punctuation: #d4d4d4;
-  --prism-literal: #36acaa;
-  --prism-keyword: #38a776;
-  --prism-function: #dcdcaa;
-  --prism-deleted: #9a050f;
-  --prism-class: #4ec9b0;
-  --prism-builtin: #d16969;
-  --prism-property: #ce9178;
-  --prism-regex: #ad502b;
+  --prism-string: #d48372;
+  --prism-literal: #429988;
+  --prism-keyword: #4d9375;
+  --prism-boolean: #1c6b48;
+  --prism-number: #6394bf;
+  --prism-variable: #c2b36e;
+  --prism-function: #a1b567;
+  --prism-deleted: #a14f55;
+  --prism-class: #54b1bf;
+  --prism-builtin: #e0a569;
+  --prism-property: #dd8e6e;
+  --prism-namespace: #db889a;
+  --prism-punctuation: #858585;
+  --prism-decorator: #bd8f8f;
+  --prism-regex: #ab5e3f;
+  --prism-json-property: #6b8b9e;
+  --prism-line-number: #888888;
+  --prism-line-number-gutter: #eeeeee;
+  --prism-line-highlight-background: #444444;
+  --prism-selection-background: #444444;
 }
 </style>

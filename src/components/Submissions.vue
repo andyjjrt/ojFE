@@ -66,6 +66,7 @@
                 <span class="me-2">{{
                   getDate(item.create_time, mobile)
                 }}</span>
+                <span class="me-2">{{ item.language }}</span>
                 <RouterLink
                   class="text-decoration-none text-primary"
                   :to="{ name: 'User', query: { username: item.username } }"
