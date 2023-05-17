@@ -1,7 +1,7 @@
 <template>
   <v-card class="pa-4">
     <v-card-title class="d-flex justify-space-between align-center">
-      <p>Announcements</p>
+      <p>{{ t("announcement.title") }}</p>
       <v-btn
         :to="getAdminLocation"
         variant="elevated"
@@ -49,7 +49,7 @@
                   </v-card-text>
                   <v-card-actions class="justify-end">
                     <v-btn variant="text" @click="isActive.value = false">
-                      Close
+                      {{ t("close") }}
                     </v-btn>
                   </v-card-actions>
                 </v-card>
@@ -71,6 +71,7 @@ import { fetchApi } from "../utils/api";
 import Datagrid from "./Datagrid.vue";
 import ErrorMessage from "./ErrorMessage.vue";
 import { useUserStore } from "../store/user";
+import { useI18n } from "vue-i18n";
 
 const props = defineProps<{
   contestId?: string;
@@ -79,6 +80,7 @@ const props = defineProps<{
 const { smAndUp } = useDisplay();
 const { getDate } = useDate();
 const user = useUserStore();
+const { t } = useI18n();
 
 const announcements = ref<Announcement[] | ContestAnnouncement[]>([]);
 const page = ref(1);

@@ -32,21 +32,23 @@
 
         <v-divider />
         <div class="pa-4">
-          <h5 class="text-h5 mb-2">Description</h5>
+          <h5 class="text-h5 mb-2">{{ t("problem.description") }}</h5>
           <v-md-preview :text="description" />
         </div>
         <div class="pa-4">
-          <h5 class="text-h5 mb-2">Input</h5>
+          <h5 class="text-h5 mb-2">{{ t("problem.input") }}</h5>
           <v-md-preview :text="input" />
         </div>
         <div class="pa-4">
-          <h5 class="text-h5 mb-2">Output</h5>
+          <h5 class="text-h5 mb-2">{{ t("problem.output") }}</h5>
           <v-md-preview :text="output" />
         </div>
         <v-row class="pa-4">
           <template v-for="(sample, index) in samples" :key="index">
             <v-col cols="12" sm="6" class="d-flex flex-column">
-              <h5 class="text-h5 mb-2">Sample Input {{ index + 1 }}</h5>
+              <h5 class="text-h5 mb-2">
+                {{ t("problem.sampleInput") }} {{ index + 1 }}
+              </h5>
               <div class="position-relative flex-grow-1">
                 <v-code tag="pre" class="pa-2 overflow-auto h-100">
                   {{ sample.input }}
@@ -62,7 +64,9 @@
               </div>
             </v-col>
             <v-col cols="12" sm="6" class="d-flex flex-column">
-              <h5 class="text-h5 mb-2">Output Input {{ index + 1 }}</h5>
+              <h5 class="text-h5 mb-2">
+                {{ t("problem.sampleOutput") }} {{ index + 1 }}
+              </h5>
               <div class="position-relative flex-grow-1">
                 <v-code tag="pre" class="pa-2 overflow-auto h-100">
                   {{ sample.output }}
@@ -80,13 +84,13 @@
           </template>
         </v-row>
         <div class="pa-4" v-if="hint">
-          <h5 class="text-h5 mb-2">Hint</h5>
+          <h5 class="text-h5 mb-2">{{ t("problem.hint") }}</h5>
           <v-md-preview :text="hint" />
         </div>
         <div class="pa-4 d-flex flex-column">
           <div class="mb-3 d-flex">
             <v-select
-              label="Language"
+              :label="t('problem.language')"
               :items="languages"
               variant="solo"
               density="compact"
@@ -105,12 +109,13 @@
                 v-if="status"
                 :color="status.type"
                 :to="`/status/${status.id}`"
-                >{{ status.name }}</v-btn
               >
+                {{ status.name }}
+              </v-btn>
             </div>
-            <v-btn color="primary" @click="submit" :loading="loading"
-              >Submit</v-btn
-            >
+            <v-btn color="primary" @click="submit" :loading="loading">
+              {{ t("problem.submit") }}
+            </v-btn>
           </div>
         </div>
       </v-card>
@@ -122,7 +127,7 @@
         :to="getSubmissionLocation(problem._id)"
         prepend-icon="mdi-format-list-bulleted"
       >
-        submissions
+        {{ t("problem.submissions") }}
       </v-btn>
       <v-card class="py-1 px-2 mb-5">
         <v-list lines="one" density="compact">
@@ -192,6 +197,7 @@ import statusList from "../utils/status";
 import Message from "vue-m-message";
 import { useConstantsStore } from "../store/constants";
 import { useUserStore } from "../store/user";
+import { useI18n } from "vue-i18n";
 
 const props = defineProps<{
   problem: Problem;
@@ -202,6 +208,7 @@ const theme = useTheme();
 const routes = useRoute();
 const constants = useConstantsStore();
 const user = useUserStore();
+const { t } = useI18n();
 
 const title = computed(() => props.problem?.title);
 const description = computed(() => decodeURI(props.problem.description));

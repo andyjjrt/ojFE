@@ -9,7 +9,7 @@
       <v-progress-circular indeterminate color="primary" />
     </v-overlay>
     <div class="my-4 text-center" v-if="!loading && data.length === 0">
-      No Data
+      {{ t("datagrid.noData") }}
     </div>
     <slot :data="data">
       <div class="flex-grow-1">
@@ -32,7 +32,7 @@
                 class="text-none"
                 v-bind="props"
               >
-                {{ rowsPerPage }}/page
+                {{ rowsPerPage }}/{{ t("datagrid.page") }}
               </v-btn>
             </template>
             <v-list density="compact">
@@ -63,6 +63,9 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import { useDisplay } from "vuetify";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const props = defineProps<{
   data: any[];

@@ -1,13 +1,13 @@
 <template>
   <template v-if="user.profile === null">
-    <v-btn color="primary" @click="open"> login </v-btn>
+    <v-btn color="primary" @click="open"> {{ t("login") }} </v-btn>
     <ThemeButton />
   </template>
   <v-menu v-else>
     <template v-slot:activator="{ props }">
       <v-btn icon v-bind="props">
         <v-avatar>
-          <v-img :src="user.profile.avatar" alt="John"></v-img>
+          <v-img :src="user.profile.avatar" />
         </v-avatar>
       </v-btn>
     </template>
@@ -18,7 +18,7 @@
           name: 'User',
         }"
       >
-        <v-list-item-title>Home</v-list-item-title>
+        <v-list-item-title>{{ t("navTitles.userHome") }}</v-list-item-title>
       </v-list-item>
       <v-list-item
         :to="{
@@ -28,25 +28,25 @@
           },
         }"
       >
-        <v-list-item-title>Submissions</v-list-item-title>
+        <v-list-item-title>{{ t("navTitles.submissions") }}</v-list-item-title>
       </v-list-item>
       <v-list-item
         :to="{
           name: 'Setting',
         }"
       >
-        <v-list-item-title>Setting</v-list-item-title>
+        <v-list-item-title>{{ t("navTitles.setting") }}</v-list-item-title>
       </v-list-item>
       <ThemeButton>
         <template v-slot:activator="{ props }">
           <v-list-item v-bind="props">
-            <v-list-item-title>Theme</v-list-item-title>
+            <v-list-item-title>{{ t("navTitles.theme") }}</v-list-item-title>
           </v-list-item>
         </template>
       </ThemeButton>
       <v-divider />
       <v-list-item @click="user.logout()">
-        <v-list-item-title>Logout</v-list-item-title>
+        <v-list-item-title>{{ t("logout") }}</v-list-item-title>
       </v-list-item>
     </v-list>
   </v-menu>
@@ -54,15 +54,15 @@
   <v-dialog max-width="400" :persistent="loading" v-model="dialog">
     <v-card :loading="loading" :disabled="loading">
       <v-tabs v-model="tab" bg-color="primary">
-        <v-tab value="Login">Login</v-tab>
-        <v-tab value="Register">Register</v-tab>
+        <v-tab value="Login">{{ t("login") }}</v-tab>
+        <v-tab value="Register">{{ t("register") }}</v-tab>
       </v-tabs>
       <v-card-text class="px-2">
         <v-window v-model="tab">
           <v-window-item value="Login">
             <form class="pa-2" @submit.prevent="handleSubmit">
               <v-text-field
-                label="Username"
+                :label="t('userNavigationButton.username')"
                 v-model="username"
                 clearable
                 hide-details="auto"
@@ -70,7 +70,7 @@
                 @blur="handleDetect2FA"
               />
               <v-text-field
-                label="Password"
+                :label="t('userNavigationButton.password')"
                 v-model="password"
                 clearable
                 hide-details="auto"
@@ -78,7 +78,7 @@
                 class="mb-4"
               />
               <v-text-field
-                label="2FA Code"
+                :label="t('userNavigationButton.2fa')"
                 v-model="twoFA"
                 clearable
                 hide-details="auto"
@@ -97,7 +97,7 @@
                   class="text-primary"
                   @click="tab = 'ResetPassword'"
                 >
-                  Forget Password?
+                  {{ t("userNavigationButton.forgetPassword") }}?
                 </a>
                 <v-btn
                   :loading="loading"
@@ -105,7 +105,7 @@
                   variant="elevated"
                   type="submit"
                 >
-                  Login
+                  {{ t("login") }}
                 </v-btn>
               </div>
             </form>
@@ -113,21 +113,21 @@
           <v-window-item value="Register">
             <form class="pa-2" @submit.prevent="handleRegister">
               <v-text-field
-                label="Username"
+                :label="t('userNavigationButton.username')"
                 v-model="registerUsername"
                 clearable
                 hide-details="auto"
                 class="mb-4"
               />
               <v-text-field
-                label="Email"
+                :label="t('userNavigationButton.email')"
                 v-model="registerEmail"
                 clearable
                 hide-details="auto"
                 class="mb-4"
               />
               <v-text-field
-                label="Password"
+                :label="t('userNavigationButton.password')"
                 v-model="registerPassword"
                 clearable
                 hide-details="auto"
@@ -135,7 +135,7 @@
                 class="mb-4"
               />
               <v-text-field
-                label="Comfirm Password"
+                :label="t('userNavigationButton.comfirmPassword')"
                 v-model="registerPasswordComfirm"
                 clearable
                 hide-details="auto"
@@ -144,7 +144,7 @@
               />
               <div class="d-flex align-center">
                 <v-text-field
-                  label="Captcha"
+                  :label="t('userNavigationButton.captcha')"
                   v-model="registerCaptcha"
                   clearable
                   hide-details="auto"
@@ -165,7 +165,7 @@
                   variant="elevated"
                   type="submit"
                 >
-                  Register
+                  {{ t("register") }}
                 </v-btn>
               </div>
             </form>
@@ -173,7 +173,7 @@
           <v-window-item value="ResetPassword">
             <form class="pa-2" @submit.prevent="handleResetPassword">
               <v-text-field
-                label="Email"
+                :label="t('userNavigationButton.email')"
                 v-model="resetPasswordEmail"
                 clearable
                 hide-details="auto"
@@ -181,7 +181,7 @@
               />
               <div class="d-flex align-center">
                 <v-text-field
-                  label="Captcha"
+                  :label="t('userNavigationButton.captcha')"
                   v-model="resetPasswordCaptcha"
                   clearable
                   hide-details="auto"
@@ -197,7 +197,7 @@
               ></v-alert>
               <div class="d-flex justify-space-between align-center">
                 <a role="button" class="text-primary" @click="tab = 'Login'">
-                  Got Password?
+                  {{ t("userNavigationButton.gotPassword") }}?
                 </a>
                 <v-btn
                   :loading="loading"
@@ -205,7 +205,7 @@
                   variant="elevated"
                   type="submit"
                 >
-                  Send email
+                  {{ t("userNavigationButton.sendEmail") }}
                 </v-btn>
               </div>
             </form>
@@ -219,14 +219,16 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
 import { useUserStore } from "../store/user";
+import { useI18n } from "vue-i18n";
 import ThemeButton from "./ThemeButton.vue";
 import { fetchApi } from "../utils/api";
 import Message from "vue-m-message";
 
 const user = useUserStore();
+const { t } = useI18n();
+
 const tab = ref("Login");
 const dialog = ref(false);
-
 const username = ref("");
 const password = ref("");
 const twoFA = ref("");

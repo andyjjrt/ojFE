@@ -1,6 +1,6 @@
 <template>
   <v-card class="pa-4">
-    <v-card-title>Tags</v-card-title>
+    <v-card-title>{{ t("Tags.title") }}</v-card-title>
     <div class="mb-2">
       <v-chip
         class="ma-1 me-2"
@@ -15,7 +15,7 @@
       </v-chip>
     </div>
     <v-btn block @click="handlePickone" prepend-icon="mdi-shuffle">
-      Pick one
+      {{ t("Tags.pickone") }}
     </v-btn>
   </v-card>
 </template>
@@ -23,10 +23,12 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { useI18n } from "vue-i18n";
 import { fetchApi } from "../utils/api";
 
 const routes = useRoute();
 const router = useRouter();
+const { t } = useI18n();
 
 const tags = ref<Tag[]>([]);
 const loading = ref(false);

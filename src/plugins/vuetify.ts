@@ -3,7 +3,7 @@ import "@mdi/font/css/materialdesignicons.css";
 import { ThemeDefinition, createVuetify } from "vuetify";
 import { createVueI18nAdapter } from "vuetify/locale/adapters/vue-i18n";
 import { createI18n, useI18n } from "vue-i18n";
-import en from "../locales/en.json";
+import locales from "../locales";
 
 const light: ThemeDefinition = {
   dark: false,
@@ -27,9 +27,9 @@ const dark: ThemeDefinition = {
 
 export const i18n = createI18n({
   legacy: false,
-  locale: "en",
+  locale: "zh-Hant",
   fallbackLocale: "en",
-  messages: { en },
+  messages: locales,
 });
 
 export default createVuetify({

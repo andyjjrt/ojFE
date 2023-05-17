@@ -1,7 +1,7 @@
 <template>
   <v-card class="pa-4">
     <div class="d-flex justify-space-between align-center">
-      <v-card-title>Problems</v-card-title>
+      <v-card-title>{{ t("problem.title") }}</v-card-title>
       <div
         class="d-flex align-center w-50"
         v-if="contestId === undefined && !error"
@@ -86,6 +86,7 @@
 import { computed, onMounted, ref, watch } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useUserStore } from "../store/user";
+import { useI18n } from "vue-i18n";
 import { fetchApi } from "../utils/api";
 import Datagrid from "./Datagrid.vue";
 import DifficultyLabel from "../components/DifficultyLabel.vue";
@@ -99,6 +100,7 @@ const props = defineProps<{
 const router = useRouter();
 const routes = useRoute();
 const user = useUserStore();
+const { t } = useI18n();
 
 const problems = ref<Problem[]>([]);
 const page = ref(1);
@@ -185,14 +187,18 @@ const getProblemStatus = computed(() => {
     if (problem.my_status !== null && problem.my_status !== undefined) {
       return problem.my_status ? -1 : 1;
     } else if (user.profile) {
-      if (Object.hasOwn(user.profile.acm_problems_status.problems, problem._id)) {
+      if (
+        Object.hasOwn(user.profile.acm_problems_status.problems, problem._id)
+      ) {
         return user.profile.acm_problems_status.problems[problem._id].status
           ? -1
           : 1;
       } else if (
         Object.hasOwn(user.profile.oi_problems_status.problems, problem._id)
       ) {
-        return user.profile.oi_problems_status.problems[problem._id].status ? -1 : 1;
+        return user.profile.oi_problems_status.problems[problem._id].status
+          ? -1
+          : 1;
       } else return 0;
     } else return 0;
   };

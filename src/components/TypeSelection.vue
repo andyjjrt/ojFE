@@ -1,7 +1,13 @@
 <template>
   <v-menu>
     <template v-slot:activator="{ props }">
-      <v-btn color="primary" size="small" v-bind="props" class="me-2" :class="class">
+      <v-btn
+        color="primary"
+        size="small"
+        v-bind="props"
+        class="me-2"
+        :class="class"
+      >
         <template v-if="label === '' || label === undefined">
           {{ defaultLabel }}
         </template>
@@ -15,7 +21,7 @@
         @click="handleClick('all')"
         :active="label === '' || label === undefined"
       >
-        All
+        {{ t("typeSelection.all") }}
       </v-list-item>
       <v-list-item
         v-for="item in items"
@@ -32,6 +38,8 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from "vue-i18n";
+
 const props = defineProps<{
   label: string | undefined;
   defaultLabel: string;
@@ -40,6 +48,8 @@ const props = defineProps<{
 }>();
 
 const emits = defineEmits(["click"]);
+
+const { t } = useI18n();
 
 const handleClick = (item: string) => {
   emits("click", item);

@@ -1,5 +1,64 @@
 {
   "announcement": {
     "title": "Announcements"
-  }
+  },
+  "datagrid": {
+    "page": "page",
+    "noData": "No Data"
+  },
+  "difficulty": {
+    "title": "Difficulty",
+    "low": "Low",
+    "mid": "Mid",
+    "high": "High"
+  },
+  "imageCropper": {
+    "selectFile": "Select File",
+    "upload": "Upload"
+  },
+  "problem": {
+    "title": "Problems",
+    "description": "Description",
+    "input": "Input",
+    "output": "Output",
+    "sampleInput": "Sample Input",
+    "sampleOutput": "Sample Output",
+    "hint": "Hint",
+    "language": "Language",
+    "submit": "Submit",
+    "submissions": "Submissions"
+  },
+  "submission": {
+    "title": "Submissions",
+    "myself": "Myself"
+  },
+  "Tags": {
+    "title": "Tags",
+    "pickone": "Pick one"
+  },
+  "typeSelection": {
+    "all": "All"
+  },
+  "userNavigationButton": {
+    "username": "Username",
+    "email": "Email",
+    "password": "Password",
+    "comfirmPassword": "Comfirm Password",
+    "gotPassword": "Got Password",
+    "captcha": "Captcha",
+    "2fa": "2FA Code",
+    "forgetPassword": "Forget Password",
+    "sendEmail": "Send Email"
+  },
+  "navTitles": {
+    "home": "Home",
+    "userHome": "Home",
+    "submissions": "Submissions",
+    "setting": "Setting",
+    "theme": "Theme"
+  },
+  "close": "Close",
+  "login": "Login",
+  "logout": "Logout",
+  "register": "Register"
 }

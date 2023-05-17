@@ -12,7 +12,7 @@
       clearable
       show-size
       hide-details
-      label="File input"
+      :label="t('imageCropper.selectFile')"
       variant="solo"
       accept="image/png, image/jpeg, image/bmp"
       v-model="file"
@@ -20,7 +20,15 @@
     <div class="cut" v-if="file.length > 0">
       <VueCropper ref="cropper" :img="image" autoCrop fixed centerBox />
     </div>
-    <v-btn @click="handleUpload" block v-if="file.length > 0" variant="elevated" color="info">upload</v-btn>
+    <v-btn
+      @click="handleUpload"
+      block
+      v-if="file.length > 0"
+      variant="elevated"
+      color="info"
+    >
+      {{ t("imageCropper.upload") }}
+    </v-btn>
   </v-sheet>
 </template>
 
@@ -30,9 +38,11 @@ import { VueCropper } from "vue-cropper";
 import { ref, watch } from "vue";
 import { useUserStore } from "../store/user";
 import { fetchApi } from "../utils/api";
+import { useI18n } from "vue-i18n";
 import Message from "vue-m-message";
 
 const user = useUserStore();
+const { t } = useI18n();
 
 const file = ref<File[]>([]);
 const image = ref();
