@@ -178,7 +178,7 @@
           </v-list-item>
         </v-list>
       </v-card>
-      <v-card class="pa-4">
+      <v-card class="pa-4" v-if="problem.submission_number > 0">
         <PieChart :chartData="getProblemChart" />
       </v-card>
     </v-col>
