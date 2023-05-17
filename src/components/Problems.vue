@@ -8,11 +8,14 @@
       >
         <TypeSelection
           :label="difficulty"
-          defaultLabel="Difficulty"
+          :defaultLabel="t('difficulty.title')"
           :items="['Low', 'Mid', 'High']"
           @click="handleChangeDifficulty"
           class="d-none d-sm-flex"
         >
+          <template v-slot:label="{ item }">
+            {{ difficultyLabel(item) }}
+          </template>
           <template v-slot:item="{ item }">
             <DifficultyLabel :difficulty="item" />
           </template>
@@ -201,6 +204,14 @@ const getProblemStatus = computed(() => {
           : 1;
       } else return 0;
     } else return 0;
+  };
+});
+
+const difficultyLabel = computed(() => {
+  return (difficulty: string) => {
+    if (difficulty === "Low") return t("difficulty.low");
+    else if (difficulty === "Mid") return t("difficulty.mid");
+    else if (difficulty === "High") return t("difficulty.high");
   };
 });
 

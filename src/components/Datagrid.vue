@@ -37,11 +37,12 @@
             </template>
             <v-list density="compact">
               <v-list-item
+                @click="handleChangeRowPerPage(item)"
                 v-for="item in [10, 20, 30]"
                 :value="item"
                 :active="item === rowsPerPage"
               >
-                <v-list-item-title @click="handleChangeRowPerPage(item)">
+                <v-list-item-title>
                   {{ item }}
                 </v-list-item-title>
               </v-list-item>
