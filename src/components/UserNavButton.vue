@@ -18,7 +18,7 @@
           name: 'User',
         }"
       >
-        <v-list-item-title>{{ t("navTitles.userHome") }}</v-list-item-title>
+        <v-list-item-title>{{ t("userHome") }}</v-list-item-title>
       </v-list-item>
       <v-list-item
         :to="{
@@ -28,19 +28,19 @@
           },
         }"
       >
-        <v-list-item-title>{{ t("navTitles.submissions") }}</v-list-item-title>
+        <v-list-item-title>{{ t("submission.title") }}</v-list-item-title>
       </v-list-item>
       <v-list-item
         :to="{
           name: 'Setting',
         }"
       >
-        <v-list-item-title>{{ t("navTitles.setting") }}</v-list-item-title>
+        <v-list-item-title>{{ t("setting.title") }}</v-list-item-title>
       </v-list-item>
       <ThemeButton>
         <template v-slot:activator="{ props }">
           <v-list-item v-bind="props">
-            <v-list-item-title>{{ t("navTitles.theme") }}</v-list-item-title>
+            <v-list-item-title>{{ t("theme.title") }}</v-list-item-title>
           </v-list-item>
         </template>
       </ThemeButton>

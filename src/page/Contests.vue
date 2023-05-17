@@ -1,25 +1,25 @@
 <template>
   <v-card class="pa-4">
     <div class="d-flex justify-space-between align-center">
-      <v-card-title>Contests</v-card-title>
+      <v-card-title>{{ t("contest.title") }}</v-card-title>
       <div class="d-flex align-center w-50">
         <TypeSelection
           :label="status"
-          defaultLabel="Status"
+          :defaultLabel="t('contest.status')"
           :items="['-1', '0', '1']"
           @click="handleChangeStatus"
           class="d-none d-sm-flex"
         >
           <template v-slot:label="{ item }">
-            {{ contestStatusList[item].name }}
+            {{ statusTranslation(contestStatusList[item].name) }}
           </template>
           <template v-slot:item="{ item }">
-            {{ contestStatusList[item].name }}
+            {{ statusTranslation(contestStatusList[item].name) }}
           </template>
         </TypeSelection>
         <TypeSelection
           :label="ruleType"
-          defaultLabel="Rule"
+          :defaultLabel="t('contest.rule')"
           :items="['OI', 'ACM']"
           @click="handleChangeRuleType"
           class="d-none d-sm-flex"
@@ -84,7 +84,7 @@
                   label
                   :color="contestStatusList[item.status].type"
                 >
-                  {{ contestStatusList[item.status].name }}
+                  {{ statusTranslation(contestStatusList[item.status].name) }}
                 </v-chip>
               </template>
             </v-list-item>
@@ -100,17 +100,18 @@
 import { computed, onMounted, ref, watch } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useDisplay } from "vuetify";
+import { useI18n } from "vue-i18n";
 import useDate from "../hooks/useDate";
 import { fetchApi } from "../utils/api";
 import { contestStatusList } from "../utils/status";
 import Datagrid from "../components/Datagrid.vue";
 import TypeSelection from "../components/TypeSelection.vue";
-import { stat } from "fs";
 
 const router = useRouter();
 const routes = useRoute();
 const { mobile } = useDisplay();
 const { getDate } = useDate();
+const { t } = useI18n();
 
 const contests = ref<Contest[]>([]);
 const page = ref(1);
@@ -169,6 +170,15 @@ const handleAction = (resetPage: boolean = false) => {
     query: params,
   });
 };
+
+const statusTranslation = computed(() => {
+  return (status: string) => {
+    if (status === "Ended") return t("contest.ended");
+    else if (status === "Underway") return t("contest.underway");
+    else if (status === "Not Started") return t("contest.notStarted");
+    else "";
+  };
+});
 
 onMounted(() => {
   init();

@@ -1,6 +1,6 @@
 <template>
   <v-card class="pa-4">
-    <v-card-title>{{ t("Tags.title") }}</v-card-title>
+    <v-card-title>{{ t("tags.title") }}</v-card-title>
     <div class="mb-2">
       <v-chip
         class="ma-1 me-2"
@@ -15,7 +15,7 @@
       </v-chip>
     </div>
     <v-btn block @click="handlePickone" prepend-icon="mdi-shuffle">
-      {{ t("Tags.pickone") }}
+      {{ t("tags.pickone") }}
     </v-btn>
   </v-card>
 </template>

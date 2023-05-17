@@ -27,7 +27,7 @@ const dark: ThemeDefinition = {
 
 export const i18n = createI18n({
   legacy: false,
-  locale: "zh-Hant",
+  locale: "en",
   fallbackLocale: "en",
   messages: locales,
 });

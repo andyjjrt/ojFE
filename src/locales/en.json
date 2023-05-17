@@ -28,11 +28,21 @@
     "submit": "Submit",
     "submissions": "Submissions"
   },
+  "contest": {
+    "title": "Contests",
+    "rule": "Rule",
+    "status": "Status",
+    "ended": "Ended",
+    "underway": "Underway",
+    "notStarted": "Not Started",
+    "overview": "Overview"
+  },
   "submission": {
     "title": "Submissions",
-    "myself": "Myself"
+    "myself": "Myself",
+    "status": "Status"
   },
-  "Tags": {
+  "tags": {
     "title": "Tags",
     "pickone": "Pick one"
   },
@@ -50,13 +60,22 @@
     "forgetPassword": "Forget Password",
     "sendEmail": "Send Email"
   },
-  "navTitles": {
-    "home": "Home",
-    "userHome": "Home",
-    "submissions": "Submissions",
-    "setting": "Setting",
-    "theme": "Theme"
+  "rank": {
+    "title": "Rank",
+    "autoRefresh": "Auto Refresh",
+    "username": "Username",
+    "score": "Score"
   },
+  "management": {
+    "title": "Management"
+  },
+  "setting": {
+    "title": "Setting"
+  },
+  "theme": {
+    "title": "Theme"
+  },
+  "userHome": "Home",
   "close": "Close",
   "login": "Login",
   "logout": "Logout",

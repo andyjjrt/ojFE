@@ -18,23 +18,26 @@
 
       <v-tabs>
         <v-tab :to="{ name: 'Contest', params: { contestId: contestId } }">
-          Overview
+          {{t("contest.overview")}}
         </v-tab>
         <v-tab
           :to="{ name: 'ContestProblems', params: { contestId: contestId } }"
         >
-          Problems
+          {{t("problem.title")}}
         </v-tab>
         <v-tab
           :to="{ name: 'ContestSubmissions', params: { contestId: contestId } }"
         >
-          Status
+          {{ t("submission.title") }}
         </v-tab>
         <v-tab :to="{ name: 'ContestRank', params: { contestId: contestId } }">
-          Rank
+          {{ t("rank.title")}}
         </v-tab>
-        <v-tab :to="{ name: 'AdminContest', params: { contestId: contestId } }" v-if="user.isAdmin">
-          Management
+        <v-tab
+          :to="{ name: 'AdminContest', params: { contestId: contestId } }"
+          v-if="user.isAdmin"
+        >
+          {{ t("management.title")}}
         </v-tab>
       </v-tabs>
       <div class="my-6">
@@ -57,6 +60,7 @@
 <script setup lang="ts">
 import { useRoute } from "vue-router";
 import { ref, onMounted, provide, readonly, computed, watch } from "vue";
+import { useI18n } from "vue-i18n";
 import { fetchApi } from "../utils/api";
 import ErrorMessage from "../components/ErrorMessage.vue";
 import Loader from "../components/Loader.vue";
@@ -65,6 +69,7 @@ import Message from "vue-m-message";
 
 const routes = useRoute();
 const user = useUserStore();
+const { t } = useI18n();
 
 const contest = ref<Contest | null>(null);
 const loading = ref(false);

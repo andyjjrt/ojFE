@@ -15,7 +15,7 @@
         </div>
         <TypeSelection
           :label="status"
-          defaultLabel="Status"
+          :defaultLabel="t('submission.status')"
           :items="Object.keys(statusList)"
           @click="handleChangeStatus"
           class="d-none d-sm-flex"
