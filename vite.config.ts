@@ -66,6 +66,7 @@ export default ({ mode }) => {
               "v-calendar",
               "prismjs",
               "ua-parser-js",
+              "vue-i18n"
             ],
           },
         },
