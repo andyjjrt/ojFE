@@ -75,7 +75,11 @@
   "theme": {
     "title": "Theme"
   },
+  "about": {
+    "title": "About"
+  },
   "userHome": "Home",
+  "home": "Home",
   "close": "Close",
   "login": "Login",
   "logout": "Logout",

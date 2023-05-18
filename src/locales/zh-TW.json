@@ -79,5 +79,9 @@
   },
   "theme": {
     "title": "主題"
+  },
+  "home": "首頁",
+  "about": {
+    "title": "關於"
   }
 }
