@@ -6,7 +6,7 @@
       <UserNavButton />
     </v-app-Bar>
     <v-navigation-drawer v-model="drawer" temporary>
-      <v-list nav active-color="primary">
+      <v-list navcolor="primary">
         <v-list-item
           :title="t('home')"
           to="/"
