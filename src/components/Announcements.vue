@@ -1,6 +1,17 @@
 <template>
   <v-card class="pa-4">
-    <v-card-title>Announcements</v-card-title>
+    <v-card-title class="d-flex justify-space-between align-center">
+      <p>{{ t("announcement.title") }}</p>
+      <v-btn
+        :to="getAdminLocation"
+        variant="elevated"
+        size="small"
+        color="primary"
+        v-if="user.isAdmin"
+      >
+        <v-icon icon="mdi-file-edit" />
+      </v-btn>
+    </v-card-title>
     <ErrorMessage :message="error" v-if="error" class="mx-4" />
     <Datagrid
       :data="announcements"
@@ -38,7 +49,7 @@
                   </v-card-text>
                   <v-card-actions class="justify-end">
                     <v-btn variant="text" @click="isActive.value = false">
-                      Close
+                      {{ t("close") }}
                     </v-btn>
                   </v-card-actions>
                 </v-card>
@@ -53,13 +64,14 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch } from "vue";
+import { onMounted, ref, watch, computed } from "vue";
 import { useDisplay } from "vuetify";
 import useDate from "../hooks/useDate";
 import { fetchApi } from "../utils/api";
 import Datagrid from "./Datagrid.vue";
 import ErrorMessage from "./ErrorMessage.vue";
 import { useUserStore } from "../store/user";
+import { useI18n } from "vue-i18n";
 
 const props = defineProps<{
   contestId?: string;
@@ -68,6 +80,7 @@ const props = defineProps<{
 const { smAndUp } = useDisplay();
 const { getDate } = useDate();
 const user = useUserStore();
+const { t } = useI18n();
 
 const announcements = ref<Announcement[] | ContestAnnouncement[]>([]);
 const page = ref(1);
@@ -105,6 +118,15 @@ const init = async () => {
       : response.data.data.total;
   }
 };
+
+const getAdminLocation = computed(() => {
+  return {
+    name: props.contestId ? "AdminContestAnnouncement" : "AdminAnnouncement",
+    params: {
+      contestId: props.contestId,
+    },
+  };
+});
 
 onMounted(() => {
   init();

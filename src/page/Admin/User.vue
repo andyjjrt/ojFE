@@ -1,7 +1,7 @@
 <template>
   <v-card class="pa-4">
     <div class="d-flex justify-space-between align-center">
-      <v-card-title>Problems</v-card-title>
+      <v-card-title>Users</v-card-title>
       <div class="d-flex align-center w-50" v-if="!error">
         <form class="flex-grow-1" @submit.prevent="() => handleAction(true)">
           <v-text-field
@@ -143,7 +143,7 @@
             </template>
             <template v-slot:default="{ isActive }">
               <v-card>
-                <v-toolbar color="warning" title="Warning" />
+                <v-toolbar color="error" title="Comfirm" />
                 <v-card-text>
                   Sure to delete the user? The associated resources created by
                   this user will be deleted as well, like problem, contest,
@@ -154,8 +154,8 @@
                     Close
                   </v-btn>
                   <v-btn
+                    color="error"
                     variant="elevated"
-                    color="warning"
                     @click="() => handleDeleteUser(isActive)"
                   >
                     Delete

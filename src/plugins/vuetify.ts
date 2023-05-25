@@ -1,6 +1,9 @@
 import "../css/main.scss";
 import "@mdi/font/css/materialdesignicons.css";
 import { ThemeDefinition, createVuetify } from "vuetify";
+import { createVueI18nAdapter } from "vuetify/locale/adapters/vue-i18n";
+import { createI18n, useI18n } from "vue-i18n";
+import locales from "../locales";
 
 const light: ThemeDefinition = {
   dark: false,
@@ -22,7 +25,17 @@ const dark: ThemeDefinition = {
   },
 };
 
+export const i18n = createI18n({
+  legacy: false,
+  locale: "en",
+  fallbackLocale: "en",
+  messages: locales,
+});
+
 export default createVuetify({
+  locale: {
+    adapter: createVueI18nAdapter({ i18n, useI18n }),
+  },
   defaults: {
     VCard: {
       elevation: 5,
@@ -30,6 +43,9 @@ export default createVuetify({
     },
     VDialog: {
       transition: "scroll-y-transition",
+    },
+    VTextField: {
+      color: "primary",
     },
   },
   theme: {

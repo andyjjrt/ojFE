@@ -2,39 +2,53 @@
   <v-row>
     <v-col md="9">
       <v-card class="pa-2">
-        <div class="d-flex justify-space-between align-center">
-          <v-card-title class="font-weight-bold text-h5">
+        <v-card-title class="d-flex justify-space-between align-center">
+          <p class="font-weight-bold text-h5">
             {{ title }}
-          </v-card-title>
-          <v-icon
-            icon="mdi-check-circle"
-            color="success"
-            v-if="getProblemStatus === 1"
-          />
-          <v-icon
-            icon="mdi-close-circle"
-            color="error"
-            v-else-if="getProblemStatus === -1"
-          />
-        </div>
+          </p>
+          <div class="d-flex align-center">
+            <v-btn
+              :to="getAdminLocation"
+              variant="elevated"
+              size="small"
+              color="primary"
+              class="me-2"
+              v-if="user.isAdmin"
+            >
+              <v-icon icon="mdi-file-edit" />
+            </v-btn>
+            <v-icon
+              icon="mdi-check-circle"
+              color="success"
+              v-if="getProblemStatus === 1"
+            />
+            <v-icon
+              icon="mdi-close-circle"
+              color="error"
+              v-else-if="getProblemStatus === -1"
+            />
+          </div>
+        </v-card-title>
 
         <v-divider />
         <div class="pa-4">
-          <h5 class="text-h5 mb-2">Description</h5>
-          <v-md-preview v-katex :text="description" />
+          <h5 class="text-h5 mb-2">{{ t("problem.description") }}</h5>
+          <v-md-preview :text="description" />
         </div>
         <div class="pa-4">
-          <h5 class="text-h5 mb-2">Input</h5>
-          <v-md-preview v-katex :text="input" />
+          <h5 class="text-h5 mb-2">{{ t("problem.input") }}</h5>
+          <v-md-preview :text="input" />
         </div>
         <div class="pa-4">
-          <h5 class="text-h5 mb-2">Output</h5>
-          <v-md-preview v-katex :text="output" />
+          <h5 class="text-h5 mb-2">{{ t("problem.output") }}</h5>
+          <v-md-preview :text="output" />
         </div>
         <v-row class="pa-4">
           <template v-for="(sample, index) in samples" :key="index">
             <v-col cols="12" sm="6" class="d-flex flex-column">
-              <h5 class="text-h5 mb-2">Sample Input {{ index + 1 }}</h5>
+              <h5 class="text-h5 mb-2">
+                {{ t("problem.sampleInput") }} {{ index + 1 }}
+              </h5>
               <div class="position-relative flex-grow-1">
                 <v-code tag="pre" class="pa-2 overflow-auto h-100">
                   {{ sample.input }}
@@ -50,7 +64,9 @@
               </div>
             </v-col>
             <v-col cols="12" sm="6" class="d-flex flex-column">
-              <h5 class="text-h5 mb-2">Output Input {{ index + 1 }}</h5>
+              <h5 class="text-h5 mb-2">
+                {{ t("problem.sampleOutput") }} {{ index + 1 }}
+              </h5>
               <div class="position-relative flex-grow-1">
                 <v-code tag="pre" class="pa-2 overflow-auto h-100">
                   {{ sample.output }}
@@ -68,13 +84,13 @@
           </template>
         </v-row>
         <div class="pa-4" v-if="hint">
-          <h5 class="text-h5 mb-2">Hint</h5>
-          <v-md-preview v-katex :text="hint" />
+          <h5 class="text-h5 mb-2">{{ t("problem.hint") }}</h5>
+          <v-md-preview :text="hint" />
         </div>
         <div class="pa-4 d-flex flex-column">
           <div class="mb-3 d-flex">
             <v-select
-              label="Language"
+              :label="t('problem.language')"
               :items="languages"
               variant="solo"
               density="compact"
@@ -93,19 +109,25 @@
                 v-if="status"
                 :color="status.type"
                 :to="`/status/${status.id}`"
-                >{{ status.name }}</v-btn
               >
+                {{ status.name }}
+              </v-btn>
             </div>
-            <v-btn color="primary" @click="submit" :loading="loading"
-              >Submit</v-btn
-            >
+            <v-btn color="primary" @click="submit" :loading="loading">
+              {{ t("problem.submit") }}
+            </v-btn>
           </div>
         </div>
       </v-card>
     </v-col>
     <v-col md="3" v-if="mdAndUp">
-      <v-btn block class="mb-5" :to="getSubmissionLocation(problem._id)">
-        submissions
+      <v-btn
+        block
+        class="mb-5"
+        :to="getSubmissionLocation(problem._id)"
+        prepend-icon="mdi-format-list-bulleted"
+      >
+        {{ t("problem.submissions") }}
       </v-btn>
       <v-card class="py-1 px-2 mb-5">
         <v-list lines="one" density="compact">
@@ -156,7 +178,7 @@
           </v-list-item>
         </v-list>
       </v-card>
-      <v-card class="pa-4">
+      <v-card class="pa-4" v-if="problem.submission_number > 0">
         <PieChart :chartData="getProblemChart" />
       </v-card>
     </v-col>
@@ -164,16 +186,18 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from "vue";
+import { computed, onMounted, onBeforeUnmount, ref, watch } from "vue";
+import { useRoute } from "vue-router";
 import { useDisplay, useTheme } from "vuetify";
 import CodeMirror from "../components/CodeMirror.vue";
 import PieChart from "./PieChart.vue";
 import DifficultyLabel from "./DifficultyLabel.vue";
-import vKatex from "../plugins/vKatex";
 import { fetchApi } from "../utils/api";
 import statusList from "../utils/status";
 import Message from "vue-m-message";
 import { useConstantsStore } from "../store/constants";
+import { useUserStore } from "../store/user";
+import { useI18n } from "vue-i18n";
 
 const props = defineProps<{
   problem: Problem;
@@ -181,7 +205,10 @@ const props = defineProps<{
 
 const { mdAndUp } = useDisplay();
 const theme = useTheme();
+const routes = useRoute();
 const constants = useConstantsStore();
+const user = useUserStore();
+const { t } = useI18n();
 
 const title = computed(() => props.problem?.title);
 const description = computed(() => decodeURI(props.problem.description));
@@ -195,6 +222,9 @@ const templates = computed(() => props.problem.template);
 const loading = ref(false);
 const selectedLanguage = ref(languages.value[0]);
 const code = ref("");
+const problemkey = ref(
+  `problemCode_${routes.params.contestid || "NaN"}_${routes.params.problemId}`
+);
 
 const timer = ref<number>(-1);
 const status = ref<{
@@ -270,6 +300,16 @@ const getSubmissionLocation = computed(() => {
   };
 });
 
+const getAdminLocation = computed(() => {
+  return {
+    name: props.problem.contest ? "AdminContestProblem" : "AdminProblem",
+    params: {
+      problemId: props.problem.id,
+      contestId: props.problem.contest,
+    },
+  };
+});
+
 const getProblemStatus = computed(() => {
   if (
     props.problem.my_status !== null &&
@@ -301,6 +341,20 @@ onMounted(() => {
   document.title = `${constants.website!.website_name_shortcut} | ${
     props.problem.title
   }`;
+  const history = localStorage.getItem(problemkey.value);
+  console.log(history);
+  if (history) {
+    code.value = JSON.parse(history).code;
+    selectedLanguage.value = JSON.parse(history).language;
+  }
+});
+
+onBeforeUnmount(() => {
+  const history = JSON.stringify({
+    code: code.value,
+    language: selectedLanguage.value,
+  });
+  localStorage.setItem(problemkey.value, history);
 });
 
 watch(selectedLanguage, (newVal) => {

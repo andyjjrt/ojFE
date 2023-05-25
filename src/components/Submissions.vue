@@ -1,19 +1,21 @@
 <template>
   <v-card class="pa-4">
     <div class="d-flex justify-space-between align-center">
-      <v-card-title>Submissions</v-card-title>
+      <v-card-title>{{ t("submission.title") }}</v-card-title>
       <div class="w-50 d-flex align-center" v-if="!error">
-        <v-switch
-          v-model="myself"
-          label="Myself"
-          density="compact"
-          inline
-          hide-details
-          class="d-none d-sm-flex"
-        />
+        <div class="d-inline-flex">
+          <v-switch
+            v-model="myself"
+            :label="t('submission.myself')"
+            density="compact"
+            inline
+            hide-details
+            class="d-none d-sm-flex me-2"
+          />
+        </div>
         <TypeSelection
           :label="status"
-          defaultLabel="Status"
+          :defaultLabel="t('submission.status')"
           :items="Object.keys(statusList)"
           @click="handleChangeStatus"
           class="d-none d-sm-flex"
@@ -66,6 +68,7 @@
                 <span class="me-2">{{
                   getDate(item.create_time, mobile)
                 }}</span>
+                <span class="me-2">{{ item.language }}</span>
                 <RouterLink
                   class="text-decoration-none text-primary"
                   :to="{ name: 'User', query: { username: item.username } }"
@@ -104,6 +107,7 @@ import statusList from "../utils/status";
 import useDate from "../hooks/useDate";
 import ErrorMessage from "./ErrorMessage.vue";
 import { useUserStore } from "../store/user";
+import { useI18n } from "vue-i18n";
 
 const props = defineProps<{
   contestId?: string;
@@ -114,6 +118,7 @@ const routes = useRoute();
 const { mobile } = useDisplay();
 const { getDate } = useDate();
 const user = useUserStore();
+const { t } = useI18n();
 
 const submissions = ref<BriefStatus[]>([]);
 const page = ref(1);

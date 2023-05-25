@@ -8,7 +8,7 @@
       <BarChart :chartData="chartData" />
     </v-card>
     <v-card class="pa-4">
-      <v-card-title>Rank</v-card-title>
+      <v-card-title>{{ t("rank.title") }}</v-card-title>
       <ErrorMessage :message="error" v-if="error" class="mx-4" />
       <Datagrid
         :data="ranks"
@@ -61,6 +61,7 @@
 import { computed, onMounted, ref, watch } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useDisplay } from "vuetify";
+import { useI18n } from "vue-i18n";
 import { fetchApi } from "../utils/api";
 import Datagrid from "../components/Datagrid.vue";
 import BarChart from "../components/BarChart.vue";
@@ -69,6 +70,7 @@ import ErrorMessage from "../components/ErrorMessage.vue";
 const router = useRouter();
 const routes = useRoute();
 const { mobile } = useDisplay();
+const { t } = useI18n();
 
 const ranks = ref<RankUser[]>([]);
 const page = ref(1);

@@ -8,7 +8,7 @@ export const useConstantsStore = defineStore("constants", () => {
   const languages = ref<Language[] | null>(null);
 
   const isReady = computed(
-    () => website.value !== null && website.value !== null
+    () => website.value !== null && languages.value !== null
   );
 
   const fetchWebsite = async () => {

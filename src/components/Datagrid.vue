@@ -9,7 +9,7 @@
       <v-progress-circular indeterminate color="primary" />
     </v-overlay>
     <div class="my-4 text-center" v-if="!loading && data.length === 0">
-      No Data
+      {{ t("datagrid.noData") }}
     </div>
     <slot :data="data">
       <div class="flex-grow-1">
@@ -18,39 +18,55 @@
         </div>
       </div>
     </slot>
-    <div class="d-flex justify-end align-center" v-if="!hidePagination">
-      <v-menu>
-        <template v-slot:activator="{ props }">
-          <v-btn color="primary" size="small" class="text-none" v-bind="props">
-            {{ rowsPerPage }}/page
-          </v-btn>
+    <div class="d-flex justify-space-between align-center flex-wrap">
+      <div class="d-flex flex-nowrap">
+        <slot name="footer" />
+      </div>
+      <div class="d-flex align-center">
+        <template v-if="!hidePagination">
+          <v-menu>
+            <template v-slot:activator="{ props }">
+              <v-btn
+                color="primary"
+                size="small"
+                class="text-none"
+                v-bind="props"
+              >
+                {{ rowsPerPage }}/{{ t("datagrid.page") }}
+              </v-btn>
+            </template>
+            <v-list density="compact">
+              <v-list-item
+                @click="handleChangeRowPerPage(item)"
+                v-for="item in [10, 20, 30]"
+                :value="item"
+                :active="item === rowsPerPage"
+              >
+                <v-list-item-title>
+                  {{ item }}
+                </v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+          <v-pagination
+            :length="totalPages"
+            :total-visible="mobile ? 2 : 7"
+            color="primary"
+            density="compact"
+            v-model="_page"
+          />
         </template>
-        <v-list density="compact">
-          <v-list-item
-            v-for="item in [10, 20, 30]"
-            :value="item"
-            :active="item === rowsPerPage"
-          >
-            <v-list-item-title @click="handleChangeRowPerPage(item)">
-              {{ item }}
-            </v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
-      <v-pagination
-        :length="totalPages"
-        :total-visible="mobile ? 2 : 7"
-        active-color="primary"
-        density="compact"
-        v-model="_page"
-      />
+      </div>
     </div>
   </v-sheet>
 </template>
 
 <script setup lang="ts">
-import { computed, ref, defineProps, defineEmits } from "vue";
+import { computed, ref } from "vue";
 import { useDisplay } from "vuetify";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const props = defineProps<{
   data: any[];

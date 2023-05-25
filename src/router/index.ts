@@ -23,6 +23,22 @@ import SettingSecurity from "../page/Setting/Security.vue";
 import Admin from "../page/Admin.vue";
 import AdminDashboard from "../page/Admin/Dashboard.vue";
 import AdminUser from "../page/Admin/User.vue";
+import AdminConfig from "../page/Admin/Config.vue";
+import AdminTestcase from "../page/Admin/Testcase.vue";
+import AdminJudgeServer from "../page/Admin/JudgeServer.vue";
+import AdminAnnouncement from "../page/Admin/Announcement.vue";
+import AdminProblems from "../page/Admin/Problems.vue";
+import AdminProblem from "../page/Admin/Problem.vue";
+import AdminProblemCreate from "../page/Admin/ProblemCreate.vue";
+import AdminContests from "../page/Admin/Contests.vue";
+import AdminContest from "../page/Admin/Contest.vue";
+import AdminContestCreate from "../page/Admin/ContestCreate.vue";
+import AdminContestIndex from "../page/Admin/Contest/Index.vue";
+import AdminContestAnnouncement from "../page/Admin/Contest/Announcement.vue";
+import AdminContestProblems from "../page/Admin/Contest/Problems.vue";
+import AdminContestProblem from "../page/Admin/Contest/Problem.vue";
+import AdminContestProblemCreate from "../page/Admin/Contest/ProblemCreate.vue";
+import NotFound from "../page/NotFound.vue";
 import DefaultLayout from "../layout/index.vue";
 
 const routes = [
@@ -88,25 +104,99 @@ const routes = [
       {
         path: "/admin",
         component: Admin,
+        meta: {
+          admin: true,
+        },
         children: [
           {
             name: "AdminDashboard",
             path: "",
             component: AdminDashboard,
-            meta: {
-              admin: true,
-            },
+          },
+          {
+            name: "AdminJudgeServer",
+            path: "judgeserver",
+            component: AdminJudgeServer,
           },
           {
             name: "AdminUser",
             path: "users",
             component: AdminUser,
-            meta: {
-              admin: true,
-            },
+          },
+          {
+            name: "AdminConfig",
+            path: "config",
+            component: AdminConfig,
+          },
+          {
+            name: "AdminTestcase",
+            path: "prunetestcase",
+            component: AdminTestcase,
+          },
+          {
+            name: "AdminAnnouncement",
+            path: "announcement",
+            component: AdminAnnouncement,
+          },
+          {
+            name: "AdminProblems",
+            path: "problem",
+            component: AdminProblems,
+          },
+          {
+            name: "AdminProblemCreate",
+            path: "problem/create",
+            component: AdminProblemCreate,
+          },
+          {
+            name: "AdminProblem",
+            path: "problem/:problemId",
+            component: AdminProblem,
+          },
+          {
+            name: "AdminContests",
+            path: "contest",
+            component: AdminContests,
+          },
+          {
+            name: "AdminContestCreate",
+            path: "contest/create",
+            component: AdminContestCreate,
+          },
+          {
+            path: "contest/:contestId",
+            component: AdminContest,
+            children: [
+              {
+                name: "AdminContest",
+                path: "",
+                component: AdminContestIndex,
+              },
+              {
+                name: "AdminContestAnnouncement",
+                path: "announement",
+                component: AdminContestAnnouncement,
+              },
+              {
+                name: "AdminContestProblems",
+                path: "problem",
+                component: AdminContestProblems,
+              },
+              {
+                name: "AdminContestProblemCreate",
+                path: "problem/create",
+                component: AdminContestProblemCreate,
+              },
+              {
+                name: "AdminContestProblem",
+                path: "problem/:problemId",
+                component: AdminContestProblem,
+              },
+            ],
           },
         ],
       },
+      { path: "/:pathMatch(.*)*", name: "NotFound", component: NotFound },
     ],
   },
 ];

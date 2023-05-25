@@ -85,6 +85,6 @@ export const contestStatusList: StatusList = {
     short: "Not Started",
     type: "warning",
   },
-}
+};
 
 export default statusList;

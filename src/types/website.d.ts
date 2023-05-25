@@ -6,3 +6,11 @@ interface Website {
   allow_register: boolean;
   submission_list_show_all: boolean;
 }
+
+interface Config {
+  tls: boolean;
+  port: number;
+  email: string;
+  server: string;
+  password: string;
+}

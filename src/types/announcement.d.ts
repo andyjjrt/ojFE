@@ -18,3 +18,5 @@ interface Announcement extends BasicAnnouncement {
 interface ContestAnnouncement extends BasicAnnouncement {
   contest: number;
 }
+
+interface ManagementAnnouncement extends Announcement {}

@@ -2,7 +2,7 @@
   <div>
     <v-card class="pa-4 mb-6">
       <v-switch
-        label="Auto Refresh"
+        :label="t('rank.autoRefresh')"
         v-model="autoReload"
         hide-details
         density="compact"
@@ -16,7 +16,7 @@
       </div>
     </v-card>
     <v-card class="pa-4">
-      <v-card-title>Rank</v-card-title>
+      <v-card-title>{{ t("rank.title") }}</v-card-title>
       <ErrorMessage :message="error" v-if="error" class="mx-4" />
       <Datagrid
         :data="ranks"
@@ -32,8 +32,8 @@
           <v-table v-if="data.length">
             <thead>
               <tr>
-                <th>Username</th>
-                <th>Score</th>
+                <th>{{ t("rank.username") }}</th>
+                <th>{{ t("rank.score") }}</th>
                 <th v-for="problem in problems">{{ problem._id }}</th>
               </tr>
             </thead>
@@ -66,9 +66,18 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref, watch, onBeforeUnmount, inject, Ref } from "vue";
+import {
+  computed,
+  onMounted,
+  ref,
+  watch,
+  onBeforeUnmount,
+  inject,
+  Ref,
+} from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useDisplay } from "vuetify";
+import { useI18n } from "vue-i18n";
 import { fetchApi } from "../../utils/api";
 import Datagrid from "../../components/Datagrid.vue";
 import BarChart from "../../components/BarChart.vue";
@@ -80,6 +89,7 @@ import { useConstantsStore } from "../../store/constants";
 const router = useRouter();
 const routes = useRoute();
 const { mobile } = useDisplay();
+const { t } = useI18n();
 const user = useUserStore();
 const constants = useConstantsStore();
 
