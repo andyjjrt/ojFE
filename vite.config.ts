@@ -2,7 +2,6 @@ import { defineConfig, loadEnv } from "vite";
 import vue from "@vitejs/plugin-vue";
 import vuetify from "vite-plugin-vuetify";
 import { VitePWA } from "vite-plugin-pwa";
-import { visualizer } from "rollup-plugin-visualizer";
 import environmentPlugin from "vite-plugin-environment";
 
 // https://vitejs.dev/config/
@@ -13,8 +12,33 @@ export default ({ mode }) => {
     plugins: [
       vue(),
       vuetify({ styles: { configFile: "./src/css/settings.scss" } }),
-      // VitePWA({ registerType: "autoUpdate" }),
-      visualizer({ filename: "visualizer.html" }),
+      VitePWA({
+        registerType: "autoUpdate",
+        workbox: {
+          globPatterns: [
+            "assets/*.{png,svg,jpg,ttf,woff}",
+            "**/*.{js,css,html}",
+          ],
+          runtimeCaching: [
+            {
+              urlPattern: /\/api\/website/,
+              handler: "CacheFirst",
+            },
+            {
+              urlPattern: /\/api\/languages/,
+              handler: "CacheFirst",
+            },
+            {
+              urlPattern: /\/api\/profile/,
+              handler: "NetworkOnly",
+            },
+            {
+              urlPattern: /\/assets\/*.*.woff2/,
+              handler: "CacheFirst",
+            },
+          ],
+        },
+      }),
       environmentPlugin({
         VUE_APP_HASH: (+new Date())
           .toString(Math.floor(Math.random() * 5) + 32)
