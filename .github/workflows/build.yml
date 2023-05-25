@@ -4,8 +4,6 @@ on:
   pull_request:
     branches: ["master"]
     types: [closed]
-  push:
-    branches: ["master"]
 
 permissions: write-all
 
@@ -29,26 +27,19 @@ jobs:
 
       - name: Create Tag
         id: create_tag
-        uses: jaywcjlove/create-tag-action@v1.1.8
+        uses: jaywcjlove/create-tag-action@v1.3.18
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           package-path: ./package.json
   
       - name: Generate Changelog
         id: changelog
-        uses: jaywcjlove/changelog-generator@v1.3.9
+        uses: jaywcjlove/changelog-generator@v1.6.4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           head-ref: ${{steps.create_tag.outputs.version}}
           filter-author: (andyjjrt|Andy Hung|dependabot\[bot\]|Renovate Bot)
           filter: '[R|r]elease[d]\s+[v|V]\d(\.\d+){0,2}'
-  
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
-        if: github.ref == 'refs/heads/master'
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
   
       - name: Create Release
         uses: ncipollo/release-action@v1
