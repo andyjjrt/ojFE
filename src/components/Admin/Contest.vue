@@ -72,7 +72,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted, reactive } from "vue";
+import { computed, ref, onMounted, reactive, inject } from "vue";
 import { useRoute } from "vue-router";
 import { DatePicker } from "v-calendar";
 import MDEditor from "../MDEditor.vue";
@@ -83,50 +83,36 @@ const props = defineProps<{
   create?: boolean;
 }>();
 
+const emits = defineEmits(["handleInit"]);
+
 const routes = useRoute();
 
-const contest = reactive<ManagementContest>({
-  id: -1,
-  created_by: {
+const contest = reactive<ManagementContest>(
+  inject("contest", {
     id: -1,
-    username: "",
-    real_name: null,
-  },
-  status: "",
-  contest_type: "",
-  title: "",
-  description: "",
-  real_time_rank: true,
-  rule_type: "OI",
-  start_time: "",
-  end_time: "",
-  create_time: "",
-  last_update_time: "",
-  password: "",
-  visible: true,
-  allowed_ip_ranges: [],
-});
+    created_by: {
+      id: -1,
+      username: "",
+      real_name: null,
+    },
+    status: "",
+    contest_type: "",
+    title: "",
+    description: "",
+    real_time_rank: true,
+    rule_type: "OI",
+    start_time: "",
+    end_time: "",
+    create_time: "",
+    last_update_time: "",
+    password: "",
+    visible: true,
+    allowed_ip_ranges: [],
+  })
+);
 const loading = ref(false);
 const error = ref<string | null>(null);
 const contestId = routes.params.contestId;
-
-const init = async () => {
-  error.value = null;
-  if (!props.create) {
-    loading.value = true;
-    const response = await fetchApi("/admin/contest", "get", {
-      params: {
-        id: contestId,
-      },
-    });
-    loading.value = false;
-    if (response.data.error) {
-      error.value = response.data.data;
-      return;
-    }
-    Object.assign(contest, response.data.data);
-  }
-};
 
 const handleSave = async () => {
   error.value = null;
@@ -144,6 +130,7 @@ const handleSave = async () => {
     return;
   }
   Object.assign(contest, response.data.data);
+  emits("handleInit", response.data.data);
 };
 
 const description = computed({
@@ -163,5 +150,4 @@ const endTime = computed({
   set: (val) => (contest.end_time = val.toISOString()),
 });
 
-onMounted(() => init());
 </script>

@@ -33,10 +33,12 @@
           <template v-for="item in data">
             <v-list-item :to="getProblemLocation(item.id)">
               <v-list-item-title>{{ item.title }}</v-list-item-title>
+              <v-list-item-subtitle>{{ item._id }}</v-list-item-subtitle>
               <template v-slot:prepend>
                 <DifficultyLabel :difficulty="item.difficulty" />
               </template>
               <template v-slot:append>
+                <MakeProblemPublic :problemId="item.id" v-if="contestId" />
                 <Downloader
                   :link="`/admin/test_case?problem_id=${item.id}`"
                   :title="`${item.id}_${item.title}_testcase`"
@@ -96,7 +98,6 @@
                     </v-card>
                   </template>
                 </v-dialog>
-
                 <div class="d-flex-inline ms-1">
                   <v-switch
                     color="primary"
@@ -121,6 +122,7 @@
       </template>
       <template v-slot:footer>
         <v-btn color="primary" :to="getCreateProblem">Create</v-btn>
+        <AddPublicProblem class="ms-2" v-if="contestId" @handleAdded="init" />
       </template>
     </Datagrid>
   </v-card>
@@ -135,6 +137,8 @@ import Datagrid from "../../components/Datagrid.vue";
 import Downloader from "../../components/Admin/Downloader.vue";
 import DifficultyLabel from "../DifficultyLabel.vue";
 import ErrorMessage from "../ErrorMessage.vue";
+import AddPublicProblem from "../../components/Admin/AddPublicProblem.vue";
+import MakeProblemPublic from "./MakeProblemPublic.vue";
 
 const router = useRouter();
 const routes = useRoute();

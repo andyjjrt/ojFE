@@ -18,8 +18,8 @@
         </div>
       </div>
     </slot>
-    <div class="d-flex justify-space-between align-center">
-      <div class="ms-3">
+    <div class="d-flex justify-space-between align-center flex-wrap">
+      <div class="d-flex flex-nowrap">
         <slot name="footer" />
       </div>
       <div class="d-flex align-center">
