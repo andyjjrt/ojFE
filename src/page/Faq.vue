@@ -1,64 +1,67 @@
 <template>
   <div>
     <v-card class="pa-4 vuepress-markdown-body">
-      <v-card-title>FAQ</v-card-title>
+      <v-card-title>{{ t("faq.title") }}</v-card-title>
       <v-expansion-panels variant="accordion">
-        <v-expansion-panel :title="faqs.Where_is_the_input_and_the_output">
+        <v-expansion-panel :title="t('faq.Where_is_the_input_and_the_output')">
           <template v-slot:text>
-            {{ faqs.Where_is_the_input_and_the_output_answer_part_1 }}
-            <code>stdin</code> ('{{ faqs.Standard_Input }}'
-            {{ faqs.Where_is_the_input_and_the_output_answer_part_3 }}
-            <code>stdout</code> ('{{ faqs.Standard_Output }}'
-            {{ faqs.Where_is_the_input_and_the_output_answer_part_5 }}
+            {{ t("faq.Where_is_the_input_and_the_output_answer_part_1") }}
+            <code>stdin</code> ('{{ t("faq.Standard_Input") }}'
+            {{ t("faq.Where_is_the_input_and_the_output_answer_part_3") }}
+            <code>stdout</code> ('{{ t("faq.Standard_Output") }}'
+            {{ t("faq.Where_is_the_input_and_the_output_answer_part_5") }}
             <code>scanf</code>
-            {{ faqs.Where_is_the_input_and_the_output_answer_part_6 }}
+            {{ t("faq.Where_is_the_input_and_the_output_answer_part_6") }}
             <code>cin</code>
-            {{ faqs.Where_is_the_input_and_the_output_answer_part_7 }}
+            {{ t("faq.Where_is_the_input_and_the_output_answer_part_7") }}
             <code>printf</code>
-            {{ faqs.Where_is_the_input_and_the_output_answer_part_8 }}
+            {{ t("faq.Where_is_the_input_and_the_output_answer_part_8") }}
             <code>cout</code>
-            {{ faqs.Where_is_the_input_and_the_output_answer_part_9 }}
+            {{ t("faq.Where_is_the_input_and_the_output_answer_part_9") }}
             <code>Runtime Error</code>.
           </template>
         </v-expansion-panel>
         <v-expansion-panel
-          :title="faqs.What_is_the_meaning_of_submission_execution_time"
+          :title="t('faq.What_is_the_meaning_of_submission_execution_time')"
         >
           <template v-slot:text>
-            {{ faqs.What_is_the_meaning_of_submission_execution_time_answer }}
+            {{
+              t("faq.What_is_the_meaning_of_submission_execution_time_answer")
+            }}
           </template>
         </v-expansion-panel>
-        <v-expansion-panel :title="faqs.How_Can_I_use_CPP_Int64">
+        <v-expansion-panel :title="t('faq.How_Can_I_use_CPP_Int64')">
           <template v-slot:text>
-            {{ faqs.How_Can_I_use_CPP_Int64_answer_part_1
-            }}<code>long long</code>
-            {{ faqs.How_Can_I_use_CPP_Int64_answer_part_2 }}
-            <code>cin/cout</code> {{ faqs.or }} <code>%lld</code>,
-            {{ faqs.using }}<code> __int64</code>
-            {{ faqs.How_Can_I_use_CPP_Int64_answer_part_3 }}
+            {{ t("faq.How_Can_I_use_CPP_Int64_answer_part_1") }}
+            <code>long long</code>
+            {{ t("faq.How_Can_I_use_CPP_Int64_answer_part_2") }}
+            <code>cin/cout</code> {{ t("faq.or") }} <code>%lld</code>,
+            {{ t("faq.using") }}
+            <code> __int64</code>
+            {{ t("faq.How_Can_I_use_CPP_Int64_answer_part_3") }}
             <code>Compile Error</code>.
           </template>
         </v-expansion-panel>
-        <v-expansion-panel :title="faqs.Java_specifications">
+        <v-expansion-panel :title="t('faq.Java_specifications')">
           <template v-slot:text>
-            {{ faqs.Java_specifications_answer_part_1 }} <code>Main</code>
-            {{ faqs.Java_specifications_answer_part_2 }} <code>Main</code>
-            {{ faqs.Java_specifications_answer_part_3 }}
+            {{ t("faq.Java_specifications_answer_part_1") }} <code>Main</code>
+            {{ t("faq.Java_specifications_answer_part_2") }} <code>Main</code>
+            {{ t("faq.Java_specifications_answer_part_3") }}
           </template>
         </v-expansion-panel>
-        <v-expansion-panel :title="faqs.About_presentation_error">
+        <v-expansion-panel :title="t('faq.About_presentation_error')">
           <template v-slot:text>
-            {{ faqs.About_presentation_error_answer_part_1 }}
-            <b>{{ faqs.last }}</b>
-            {{ faqs.About_presentation_error_answer_part_2 }}
+            {{ t("faq.About_presentation_error_answer_part_1") }}
+            <b>{{ t("faq.last") }}</b>
+            {{ t("faq.About_presentation_error_answer_part_2") }}
             <code> Wrong Answer</code>.
           </template>
         </v-expansion-panel>
-        <v-expansion-panel :title="faqs.How_to_report_bugs">
+        <v-expansion-panel :title="t('faq.How_to_report_bugs')">
           <template v-slot:text>
-            {{ faqs.How_to_report_bugs_answer_part_1 }}
+            {{ t("faq.How_to_report_bugs_answer_part_1") }}
             <a href="https://github.com/QingdaoU/OnlineJudge">Github</a>
-            {{ faqs.How_to_report_bugs_answer_part_2 }}
+            {{ t("faq.How_to_report_bugs_answer_part_2") }}
           </template>
         </v-expansion-panel>
       </v-expansion-panels>
@@ -75,7 +78,10 @@
 </template>
 
 <script setup lang="ts">
-const faqs = {
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
+const faq = {
   Frequently_Asked_Questions: "Frequently Asked Questions",
   Where_is_the_input_and_the_output: "Where is the input and the output?",
   Where_is_the_input_and_the_output_answer_part_1:

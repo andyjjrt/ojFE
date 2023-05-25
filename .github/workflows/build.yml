@@ -49,6 +49,5 @@ jobs:
           tag: ${{ steps.create_tag.outputs.version }}
           token: ${{ secrets.GITHUB_TOKEN }}
           body: |
-            # v${{steps.changelog.outputs.version}}
             ${{ steps.changelog.outputs.compareurl }}
             ${{ steps.changelog.outputs.changelog }}

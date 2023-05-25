@@ -61,12 +61,16 @@
             />
           </template>
           <v-list-item
-            title="Judger"
+            :title="t('judger.title')"
             to="/judger"
             :active="routes.name === 'Judger'"
           >
           </v-list-item>
-          <v-list-item title="FAQ" to="/faq" :active="routes.name === 'FAQ'">
+          <v-list-item
+            :title="t('faq.title')"
+            to="/faq"
+            :active="routes.name === 'FAQ'"
+          >
           </v-list-item>
         </v-list-group>
         <template v-if="user.profile?.user.admin_type.includes('Admin')">
