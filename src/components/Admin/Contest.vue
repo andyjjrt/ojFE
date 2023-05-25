@@ -73,7 +73,7 @@
 
 <script setup lang="ts">
 import { computed, ref, onMounted, reactive, inject } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { DatePicker } from "v-calendar";
 import MDEditor from "../MDEditor.vue";
 import "v-calendar/style.css";
@@ -86,6 +86,7 @@ const props = defineProps<{
 const emits = defineEmits(["handleInit"]);
 
 const routes = useRoute();
+const router = useRouter();
 
 const contest = reactive<ManagementContest>(
   inject("contest", {
@@ -129,6 +130,9 @@ const handleSave = async () => {
     error.value = response.data.data;
     return;
   }
+  if (props.create) {
+    router.push({ name: "AdminContests" });
+  }
   Object.assign(contest, response.data.data);
   emits("handleInit", response.data.data);
 };
@@ -149,5 +153,4 @@ const endTime = computed({
   get: () => new Date(contest.end_time),
   set: (val) => (contest.end_time = val.toISOString()),
 });
-
 </script>

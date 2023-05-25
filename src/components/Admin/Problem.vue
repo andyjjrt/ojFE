@@ -258,6 +258,7 @@ import { fetchApi } from "../../utils/api";
 import CodeMirror from "../CodeMirror.vue";
 import MDEditor from "../MDEditor.vue";
 import Message from "vue-m-message";
+import router from "../../router";
 
 const routes = useRoute();
 const constant = useConstantsStore();
@@ -373,6 +374,15 @@ const handleSave = async () => {
   loading.value = false;
   if (response.data.error) {
     Message.error(response.data.data);
+    return;
+  }
+  if (props.create) {
+    router.push({
+      name: props.contestId ? "AdminContestProblems" : "AdminProblems",
+      params: {
+        contestId: props.contestId,
+      },
+    });
   } else {
     init();
   }
