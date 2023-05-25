@@ -57,7 +57,7 @@
         </v-list-item>
       </v-list>
     </v-card>
-    <v-card class="position-relative mt-4">
+    <v-card class="position-relative my-4">
       <pre class="language-clang"><code v-html="html" /></pre>
       <v-btn
         icon="mdi-clipboard-text"
@@ -68,6 +68,11 @@
         @click="copy(status?.code as string)"
       />
     </v-card>
+    <div class="d-flex justify-end">
+      <v-btn color="info" :disabled="loading" :loading="loading" @click="handleShare">
+        {{ shareBtn }}
+      </v-btn>
+    </div>
   </div>
   <Loader v-else />
 </template>
@@ -90,6 +95,8 @@ const status = ref<Status | null>(null);
 const loading = ref(false);
 const statusId = routes.params.id;
 
+const shareBtn = computed(() => (status.value?.shared ? "Unshare" : "Share"));
+
 const init = async () => {
   loading.value = true;
   const response = await fetchApi("/submission", "get", {
@@ -99,6 +106,18 @@ const init = async () => {
   });
   loading.value = false;
   status.value = response.data.data;
+};
+
+const handleShare = async () => {
+  loading.value = true;
+  const response = await fetchApi("/submission", "put", {
+    data: {
+      id: statusId,
+      shared: !status.value!.shared,
+    },
+  });
+  loading.value = false;
+  init();
 };
 
 const copy = (text: string) => {
@@ -130,7 +149,7 @@ const langPlugin = computed(() => {
     case "Rust":
       return Prism.languages.rust;
     default:
-      return Prism.languages.plain
+      return Prism.languages.plain;
   }
 });
 
