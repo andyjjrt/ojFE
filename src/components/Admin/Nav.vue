@@ -53,8 +53,8 @@
 import { useRoute } from "vue-router";
 
 const props = defineProps<{
-  icon?: boolean
-}>()
+  icon?: boolean;
+}>();
 
 const routes = useRoute();
 </script>

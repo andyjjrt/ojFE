@@ -190,8 +190,12 @@ const init = async () => {
   loading.value = false;
   if (response.data.error) error.value = response.data.data;
   else {
-    announcements.value = props.contestId ? response.data.data : response.data.data.results;
-    total.value = props.contestId ? response.data.data.length : response.data.data.total;
+    announcements.value = props.contestId
+      ? response.data.data
+      : response.data.data.results;
+    total.value = props.contestId
+      ? response.data.data.length
+      : response.data.data.total;
   }
 };
 

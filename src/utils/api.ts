@@ -5,13 +5,13 @@ axios.defaults.xsrfCookieName = "csrftoken";
 
 /**
  * Wrapper function of axios
- * 
+ *
  * @param url - The base url
  * @param method - HTTP method
  * @param basseURL - Prefix url
  * @param options - Other axios options
  * @returns - Promise object
-**/
+ **/
 export const ajax = async (
   url: string,
   method: string,
@@ -38,10 +38,9 @@ export const ajax = async (
     });
 };
 
-
 /**
  * Wrapper of ajax function, use `/api` as baseURL
- * 
+ *
  * @param url - Url after `/api`
  * @param method - HTTP method
  * @param options - other axios options

@@ -21,6 +21,5 @@
 import { useDisplay } from "vuetify";
 import AdminNav from "../components/Admin/Nav.vue";
 
-
-const { mdAndUp } = useDisplay()
+const { mdAndUp } = useDisplay();
 </script>

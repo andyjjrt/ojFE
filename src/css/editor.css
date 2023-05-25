@@ -268,7 +268,7 @@
   margin-left: 4px;
 }
 .v-md-editor__toolbar-item:hover {
-  background: rgb(var(--v-theme-on-surface-variant));;
+  background: rgb(var(--v-theme-on-surface-variant));
 }
 .v-md-editor__toolbar-item--menu {
   padding-right: 16px;

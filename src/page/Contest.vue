@@ -18,12 +18,12 @@
 
       <v-tabs>
         <v-tab :to="{ name: 'Contest', params: { contestId: contestId } }">
-          {{t("contest.overview")}}
+          {{ t("contest.overview") }}
         </v-tab>
         <v-tab
           :to="{ name: 'ContestProblems', params: { contestId: contestId } }"
         >
-          {{t("problem.title")}}
+          {{ t("problem.title") }}
         </v-tab>
         <v-tab
           :to="{ name: 'ContestSubmissions', params: { contestId: contestId } }"
@@ -31,13 +31,13 @@
           {{ t("submission.title") }}
         </v-tab>
         <v-tab :to="{ name: 'ContestRank', params: { contestId: contestId } }">
-          {{ t("rank.title")}}
+          {{ t("rank.title") }}
         </v-tab>
         <v-tab
           :to="{ name: 'AdminContest', params: { contestId: contestId } }"
           v-if="user.isAdmin"
         >
-          {{ t("management.title")}}
+          {{ t("management.title") }}
         </v-tab>
       </v-tabs>
       <div class="my-6">

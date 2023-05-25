@@ -38,7 +38,7 @@ import AdminContestAnnouncement from "../page/Admin/Contest/Announcement.vue";
 import AdminContestProblems from "../page/Admin/Contest/Problems.vue";
 import AdminContestProblem from "../page/Admin/Contest/Problem.vue";
 import AdminContestProblemCreate from "../page/Admin/Contest/ProblemCreate.vue";
-import NotFound from "../page/NotFound.vue"
+import NotFound from "../page/NotFound.vue";
 import DefaultLayout from "../layout/index.vue";
 
 const routes = [
@@ -196,7 +196,7 @@ const routes = [
           },
         ],
       },
-      { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound },
+      { path: "/:pathMatch(.*)*", name: "NotFound", component: NotFound },
     ],
   },
 ];

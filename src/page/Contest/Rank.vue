@@ -32,8 +32,8 @@
           <v-table v-if="data.length">
             <thead>
               <tr>
-                <th>{{t("rank.username")}}</th>
-                <th>{{t("rank.score")}}</th>
+                <th>{{ t("rank.username") }}</th>
+                <th>{{ t("rank.score") }}</th>
                 <th v-for="problem in problems">{{ problem._id }}</th>
               </tr>
             </thead>

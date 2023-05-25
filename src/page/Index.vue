@@ -3,21 +3,24 @@
     <v-card class="mb-4" v-if="contests.length > 0">
       <v-window v-model="window" show-arrows>
         <v-window-item v-for="contest in contests" :key="contest.id">
-        <RouterLink :to="`/contest/${contest.id}`" class="text-decoration-none">
-          <v-sheet class="pa-6">
-            <h2 class="mb-1 mx-2">
-              {{ contest.title }}
-            </h2>
-            <v-chip color="primary" class="me-1">
-              <v-icon icon="mdi-calendar-blank" class="me-1" />
-              {{ getDate(contest.start_time, mobile) }}
-            </v-chip>
-            <v-chip color="warning">
-              <v-icon icon="mdi-trophy" class="me-1" />
-              {{ contest.rule_type }}
-            </v-chip>
-          </v-sheet>
-        </RouterLink>
+          <RouterLink
+            :to="`/contest/${contest.id}`"
+            class="text-decoration-none"
+          >
+            <v-sheet class="pa-6">
+              <h2 class="mb-1 mx-2">
+                {{ contest.title }}
+              </h2>
+              <v-chip color="primary" class="me-1">
+                <v-icon icon="mdi-calendar-blank" class="me-1" />
+                {{ getDate(contest.start_time, mobile) }}
+              </v-chip>
+              <v-chip color="warning">
+                <v-icon icon="mdi-trophy" class="me-1" />
+                {{ contest.rule_type }}
+              </v-chip>
+            </v-sheet>
+          </RouterLink>
         </v-window-item>
       </v-window>
     </v-card>

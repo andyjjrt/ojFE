@@ -5,10 +5,9 @@
       <v-card-text>
         <v-code>{{ judgeServerStatus.token }}</v-code>
       </v-card-text>
-      
     </div>
     <div class="my-2">
-      <v-card-title  class="mb-2">Judge Server</v-card-title>
+      <v-card-title class="mb-2">Judge Server</v-card-title>
       <v-expansion-panels>
         <v-expansion-panel
           v-for="server in judgeServerStatus.servers"

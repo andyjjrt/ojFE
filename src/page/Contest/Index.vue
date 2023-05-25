@@ -16,6 +16,8 @@ const contest = inject("contest") as Ref<Contest>;
 const constants = useConstantsStore();
 
 onMounted(() => {
-  document.title = `${constants.website!.website_name_shortcut} | ${contest.value.title}`;
+  document.title = `${constants.website!.website_name_shortcut} | ${
+    contest.value.title
+  }`;
 });
 </script>

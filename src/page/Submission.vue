@@ -69,7 +69,12 @@
       />
     </v-card>
     <div class="d-flex justify-end">
-      <v-btn color="info" :disabled="loading" :loading="loading" @click="handleShare">
+      <v-btn
+        color="info"
+        :disabled="loading"
+        :loading="loading"
+        @click="handleShare"
+      >
         {{ shareBtn }}
       </v-btn>
     </div>

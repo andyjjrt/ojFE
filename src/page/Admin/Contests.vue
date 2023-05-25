@@ -31,7 +31,9 @@
       <template v-slot="{ data }: { data: ManagementContest[] }">
         <v-list lines="one" density="compact">
           <template v-for="item in data">
-            <v-list-item :to="{ name: 'AdminContest', params: { contestId: item.id } }">
+            <v-list-item
+              :to="{ name: 'AdminContest', params: { contestId: item.id } }"
+            >
               <template v-slot:title>
                 {{ item.title }}
               </template>
@@ -78,7 +80,9 @@
                       @update:modelValue="() => handleChangeVisibility(item)"
                     >
                       <template v-slot:label>
-                        <v-icon :icon="item.visible ? 'mdi-eye' : 'mdi-eye-off'" />
+                        <v-icon
+                          :icon="item.visible ? 'mdi-eye' : 'mdi-eye-off'"
+                        />
                       </template>
                     </v-switch>
                   </div>
@@ -90,7 +94,9 @@
         </v-list>
       </template>
       <template v-slot:footer>
-        <v-btn color="primary" :to="{name: 'AdminContestCreate'}">Create</v-btn>
+        <v-btn color="primary" :to="{ name: 'AdminContestCreate' }"
+          >Create</v-btn
+        >
       </template>
     </Datagrid>
   </v-card>
@@ -123,7 +129,8 @@ const keyword = ref("");
 const offset = computed(() => (page.value - 1) * limit.value);
 
 const handleNavigate = (newPage: number) => (page.value = newPage);
-const handleChangeRowPerPage = (newRowPerPage: number) => (limit.value = newRowPerPage);
+const handleChangeRowPerPage = (newRowPerPage: number) =>
+  (limit.value = newRowPerPage);
 
 const init = async () => {
   page.value = parseInt((routes.query.page as string) || "1");

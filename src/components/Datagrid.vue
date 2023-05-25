@@ -51,7 +51,7 @@
           <v-pagination
             :length="totalPages"
             :total-visible="mobile ? 2 : 7"
-           color="primary"
+            color="primary"
             density="compact"
             v-model="_page"
           />

@@ -35,7 +35,7 @@ VMdEditor.lang.use("en-US", enUS);
 
 Message.setDefault({ className: "elevation-4" });
 
-app.use(i18n)
+app.use(i18n);
 app.use(vuetify);
 app.use(pinia);
 app.use(router);

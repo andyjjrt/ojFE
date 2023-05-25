@@ -89,7 +89,6 @@ import { ref, inject, computed, onMounted, watch } from "vue";
 import { fetchApi } from "../../utils/api";
 import Datagrid from "../Datagrid.vue";
 import Message from "vue-m-message";
-import { emit } from "process";
 
 const props = withDefaults(
   defineProps<{
@@ -184,7 +183,7 @@ const handleAdd = async () => {
   } else {
     Message.success("Success");
     dialog.value = false;
-    emits("handleAdded")
+    emits("handleAdded");
   }
 };
 

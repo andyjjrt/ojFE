@@ -67,5 +67,5 @@ const init = async () => {
   Object.assign(contest, response.data.data);
 };
 
-onMounted(() => init())
+onMounted(() => init());
 </script>
