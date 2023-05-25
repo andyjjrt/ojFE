@@ -1,14 +1,17 @@
 <template>
   <div>
     <v-card class="pa-4 mb-4">
-      <v-sheet v-for="language in constants.languages" class="pa-2">
-        <h3 class="mb-2">{{ language.name }} ({{ language.description }})</h3>
-        <v-code class="overflow-auto">
-          <code class="text-no-wrap">
-            {{ language.config.compile.compile_command }}
-          </code>
-        </v-code>
-      </v-sheet>
+      <v-card-title>{{ t("judger.title") }}</v-card-title>
+      <v-card-text>
+        <v-sheet v-for="language in constants.languages" class="py-2">
+          <h3 class="mb-2">{{ language.name }} ({{ language.description }})</h3>
+          <v-code class="overflow-auto">
+            <code class="text-no-wrap">
+              {{ language.config.compile.compile_command }}
+            </code>
+          </v-code>
+        </v-sheet>
+      </v-card-text>
     </v-card>
     <v-card class="pa-4">
       <v-sheet v-for="senario in explanation" class="pa-1">
@@ -20,47 +23,45 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from "vue";
 import { useConstantsStore } from "../store/constants";
+import { useI18n } from "vue-i18n";
 
 const constants = useConstantsStore();
+const { t } = useI18n();
 
-const explanation = [
+const explanation = computed(() => [
   {
     type: "Pending & Judging",
-    description: "You solution will be judged soon, please wait for result.",
+    description: t("judger.pendingAndJudging"),
   },
   {
     type: "Compile Error",
-    description:
-      "Failed to compile your source code. Click on the link to see compiler's output.",
+    description: t("judger.compileError"),
   },
   {
     type: "Accepted",
-    description: "Congratulations. Your solution is correct.",
+    description: t("judger.accepted"),
   },
   {
     type: "Wrong Answer",
-    description: "Your program's output doesn't match judger's answer.",
+    description: t("judger.wrongAnswer"),
   },
   {
     type: "Runtime Error",
-    description:
-      "Your program terminated abnormally. Possible reasons are: segment fault, divided by zero or exited with code other than 0.",
+    description: t("judger.runtimeError"),
   },
   {
     type: "Time Limit Exceeded",
-    description: "The CPU time your program used has exceeded limit.",
+    description: t("judger.timeLimitExceeded"),
   },
-
   {
     type: "Memory Limit Exceeded",
-    description: "The memory your program actually used has exceeded limit.",
+    description: t("judger.memoryLimitExceeded"),
   },
-
   {
     type: "System Error",
-    description:
-      "Oops, something has gone wrong with the judger. Please report this to administrator.",
+    description: t("judger.systemError"),
   },
-];
+]);
 </script>
