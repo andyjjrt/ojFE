@@ -4,6 +4,8 @@ on:
   pull_request:
     branches: ["master"]
     types: [closed]
+  push:
+    branches: ["master"]
 
 jobs:
   build:
@@ -18,6 +20,7 @@ jobs:
         name: Install pnpm
         with:
           run_install: true
+          version: 8.5.1
 
       - name: Build for production
         run: pnpm run build
