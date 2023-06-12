@@ -20,6 +20,7 @@ pnpm run dev
 ```
 
 ## Build for production
+
 ```
 pnpm run build
 ```
