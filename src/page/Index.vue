@@ -7,7 +7,7 @@
             :to="`/contest/${contest.id}`"
             class="text-decoration-none"
           >
-            <v-sheet class="pa-6">
+            <v-sheet class="pa-6 mx-10">
               <h2 class="mb-1 mx-2">
                 {{ contest.title }}
               </h2>
