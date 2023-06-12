@@ -66,6 +66,7 @@ import ErrorMessage from "../components/ErrorMessage.vue";
 import Loader from "../components/Loader.vue";
 import { useUserStore } from "../store/user";
 import Message from "vue-m-message";
+import { contestStatusList } from "../utils/status";
 
 const routes = useRoute();
 const user = useUserStore();
@@ -128,10 +129,10 @@ const init = async () => {
 };
 
 const remainTimeString = computed(() => {
-  if (!contest.value) return { type: undefined, value: undefined };
-  if (remainTime.value < 0) return { type: "error", value: "Ended" };
+  if (!contest.value) return { type: undefined, short: undefined };
+  if (remainTime.value < 0) return { type: "error", value: t("contest.ended") };
   if (new Date() < new Date(contest.value.start_time))
-    return { type: "warning", value: "Not Started" };
+    return { type: "warning", value: t("contest.notStarted") };
   const seconds = Math.floor(remainTime.value % 60);
   const minutes = Math.floor(remainTime.value / 60) % 60;
   const hours = Math.floor((remainTime.value / (60 * 60)) % 24);
