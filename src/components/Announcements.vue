@@ -45,7 +45,7 @@
                     </template>
                   </v-toolbar>
                   <v-card-text>
-                    <v-md-preview :text="item.content" />
+                    <v-md-preview :text="decodeURI(item.content)" />
                   </v-card-text>
                   <v-card-actions class="justify-end">
                     <v-btn variant="text" @click="isActive.value = false">
