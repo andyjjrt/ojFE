@@ -117,6 +117,7 @@ const twoFAImage = ref("");
 const code = ref("");
 
 const init = async () => {
+  if (!user.profile!.user.two_factor_auth) get2FAImage();
   loading.value = true;
   const response = await fetchApi("/sessions", "get");
   loading.value = false;
@@ -128,7 +129,6 @@ const init = async () => {
       new Date(b.last_activity).getTime() - new Date(a.last_activity).getTime()
     );
   });
-  if (!user.profile!.user.two_factor_auth) get2FAImage();
 };
 
 const handleRevoke = async (isActive: Ref<boolean>, sessionId: string) => {
