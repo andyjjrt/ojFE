@@ -76,7 +76,16 @@
   },
   "userHome": "我的首頁",
   "setting": {
-    "title": "設定"
+    "title": "設定",
+    "avatar": "頭像",
+    "profile": "個人資料",
+    "real_name": "真實名稱",
+    "mood": "狀態",
+    "school": "學校",
+    "blog": "部落格",
+    "major": "主修",
+    "github": "Github",
+    "language": "語言"
   },
   "theme": {
     "title": "主題"
