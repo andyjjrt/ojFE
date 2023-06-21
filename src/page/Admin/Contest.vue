@@ -56,7 +56,7 @@ const contest = reactive<ManagementContest>({
   allowed_ip_ranges: [],
 });
 
-provide("contest", readonly(contest));
+provide("contest", contest);
 
 const init = async () => {
   const response = await fetchApi("/admin/contest", "get", {
