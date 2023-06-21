@@ -1,39 +1,54 @@
 <template>
   <v-card class="pa-4" :loading="loading" :disabled="loading">
-    <v-card-title>Avatar</v-card-title>
+    <v-card-title>{{ t("setting.avatar") }}</v-card-title>
     <v-card-text>
       <ImageCropper />
     </v-card-text>
-    <v-card-title>Profile</v-card-title>
+    <v-card-title>{{ t("setting.profile") }}</v-card-title>
     <v-row class="mb-1">
       <v-col cols="12" sm="6">
         <v-text-field
-          label="Real name"
+          :label="t('setting.real_name')"
           class="mx-2"
           v-model="realName"
           hide-details
         />
       </v-col>
       <v-col cols="12" sm="6">
-        <v-text-field label="Mood" class="mx-2" v-model="mood" hide-details />
+        <v-text-field
+          :label="t('setting.mood')"
+          class="mx-2"
+          v-model="mood"
+          hide-details
+        />
       </v-col>
       <v-col cols="12" sm="6">
         <v-text-field
-          label="School"
+          :label="t('setting.school')"
           class="mx-2"
           v-model="school"
           hide-details
         />
       </v-col>
       <v-col cols="12" sm="6">
-        <v-text-field label="Blog" class="mx-2" v-model="blog" hide-details />
-      </v-col>
-      <v-col cols="12" sm="6">
-        <v-text-field label="Major" class="mx-2" v-model="major" hide-details />
+        <v-text-field
+          :label="t('setting.blog')"
+          class="mx-2"
+          v-model="blog"
+          hide-details
+        />
       </v-col>
       <v-col cols="12" sm="6">
         <v-text-field
-          label="Github"
+          :label="t('setting.major')"
+          class="mx-2"
+          v-model="major"
+          hide-details
+        />
+      </v-col>
+      <v-col cols="12" sm="6">
+        <v-text-field
+          :label="t('setting.github')"
           class="mx-2"
           v-model="github"
           hide-details
@@ -41,7 +56,7 @@
       </v-col>
       <v-col cols="12" sm="6">
         <v-select
-          label="Language"
+          :label="t('setting.language')"
           class="mx-2"
           v-model="language"
           :items="availableLocales"

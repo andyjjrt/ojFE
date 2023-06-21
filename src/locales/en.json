@@ -71,7 +71,16 @@
     "title": "Management"
   },
   "setting": {
-    "title": "Setting"
+    "title": "Setting",
+    "avatar": "Avatar",
+    "profile": "Profile",
+    "real_name": "Real name",
+    "mood": "Mood",
+    "school": "School",
+    "blog": "Blog",
+    "major": "Major",
+    "github": "Github",
+    "language": "Language"
   },
   "theme": {
     "title": "Theme"
