@@ -106,9 +106,11 @@
         <div class="text-center text-caption w-100">
           <div v-html="constants.website?.website_footer" />
           <span>FE redesign by</span>
-          <a href="https://andyjjrt.cc" class="ms-1 me-2"> andyjjrt </a>
+          <a href="https://andyjjrt.cc" class="me-2 text-decoration-none" target="_blank">
+            andyjjrt
+          </a>
           <span>Version:</span>
-          <a class="mx-1"> {{ versionString }} </a>
+          <a :href="releaseLocation" class="mx-1 text-decoration-none" target="_blank"> {{ versionString }} </a>
         </div>
       </v-footer>
     </v-main>
@@ -136,6 +138,11 @@ const drawer = ref(false);
 
 const versionString = computed(
   () => process.env.VUE_APP_VERSION + "-" + process.env.VUE_APP_HASH
+);
+
+const releaseLocation = computed(
+  () =>
+    `https://github.com/andyjjrt/ojFE/releases/tag/v${process.env.VUE_APP_VERSION}`
 );
 
 const routes = useRoute();
