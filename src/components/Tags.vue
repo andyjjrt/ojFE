@@ -43,7 +43,7 @@ const init = async () => {
 const handlePickone = async () => {
   const response = await fetchApi("/pickone", "get");
   const problemId = response.data.data;
-  router.push({ name: "Problem", params: { id: problemId } });
+  router.push({ name: "Problem", params: { problemId: problemId } });
 };
 
 const handleClick = (name: string) => {
