@@ -132,7 +132,12 @@
     "How_to_report_bugs_answer_part_1": "The onlinejudge is open source, you can open an issue in",
     "How_to_report_bugs_answer_part_2": "The details(like env, version.. about a bug is required, which will help us a lot to solve the bug. Certainly, we are very pleased to merge your pull requests."
   },
-  "userHome": "Home",
+  "userHome": {
+    "title": "Home",
+    "solved": "Solved",
+    "submissions": "Submissions",
+    "score": "Score"
+  },
   "home": "Home",
   "close": "Close",
   "login": "Login",

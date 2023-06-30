@@ -18,7 +18,7 @@
           name: 'User',
         }"
       >
-        <v-list-item-title>{{ t("userHome") }}</v-list-item-title>
+        <v-list-item-title>{{ t("userHome.title") }}</v-list-item-title>
       </v-list-item>
       <v-list-item
         :to="{
