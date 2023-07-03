@@ -106,7 +106,7 @@
           <div class="mt-3 d-flex justify-space-between">
             <div>
               <v-btn
-                v-if="status"
+                v-if="status.id"
                 :color="status.type"
                 :to="`/status/${status.id}`"
               >
@@ -231,8 +231,13 @@ const status = ref<{
   name: string;
   short: string;
   type: "info" | "error" | "success" | "warning" | undefined;
-  id: string;
-} | null>(null);
+  id: string | null;
+  status: number | null;
+}>({
+  ...statusList[props.problem.my_status || 0],
+  id: null,
+  status: props.problem.my_status,
+});
 
 const copy = (text: string) => {
   Message.success("Code copied!");
@@ -245,7 +250,7 @@ const resetTemplate = (language: string) => {
 };
 
 const submit = async () => {
-  status.value = null;
+  status.value.id = null;
   loading.value = true;
   const response = await fetchApi("/submission", "post", {
     data: {
@@ -280,6 +285,7 @@ const submit = async () => {
         status.value = {
           ...statusList[res.data.data.result],
           id: res.data.data.id,
+          status: res.data.data.result,
         };
       }
     }
@@ -311,11 +317,8 @@ const getAdminLocation = computed(() => {
 });
 
 const getProblemStatus = computed(() => {
-  if (
-    props.problem.my_status !== null &&
-    props.problem.my_status !== undefined
-  ) {
-    return props.problem.my_status ? -1 : 1;
+  if (status.value.status !== null && status.value.status !== undefined) {
+    return status.value.status ? -1 : 1;
   } else {
     return 0;
   }
@@ -342,7 +345,6 @@ onMounted(() => {
     props.problem.title
   }`;
   const history = localStorage.getItem(problemkey.value);
-  console.log(history);
   if (history) {
     code.value = JSON.parse(history).code;
     selectedLanguage.value = JSON.parse(history).language;

@@ -5,6 +5,14 @@
       style="margin: 0 auto; position: relative; width: 100%"
       :style="{ height: mobile ? '300px' : '400px' }"
     >
+      <v-overlay
+        contained
+        persistent
+        class="align-center justify-center"
+        :modelValue="loading"
+      >
+        <v-progress-circular indeterminate color="primary" />
+      </v-overlay>
       <BarChart :chartData="chartData" />
     </v-card>
     <v-card class="pa-4">

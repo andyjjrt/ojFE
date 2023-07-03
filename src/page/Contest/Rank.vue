@@ -1,6 +1,14 @@
 <template>
   <div>
     <v-card class="pa-4 mb-6">
+      <v-overlay
+        contained
+        persistent
+        class="align-center justify-center"
+        :modelValue="loading"
+      >
+        <v-progress-circular indeterminate color="primary" />
+      </v-overlay>
       <v-switch
         :label="t('rank.autoRefresh')"
         v-model="autoReload"

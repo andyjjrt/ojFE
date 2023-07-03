@@ -74,7 +74,12 @@
   "management": {
     "title": "管理"
   },
-  "userHome": "我的首頁",
+  "userHome": {
+    "title": "我的首頁",
+    "solved": "已解題數量",
+    "submissions": "繳交次數",
+    "score": "分數"
+  },
   "setting": {
     "title": "設定",
     "avatar": "頭像",

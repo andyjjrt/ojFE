@@ -67,12 +67,23 @@
       </v-expansion-panels>
     </v-card>
     <v-card class="pa-4 mt-3">
-      Frontend redesign by <a href="https://andyjjrt.cc">andyjjrt</a>, Backend
-      supported by
-      <a href="https://github.com/QingdaoU/OnlineJudge">OnlineJudge</a>.
+      Frontend redesign by
+      <a href="https://andyjjrt.cc" class="text-decoration-none">andyjjrt</a>,
+      Backend supported by
+      <a
+        href="https://github.com/QingdaoU/OnlineJudge"
+        class="text-decoration-none"
+      >
+        OnlineJudge </a
+      >.
       <br />
       Frontend bug report please create issue in
-      <a href="https://github.com/andyjjrt/ojFE/issues">Github</a>
+      <a
+        href="https://github.com/andyjjrt/ojFE/issues"
+        class="text-decoration-none"
+      >
+        Github
+      </a>
     </v-card>
   </div>
 </template>
