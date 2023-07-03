@@ -20,7 +20,7 @@ jobs:
         name: Install pnpm
         with:
           run_install: true
-          version: 8.5.1
+          version: 8.6.6
 
       - name: Build for production
         run: pnpm run build
