@@ -331,7 +331,7 @@
 .vuepress-markdown-body {
   /* color: #2c3e50; */
   font-size: 16px;
-  font-family: $font-family
+  font-family: $font-family;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   /* background-color: #fff; */

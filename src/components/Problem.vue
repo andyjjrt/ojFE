@@ -236,7 +236,7 @@ const status = ref<{
 }>({
   ...statusList[props.problem.my_status || 0],
   id: null,
-  status: props.problem.my_status
+  status: props.problem.my_status,
 });
 
 const copy = (text: string) => {
@@ -285,7 +285,7 @@ const submit = async () => {
         status.value = {
           ...statusList[res.data.data.result],
           id: res.data.data.id,
-          status: res.data.data.result
+          status: res.data.data.result,
         };
       }
     }

@@ -4,18 +4,23 @@
     <h3 class="ma-1">{{ profile.user.username }}</h3>
     <p v-if="profile.school" class="ma-1">{{ profile.school }}</p>
     <p v-if="profile.mood" class="ma-1">{{ profile.mood }}</p>
-    <v-sheet color="primary" rounded="pill" class="px-6 py-4 ma-1" style="min-width: 300px">
+    <v-sheet
+      color="primary"
+      rounded="pill"
+      class="px-6 py-4 ma-1"
+      style="min-width: 300px"
+    >
       <v-row>
         <v-col cols="4" class="d-flex flex-column text-center">
-          <span class="text-caption">{{t("userHome.solved")}}</span>
+          <span class="text-caption">{{ t("userHome.solved") }}</span>
           <span>{{ profile.accepted_number }}</span>
         </v-col>
         <v-col cols="4" class="d-flex flex-column text-center">
-          <span class="text-caption">{{t("userHome.submissions")}}</span>
+          <span class="text-caption">{{ t("userHome.submissions") }}</span>
           <span>{{ profile.submission_number }}</span>
         </v-col>
         <v-col cols="4" class="d-flex flex-column text-center">
-          <span class="text-caption">{{t("userHome.score")}}</span>
+          <span class="text-caption">{{ t("userHome.score") }}</span>
           <span>{{ profile.total_score }}</span>
         </v-col>
       </v-row>
@@ -41,7 +46,7 @@ import { fetchApi } from "../utils/api";
 
 const user = useUserStore();
 const routes = useRoute();
-const { t } = useI18n()
+const { t } = useI18n();
 
 const otherUser = ref<User | null>(null);
 const loading = ref(false);
