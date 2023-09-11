@@ -43,9 +43,9 @@
       <div class="my-6">
         <v-card v-if="!access" title="Password Required" class="pa-4">
           <v-text-field label="Password" v-model="password"></v-text-field>
-          <v-card-action class="d-flex justify-end">
+          <v-card-actions class="d-flex justify-end">
             <v-btn color="primary" @click="handleAccess">Access</v-btn>
-          </v-card-action>
+          </v-card-actions>
         </v-card>
         <RouterView v-slot="{ Component }" v-else>
           <v-fade-transition mode="out-in">
