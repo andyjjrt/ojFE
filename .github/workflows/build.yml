@@ -39,6 +39,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: frontend-dist
+          path: dist
       - name: Zip File
         run: zip -r dist.zip dist
       
