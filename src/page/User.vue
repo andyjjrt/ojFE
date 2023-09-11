@@ -40,12 +40,14 @@
 <script setup lang="ts">
 import { computed, ref, onMounted } from "vue";
 import { useI18n } from "vue-i18n";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { useUserStore } from "../store/user";
 import { fetchApi } from "../utils/api";
+import Message from "vue-m-message";
 
 const user = useUserStore();
 const routes = useRoute();
+const router = useRouter();
 const { t } = useI18n();
 
 const otherUser = ref<User | null>(null);
@@ -60,7 +62,12 @@ const init = async () => {
     },
   });
   loading.value = false;
-  otherUser.value = response.data.data;
+  if (response.data.data === null) {
+    Message.error(t("message.loginFirst"));
+    router.push({ name: "Home" });
+  } else {
+    otherUser.value = response.data.data;
+  }
 };
 
 const profile = computed(() =>

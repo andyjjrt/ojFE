@@ -9,13 +9,26 @@
       >
         <v-progress-circular indeterminate color="primary" />
       </v-overlay>
-      <v-switch
-        :label="t('rank.autoRefresh')"
-        v-model="autoReload"
-        hide-details
-        density="compact"
-        :disabled="loading"
-      />
+      <div class="d-flex justify-space-between align-center">
+        <v-switch
+          :label="t('rank.autoRefresh')"
+          v-model="autoReload"
+          hide-details
+          density="compact"
+          :disabled="loading"
+        />
+        <RankDialog>
+          <v-card class="pa-4">
+            <div
+              style="margin: 0 auto; position: relative; width: 100%"
+              :style="{ height: mobile ? '300px' : '400px' }"
+            >
+              <BarChart :chartData="chartData" />
+            </div>
+          </v-card>
+        </RankDialog>
+      </div>
+
       <div
         style="margin: 0 auto; position: relative; width: 100%"
         :style="{ height: mobile ? '300px' : '400px' }"
@@ -93,6 +106,7 @@ import ErrorMessage from "../../components/ErrorMessage.vue";
 import { userInfo } from "os";
 import { useUserStore } from "../../store/user";
 import { useConstantsStore } from "../../store/constants";
+import RankDialog from "../../components/RankDialog.vue";
 
 const router = useRouter();
 const routes = useRoute();
