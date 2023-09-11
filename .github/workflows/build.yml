@@ -25,6 +25,23 @@ jobs:
       - name: Build for production
         run: pnpm run build
 
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: frontend-dist
+          path: dist
+  
+  release:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: frontend-dist
+      - name: Zip File
+        run: zip -r dist.zip dist
+      
       - name: Create Tag
         id: create_tag
         uses: jaywcjlove/create-tag-action@v1.3.18
@@ -48,6 +65,7 @@ jobs:
           name: ${{ steps.create_tag.outputs.version }}
           tag: ${{ steps.create_tag.outputs.version }}
           token: ${{ secrets.GITHUB_TOKEN }}
+          artifacts: "./dist.zip"
           body: |
             ${{ steps.changelog.outputs.compareurl }}
             ${{ steps.changelog.outputs.changelog }}
