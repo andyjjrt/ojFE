@@ -142,5 +142,8 @@
     "How_to_report_bugs": "如何回報關於此OJ的錯誤?",
     "How_to_report_bugs_answer_part_1": "此線上解題系統是開源的，你可以到",
     "How_to_report_bugs_answer_part_2": "提交問題。請提供有關錯誤的詳細訊息(如env，版本...)，這將極大地幫助我們解決該錯誤。當然，我們十分樂意合併你的請求"
+  },
+  "message": {
+    "loginFirst": "請先登入"
   }
 }

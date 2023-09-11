@@ -142,5 +142,8 @@
   "close": "Close",
   "login": "Login",
   "logout": "Logout",
-  "register": "Register"
+  "register": "Register",
+  "message": {
+    "loginFirst": "Please login first"
+  }
 }
