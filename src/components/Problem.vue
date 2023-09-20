@@ -32,21 +32,21 @@
 
         <v-divider />
         <div class="pa-4">
-          <h5 class="text-h5 mb-2">{{ t("problem.description") }}</h5>
-          <v-md-preview :text="description" />
+          <h5 class="text-h5 font-weight-bold mb-2">{{ t("problem.description") }}</h5>
+          <v-md-preview class="pa-2" :text="description" />
         </div>
         <div class="pa-4">
-          <h5 class="text-h5 mb-2">{{ t("problem.input") }}</h5>
-          <v-md-preview :text="input" />
+          <h5 class="text-h5 font-weight-bold mb-2">{{ t("problem.input") }}</h5>
+          <v-md-preview class="pa-2" :text="input" />
         </div>
         <div class="pa-4">
-          <h5 class="text-h5 mb-2">{{ t("problem.output") }}</h5>
-          <v-md-preview :text="output" />
+          <h5 class="text-h5 font-weight-bold mb-2">{{ t("problem.output") }}</h5>
+          <v-md-preview class="pa-2" :text="output" />
         </div>
         <v-row class="pa-4">
           <template v-for="(sample, index) in samples" :key="index">
             <v-col cols="12" sm="6" class="d-flex flex-column">
-              <h5 class="text-h5 mb-2">
+              <h5 class="text-h5 font-weight-bold mb-2">
                 {{ t("problem.sampleInput") }} {{ index + 1 }}
               </h5>
               <div class="position-relative flex-grow-1">
@@ -64,7 +64,7 @@
               </div>
             </v-col>
             <v-col cols="12" sm="6" class="d-flex flex-column">
-              <h5 class="text-h5 mb-2">
+              <h5 class="text-h5 font-weight-bold mb-2">
                 {{ t("problem.sampleOutput") }} {{ index + 1 }}
               </h5>
               <div class="position-relative flex-grow-1">
@@ -84,8 +84,8 @@
           </template>
         </v-row>
         <div class="pa-4" v-if="hint">
-          <h5 class="text-h5 mb-2">{{ t("problem.hint") }}</h5>
-          <v-md-preview :text="hint" />
+          <h5 class="text-h5 font-weight-bold mb-2">{{ t("problem.hint") }}</h5>
+          <v-md-preview class="pa-2" :text="hint" />
         </div>
         <div class="pa-4 d-flex flex-column">
           <div class="mb-3 d-flex">
@@ -327,7 +327,7 @@ const getProblemStatus = computed(() => {
 const getProblemChart = computed(() => {
   return {
     labels: Object.keys(props.problem.statistic_info).map(
-      (key) => statusList[key].name
+      (key) => statusList[key].short
     ),
     datasets: [
       {

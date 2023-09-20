@@ -70,7 +70,15 @@
             :items="tags.map((t) => t.name)"
             multiple
             hide-details
-          />
+            v-model:search="newTag"
+            :loading="tagLoading"
+          >
+            <template v-slot:no-data>
+              <v-list-item @click="handleCreateTag">
+                <v-list-item-title>Create "{{ newTag }}"</v-list-item-title>
+              </v-list-item>
+            </template>
+          </v-autocomplete>
         </v-col>
         <v-col cols="12" v-for="(sample, i) in problem.samples">
           <v-sheet border class="pa-4 rounded">
@@ -326,6 +334,9 @@ const problem = reactive<ManagementProblem>({
   visible: false,
 });
 
+const tagLoading = ref(false);
+const newTag = ref("");
+
 const init = async () => {
   if (!props.create) {
     loading.value = true;
@@ -421,6 +432,13 @@ const handleUploadTestcase = async (e: Event) => {
     Message.success(response.data.data.id);
   }
   (e.target as HTMLInputElement)!.value = "";
+};
+
+const handleCreateTag = () => {
+  if (newTag.value === "") return;
+  tags.value.push({ id: new Date().getTime(), name: newTag.value });
+  problem.tags.push(newTag.value)
+  newTag.value = "";
 };
 
 const description = computed({
