@@ -44,7 +44,7 @@ import { emit } from "process";
 
 const props = withDefaults(
   defineProps<{
-    class: string;
+    class?: string;
     problemId: number;
   }>(),
   { class: "" }
