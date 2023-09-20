@@ -20,6 +20,7 @@ import Setting from "../page/Setting.vue";
 import SettingIndex from "../page/Setting/Index.vue";
 import SettingAccount from "../page/Setting/Account.vue";
 import SettingSecurity from "../page/Setting/Security.vue";
+import ResetPassword from "../page/ResetPassword.vue";
 import Admin from "../page/Admin.vue";
 import AdminDashboard from "../page/Admin/Dashboard.vue";
 import AdminUser from "../page/Admin/User.vue";
@@ -198,6 +199,11 @@ const routes = [
       },
       { path: "/:pathMatch(.*)*", name: "NotFound", component: NotFound },
     ],
+  },
+  {
+    name: "ResetPassword",
+    path: "/reset-password/:token",
+    component: ResetPassword,
   },
 ];
 
