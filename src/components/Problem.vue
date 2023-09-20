@@ -327,7 +327,7 @@ const getProblemStatus = computed(() => {
 const getProblemChart = computed(() => {
   return {
     labels: Object.keys(props.problem.statistic_info).map(
-      (key) => statusList[key].name
+      (key) => statusList[key].short
     ),
     datasets: [
       {
