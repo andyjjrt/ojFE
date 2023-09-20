@@ -51,6 +51,7 @@
           <template v-for="item in data">
             <v-list-item :to="getProblemLocation(item._id)" :active="false">
               <v-list-item-title>{{ item.title }}</v-list-item-title>
+              <v-list-item-subtitle>{{ item._id }}</v-list-item-subtitle>
               <template v-slot:prepend>
                 <DifficultyLabel :difficulty="item.difficulty" />
               </template>
