@@ -10,7 +10,7 @@
           params: { contestId: contestId },
         }"
       >
-        Announement
+        Announcement
       </v-tab>
       <v-tab
         :to="{ name: 'AdminContestProblems', params: { contestId: contestId } }"
