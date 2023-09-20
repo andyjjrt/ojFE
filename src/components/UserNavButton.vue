@@ -269,7 +269,7 @@ const handleSubmit = async () => {
 
 const handleRegister = async () => {
   if (
-    registerPassword.value !== "" &&
+    registerPassword.value === "" ||
     registerPassword.value !== registerPasswordComfirm.value
   ) {
     errorMessage.value = "Password not matched";
