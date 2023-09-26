@@ -152,6 +152,7 @@ const error = ref<string | null>(null);
 const dialog = ref(false);
 const dialogLoading = ref(false);
 const updateAnnounce = reactive<ManagementAnnouncement>({
+  contest_id: props.contestId,
   id: -1,
   created_by: {
     id: 0,
