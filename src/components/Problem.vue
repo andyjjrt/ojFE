@@ -32,15 +32,21 @@
 
         <v-divider />
         <div class="pa-4">
-          <h5 class="text-h5 font-weight-bold mb-2">{{ t("problem.description") }}</h5>
+          <h5 class="text-h5 font-weight-bold mb-2">
+            {{ t("problem.description") }}
+          </h5>
           <v-md-preview class="pa-2" :text="description" />
         </div>
         <div class="pa-4">
-          <h5 class="text-h5 font-weight-bold mb-2">{{ t("problem.input") }}</h5>
+          <h5 class="text-h5 font-weight-bold mb-2">
+            {{ t("problem.input") }}
+          </h5>
           <v-md-preview class="pa-2" :text="input" />
         </div>
         <div class="pa-4">
-          <h5 class="text-h5 font-weight-bold mb-2">{{ t("problem.output") }}</h5>
+          <h5 class="text-h5 font-weight-bold mb-2">
+            {{ t("problem.output") }}
+          </h5>
           <v-md-preview class="pa-2" :text="output" />
         </div>
         <v-row class="pa-4">
@@ -88,7 +94,7 @@
           <v-md-preview class="pa-2" :text="hint" />
         </div>
         <div class="pa-4 d-flex flex-column">
-          <div class="mb-3 d-flex">
+          <div class="mb-3 d-flex align-center">
             <v-select
               :label="t('problem.language')"
               :items="languages"
@@ -97,7 +103,11 @@
               v-model="selectedLanguage"
               hide-details
             />
+            <v-btn class="ml-2" size="large" @click="() => resetTemplate()">
+              <v-icon icon="mdi-file-document-refresh-outline" />
+            </v-btn>
           </div>
+          
           <div class="position-relative">
             <v-progress-linear indeterminate absolute :active="loading" />
             <CodeMirror v-model="code" :lang="selectedLanguage" />
@@ -223,7 +233,7 @@ const loading = ref(false);
 const selectedLanguage = ref(languages.value[0]);
 const code = ref("");
 const problemkey = ref(
-  `problemCode_${routes.params.contestid || "NaN"}_${routes.params.problemId}`
+  `problemCode_${routes.params.contestId || "NaN"}_${routes.params.problemId}`
 );
 
 const timer = ref<number>(-1);
@@ -244,7 +254,7 @@ const copy = (text: string) => {
   navigator.clipboard.writeText(text);
 };
 
-const resetTemplate = (language: string) => {
+const resetTemplate = (language: string = selectedLanguage.value) => {
   if (Object.hasOwn(templates.value, language))
     code.value = templates.value[language];
 };
@@ -348,6 +358,8 @@ onMounted(() => {
   if (history) {
     code.value = JSON.parse(history).code;
     selectedLanguage.value = JSON.parse(history).language;
+  } else {
+    resetTemplate();
   }
 });
 
