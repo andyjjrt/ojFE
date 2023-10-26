@@ -14,6 +14,8 @@ import "./css/editor.css";
 import "./css/message.css";
 import "./css/vuepress.css";
 import "katex/dist/katex.css";
+import "./utils/monaco";
+import { install as VueMonacoEditorPlugin } from '@guolao/vue-monaco-editor'
 
 const app = createApp(App);
 const pinia = createPinia();
@@ -42,4 +44,5 @@ app.use(router);
 app.use(VMdPreview);
 app.use(VMdEditor);
 app.use(Message);
+app.use(VueMonacoEditorPlugin)
 app.mount("#app");

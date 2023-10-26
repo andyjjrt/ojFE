@@ -15,6 +15,7 @@ export default ({ mode }) => {
       VitePWA({
         registerType: "autoUpdate",
         workbox: {
+          maximumFileSizeToCacheInBytes: 5000000,
           globPatterns: [
             "assets/*.{png,svg,jpg,ttf,woff}",
             "**/*.{js,css,html}",
@@ -62,23 +63,14 @@ export default ({ mode }) => {
     },
     build: {
       rollupOptions: {
+        plugins: [],
         output: {
           manualChunks: {
-            codemirror: [
-              "vue-codemirror6",
-              "codemirror",
-              "@codemirror/view",
-              "@codemirror/theme-one-dark",
-            ],
-            "codemirror-lang": [
-              "@codemirror/lang-cpp",
-              "@codemirror/lang-java",
-              "@codemirror/lang-javascript",
-              "@codemirror/lang-python",
-              "@codemirror/lang-rust",
-            ],
-            "md-editor": [
+            "monaco-editor": ["monaco-editor"],
+            "md-editor-core": [
               "@kangc/v-md-editor",
+            ],
+            "md-editor-utils": [
               "@kangc/v-md-editor/lib/plugins/katex/npm",
               "@kangc/v-md-editor/lib/preview",
               "@kangc/v-md-editor/lib/theme/vuepress.js",
