@@ -33,7 +33,7 @@ import useDate from "../hooks/useDate";
 const dialog = ref(false);
 
 const time = ref(new Date());
-const timer = ref<NodeJS.Timer>();
+const timer = ref<NodeJS.Timeout>();
 
 const { getDate } = useDate();
 

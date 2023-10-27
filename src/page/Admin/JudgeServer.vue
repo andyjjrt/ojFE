@@ -60,6 +60,7 @@
 <script setup lang="ts">
 import { reactive, onMounted, onBeforeUnmount, ref } from "vue";
 import { fetchApi } from "../../utils/api";
+import Message from "vue-m-message";
 
 const judgeServerStatus = reactive<JudgeServerStatus>({
   token: "",
@@ -81,8 +82,12 @@ const handleDelete = async (id: string) => {
     params: { hostname: id },
   });
   if (response.data.error) {
+    Message.error(response.data.data);
+    return;
+  } else {
+    Message.success("Success");
+    init();
   }
-  init();
 };
 
 const handleDisabled = async (id: number, disabled: boolean) => {
@@ -90,8 +95,12 @@ const handleDisabled = async (id: number, disabled: boolean) => {
     data: { id: id, is_disabled: disabled },
   });
   if (response.data.error) {
+    Message.error(response.data.data);
+    return;
+  } else {
+    Message.success("Success");
+    init();
   }
-  init();
 };
 
 onMounted(() => {

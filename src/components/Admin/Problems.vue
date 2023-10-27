@@ -139,6 +139,7 @@ import DifficultyLabel from "../DifficultyLabel.vue";
 import ErrorMessage from "../ErrorMessage.vue";
 import AddPublicProblem from "../../components/Admin/AddPublicProblem.vue";
 import MakeProblemPublic from "./MakeProblemPublic.vue";
+import Message from "vue-m-message";
 
 const router = useRouter();
 const routes = useRoute();
@@ -213,7 +214,13 @@ const handleChangeVisibility = async (problem: ManagementProblem) => {
     }
   );
   loading.value = false;
-  init();
+  if (response.data.error) {
+    Message.error(response.data.data);
+    return;
+  } else {
+    Message.success("Success");
+    init();
+  }
 };
 
 const handleDelete = async (
@@ -232,7 +239,13 @@ const handleDelete = async (
     }
   );
   loading.value = false;
-  init();
+  if (response.data.error) {
+    Message.error(response.data.data);
+    return;
+  } else {
+    Message.success("Success");
+    init();
+  }
 };
 
 const getProblemLocation = computed(() => {

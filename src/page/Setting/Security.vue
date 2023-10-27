@@ -122,13 +122,17 @@ const init = async () => {
   const response = await fetchApi("/sessions", "get");
   loading.value = false;
   if (response.data.error) {
-    // error handling
+    Message.error(response.data.data);
+    return;
+  } else {
+    Message.success("Success");
+    sessions.value = response.data.data.sort((a: Session, b: Session) => {
+      return (
+        new Date(b.last_activity).getTime() -
+        new Date(a.last_activity).getTime()
+      );
+    });
   }
-  sessions.value = response.data.data.sort((a: Session, b: Session) => {
-    return (
-      new Date(b.last_activity).getTime() - new Date(a.last_activity).getTime()
-    );
-  });
 };
 
 const handleRevoke = async (isActive: Ref<boolean>, sessionId: string) => {
@@ -141,8 +145,10 @@ const handleRevoke = async (isActive: Ref<boolean>, sessionId: string) => {
   revokeLoading.value = false;
   isActive.value = false;
   if (response.data.error) {
-    // error handling
+    Message.error(response.data.data);
+    return;
   } else {
+    Message.success("Success");
     init();
   }
 };
@@ -152,8 +158,10 @@ const get2FAImage = async () => {
   const response = await fetchApi("/two_factor_auth", "get");
   twoFALoading.value = false;
   if (response.data.error) {
-    // handle error
+    Message.error(response.data.data);
+    return;
   } else {
+    Message.success("Success");
     twoFAImage.value = response.data.data;
   }
 };

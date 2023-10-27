@@ -25,6 +25,7 @@ import { onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
 import { fetchApi } from "../utils/api";
+import Message from "vue-m-message";
 
 const routes = useRoute();
 const router = useRouter();
@@ -43,6 +44,7 @@ const init = async () => {
 const handlePickone = async () => {
   const response = await fetchApi("/pickone", "get");
   const problemId = response.data.data;
+  Message.success("Good Luck!")
   router.push({ name: "Problem", params: { problemId: problemId } });
 };
 

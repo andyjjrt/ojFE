@@ -58,11 +58,10 @@
       </v-list>
     </v-card>
     <v-card class="position-relative my-4">
-      <pre class="language-clang"><code v-html="html" /></pre>
+      <MonacoEditor v-model="status.code" :lang="status.language" readOnly :height="500"/>
       <v-btn
         icon="mdi-clipboard-text"
-        class="me-1 text-disabled me-2 mt-2"
-        density="compact"
+        class="me-1 text-disabled me-1 mt-1"
         style="position: absolute; right: 0; top: 0"
         variant="text"
         @click="copy(status?.code as string)"
@@ -88,12 +87,8 @@ import { ref, onMounted, computed } from "vue";
 import { fetchApi } from "../utils/api";
 import statusList from "../utils/status";
 import Loader from "../components/Loader.vue";
-import Prism from "prismjs";
 import Message from "vue-m-message";
-import "prismjs/components/prism-python";
-import "prismjs/components/prism-javascript";
-import "prismjs/components/prism-java";
-import "prismjs/components/prism-rust";
+import MonacoEditor from "../components/MonacoEditor.vue";
 
 const routes = useRoute();
 const status = ref<Status | null>(null);
@@ -122,7 +117,13 @@ const handleShare = async () => {
     },
   });
   loading.value = false;
-  init();
+  if (response.data.error) {
+    Message.error(response.data.data);
+    return;
+  } else {
+    Message.success("Success");
+    init();
+  }
 };
 
 const copy = (text: string) => {
@@ -135,82 +136,5 @@ const statusListDetail = computed(() => {
   return statusList[0];
 });
 
-const html = computed(() =>
-  Prism.highlight(status.value?.code || "", langPlugin.value, "clike")
-);
-
-const langPlugin = computed(() => {
-  switch (status.value?.language) {
-    case "C":
-    case "C++":
-      return Prism.languages.clike;
-    case "Java":
-      return Prism.languages.java;
-    case "Python2":
-    case "Python3":
-      return Prism.languages.python;
-    case "JavaScript":
-      return Prism.languages.javascript;
-    case "Rust":
-      return Prism.languages.rust;
-    default:
-      return Prism.languages.plain;
-  }
-});
-
 onMounted(() => init());
-console.log(Prism.languages);
 </script>
-
-<style>
-@import "prism-theme-vars/base.css";
-
-.v-theme--light {
-  --prism-foreground: #393a34;
-  --prism-background: #fbfbfb;
-  --prism-comment: #a0ada0;
-  --prism-string: #b56959;
-  --prism-literal: #2f8a89;
-  --prism-number: #296aa3;
-  --prism-keyword: #1c6b48;
-  --prism-function: #6c7834;
-  --prism-boolean: #1c6b48;
-  --prism-constant: #a65e2b;
-  --prism-deleted: #a14f55;
-  --prism-class: #2993a3;
-  --prism-builtin: #ab5959;
-  --prism-property: #b58451;
-  --prism-namespace: #b05a78;
-  --prism-punctuation: #8e8f8b;
-  --prism-decorator: #bd8f8f;
-  --prism-regex: #ab5e3f;
-  --prism-json-property: #698c96;
-}
-
-.v-theme--dark {
-  --prism-scheme: dark;
-  --prism-foreground: #d4cfbf;
-  --prism-background: #1e1e1e;
-  --prism-comment: #758575;
-  --prism-string: #d48372;
-  --prism-literal: #429988;
-  --prism-keyword: #4d9375;
-  --prism-boolean: #1c6b48;
-  --prism-number: #6394bf;
-  --prism-variable: #c2b36e;
-  --prism-function: #a1b567;
-  --prism-deleted: #a14f55;
-  --prism-class: #54b1bf;
-  --prism-builtin: #e0a569;
-  --prism-property: #dd8e6e;
-  --prism-namespace: #db889a;
-  --prism-punctuation: #858585;
-  --prism-decorator: #bd8f8f;
-  --prism-regex: #ab5e3f;
-  --prism-json-property: #6b8b9e;
-  --prism-line-number: #888888;
-  --prism-line-number-gutter: #eeeeee;
-  --prism-line-highlight-background: #444444;
-  --prism-selection-background: #444444;
-}
-</style>

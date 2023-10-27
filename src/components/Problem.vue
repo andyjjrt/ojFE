@@ -110,7 +110,7 @@
           
           <div class="position-relative">
             <v-progress-linear indeterminate absolute :active="loading" />
-            <CodeMirror v-model="code" :lang="selectedLanguage" />
+            <MonacoEditor v-model="code" :lang="selectedLanguage" />
           </div>
 
           <div class="mt-3 d-flex justify-space-between">
@@ -199,7 +199,7 @@
 import { computed, onMounted, onBeforeUnmount, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import { useDisplay, useTheme } from "vuetify";
-import CodeMirror from "../components/CodeMirror.vue";
+import MonacoEditor from "../components/MonacoEditor.vue";
 import PieChart from "./PieChart.vue";
 import DifficultyLabel from "./DifficultyLabel.vue";
 import { fetchApi } from "../utils/api";

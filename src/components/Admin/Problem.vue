@@ -144,7 +144,7 @@
                 />
               </v-expansion-panel-title>
               <v-expansion-panel-text eager>
-                <CodeMirror
+                <MonacoEditor
                   :lang="language"
                   v-model="problem.template[language]"
                   v-if="problem.template[language]"
@@ -263,7 +263,7 @@ import { useRoute } from "vue-router";
 import { reactive, ref, onMounted, computed } from "vue";
 import { useConstantsStore } from "../../store/constants";
 import { fetchApi } from "../../utils/api";
-import CodeMirror from "../CodeMirror.vue";
+import MonacoEditor from "../MonacoEditor.vue";
 import MDEditor from "../MDEditor.vue";
 import Message from "vue-m-message";
 import router from "../../router";
@@ -387,6 +387,7 @@ const handleSave = async () => {
     Message.error(response.data.data);
     return;
   }
+  Message.success("Success");
   if (props.create) {
     router.push({
       name: props.contestId ? "AdminContestProblems" : "AdminProblems",
@@ -437,7 +438,7 @@ const handleUploadTestcase = async (e: Event) => {
 const handleCreateTag = () => {
   if (newTag.value === "") return;
   tags.value.push({ id: new Date().getTime(), name: newTag.value });
-  problem.tags.push(newTag.value)
+  problem.tags.push(newTag.value);
   newTag.value = "";
 };
 

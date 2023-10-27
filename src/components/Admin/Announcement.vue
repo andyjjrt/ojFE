@@ -132,6 +132,7 @@ import Datagrid from "../Datagrid.vue";
 import ErrorMessage from "../ErrorMessage.vue";
 import useDate from "../../hooks/useDate";
 import MDEditor from "../MDEditor.vue";
+import Message from "vue-m-message";
 
 const router = useRouter();
 const routes = useRoute();
@@ -245,7 +246,13 @@ const handleChangeVisibility = async (announcement: ManagementAnnouncement) => {
     }
   );
   loading.value = false;
-  init();
+  if (response.data.error) {
+    Message.error(response.data.data);
+    return;
+  } else {
+    Message.success("Success");
+    init();
+  }
 };
 
 const content = computed({
@@ -266,7 +273,13 @@ const handleSaveAnnouncement = async () => {
   );
   dialogLoading.value = false;
   dialog.value = false;
-  init();
+  if (response.data.error) {
+    Message.error(response.data.data);
+    return;
+  } else {
+    Message.success("Success");
+    init();
+  }
 };
 
 const handleDeleteAnnouncement = async (isActive: Ref<boolean>) => {
@@ -283,7 +296,13 @@ const handleDeleteAnnouncement = async (isActive: Ref<boolean>) => {
   );
   dialogLoading.value = false;
   dialog.value = false;
-  init();
+  if (response.data.error) {
+    Message.error(response.data.data);
+    return;
+  } else {
+    Message.success("Success");
+    init();
+  }
 };
 
 onMounted(() => {
