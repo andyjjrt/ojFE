@@ -78,6 +78,7 @@ import { DatePicker } from "v-calendar";
 import MDEditor from "../MDEditor.vue";
 import "v-calendar/style.css";
 import { fetchApi } from "../../utils/api";
+import Message from "vue-m-message";
 
 const props = defineProps<{
   create?: boolean;
@@ -112,11 +113,9 @@ const contest = reactive<ManagementContest>(
   })
 );
 const loading = ref(false);
-const error = ref<string | null>(null);
 const contestId = routes.params.contestId;
 
 const handleSave = async () => {
-  error.value = null;
   loading.value = true;
   const response = await fetchApi(
     "/admin/contest",
@@ -127,9 +126,10 @@ const handleSave = async () => {
   );
   loading.value = false;
   if (response.data.error) {
-    error.value = response.data.data;
+    Message.error(response.data.data);
     return;
   }
+  Message.success("Success");
   if (props.create) {
     router.push({ name: "AdminContests" });
   }

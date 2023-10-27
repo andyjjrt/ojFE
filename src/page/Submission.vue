@@ -117,7 +117,13 @@ const handleShare = async () => {
     },
   });
   loading.value = false;
-  init();
+  if (response.data.error) {
+    Message.error(response.data.data);
+    return;
+  } else {
+    Message.success("Success");
+    init();
+  }
 };
 
 const copy = (text: string) => {

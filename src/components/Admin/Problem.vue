@@ -387,6 +387,7 @@ const handleSave = async () => {
     Message.error(response.data.data);
     return;
   }
+  Message.success("Success");
   if (props.create) {
     router.push({
       name: props.contestId ? "AdminContestProblems" : "AdminProblems",
@@ -437,7 +438,7 @@ const handleUploadTestcase = async (e: Event) => {
 const handleCreateTag = () => {
   if (newTag.value === "") return;
   tags.value.push({ id: new Date().getTime(), name: newTag.value });
-  problem.tags.push(newTag.value)
+  problem.tags.push(newTag.value);
   newTag.value = "";
 };
 

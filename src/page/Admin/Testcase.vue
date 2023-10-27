@@ -48,6 +48,7 @@ import { ref, onMounted } from "vue";
 import useDate from "../../hooks/useDate";
 import { useDisplay } from "vuetify";
 import { fetchApi } from "../../utils/api";
+import Message from "vue-m-message";
 
 const testcases = ref<TestCase[]>([]);
 const loading = ref(false);
@@ -69,14 +70,26 @@ const handleDelete = async (id: string) => {
     },
   });
   loading.value = false;
-  init();
+  if (response.data.error) {
+    Message.error(response.data.data);
+    return;
+  } else {
+    Message.success("Success");
+    init();
+  }
 };
 
 const handleDeleteAll = async () => {
   loading.value = true;
   const response = await fetchApi("/admin/prune_test_case", "delete");
   loading.value = false;
-  init();
+  if (response.data.error) {
+    Message.error(response.data.data);
+    return;
+  } else {
+    Message.success("Success");
+    init();
+  }
 };
 
 onMounted(() => init());

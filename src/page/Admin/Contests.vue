@@ -112,6 +112,7 @@ import Downloader from "../../components/Admin/Downloader.vue";
 import ErrorMessage from "../../components/ErrorMessage.vue";
 import useDate from "../../hooks/useDate";
 import { contestStatusList } from "../../utils/status";
+import Message from "vue-m-message";
 
 const router = useRouter();
 const routes = useRoute();
@@ -171,7 +172,13 @@ const handleChangeVisibility = async (contest: ManagementContest) => {
     data: contest,
   });
   loading.value = false;
-  init();
+  if (response.data.error) {
+    Message.error(response.data.data);
+    return;
+  } else {
+    Message.success("Success");
+    init();
+  }
 };
 
 onMounted(() => {

@@ -135,6 +135,7 @@ const handleSaveSmtp = async () => {
   if (response.data.error) {
     Message.error(response.data.data);
   } else {
+    Message.success("Success");
     initSmtp();
   }
 };
@@ -153,6 +154,7 @@ const handleSaveWebsite = async () => {
   if (response.data.error) {
     Message.error(response.data.data);
   } else {
+    Message.success("Success");
     initWebsite();
   }
 };
@@ -165,6 +167,8 @@ const handleSendTestEmail = async () => {
   smtpLoading.value = false;
   if (response.data.error) {
     Message.error(response.data.data);
+  }else {
+    Message.success("Test mail sent")
   }
 };
 

@@ -114,7 +114,7 @@ const handleUpdate = async () => {
   });
   loading.value = false;
   if (response.data.error) {
-    // error handling
+    Message.error(response.data.data);
   } else {
     Message.success("Success");
     user.getProfile();

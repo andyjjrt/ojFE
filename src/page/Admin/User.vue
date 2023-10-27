@@ -182,6 +182,7 @@ import Datagrid from "../../components/Datagrid.vue";
 import ErrorMessage from "../../components/ErrorMessage.vue";
 import useDate from "../../hooks/useDate";
 import { Ref } from "vue";
+import Message from "vue-m-message";
 
 const router = useRouter();
 const routes = useRoute();
@@ -273,7 +274,13 @@ const handleUpdateUser = async () => {
   });
   dialogLoading.value = false;
   dialog.value = false;
-  init();
+  if (response.data.error) {
+    Message.error(response.data.data);
+    return;
+  } else {
+    Message.success("Success");
+    init();
+  }
 };
 
 const handleDeleteUser = async (isActive: Ref<boolean>) => {
@@ -286,7 +293,13 @@ const handleDeleteUser = async (isActive: Ref<boolean>) => {
   });
   dialogLoading.value = false;
   dialog.value = false;
-  init();
+  if (response.data.error) {
+    Message.error(response.data.data);
+    return;
+  } else {
+    Message.success("Success");
+    init();
+  }
 };
 
 onMounted(() => {
