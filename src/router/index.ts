@@ -15,6 +15,7 @@ import ACMRank from "../page/RankACM.vue";
 import OIRank from "../page/RankOI.vue";
 import Judger from "../page/Judger.vue";
 import Faq from "../page/Faq.vue";
+import Timer from "../page/Timer.vue";
 import User from "../page/User.vue";
 import Setting from "../page/Setting.vue";
 import SettingIndex from "../page/Setting/Index.vue";
@@ -84,6 +85,16 @@ const routes = [
       { name: "OIRank", path: "oi-rank", component: OIRank },
       { name: "Judger", path: "judger", component: Judger },
       { name: "FAQ", path: "faq", component: Faq },
+      {
+        path: "/utils",
+        children: [
+          {
+            name: "Timer",
+            path: "timer",
+            component: Timer,
+          },
+        ],
+      },
       { name: "User", path: "user", component: User },
       {
         path: "setting",

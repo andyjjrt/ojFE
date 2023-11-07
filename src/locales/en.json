@@ -145,5 +145,11 @@
   "register": "Register",
   "message": {
     "loginFirst": "Please login first"
+  },
+  "util": {
+    "title": "Utilities"
+  },
+  "timer": {
+    "title": "Timer"
   }
 }

@@ -145,5 +145,11 @@
   },
   "message": {
     "loginFirst": "請先登入"
+  },
+  "util": {
+    "title": "工具"
+  },
+  "timer": {
+    "title": "時間"
   }
 }
