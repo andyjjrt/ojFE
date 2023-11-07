@@ -6,7 +6,9 @@
     transition="dialog-bottom-transition"
   >
     <template v-slot:activator="{ props }">
-      <v-btn color="primary" v-bind="props"><v-icon icon="mdi-chart-histogram" /></v-btn>
+      <v-btn color="primary" v-bind="props"
+        ><v-icon icon="mdi-chart-histogram"
+      /></v-btn>
     </template>
     <v-card>
       <div class="d-flex justify-end">
@@ -15,11 +17,9 @@
         </v-btn>
       </div>
       <div class="pa-4 d-flex flex-column justify-center">
-        <v-card class="pa-4 mb-6">
-          <div class="text-center text-h1 ma-3">
-            {{ getDate(time.toISOString(), false) }}
-          </div>
-        </v-card>
+        <div class="text-center text-h1 ma-3 pa-4">
+          {{ getDate(time.toISOString(), false) }}
+        </div>
         <slot />
       </div>
     </v-card>

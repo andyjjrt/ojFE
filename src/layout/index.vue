@@ -73,6 +73,21 @@
           >
           </v-list-item>
         </v-list-group>
+        <v-list-group>
+          <template v-slot:activator="{ props }">
+            <v-list-item
+              v-bind="props"
+              :title="t('util.title')"
+              prepend-icon="mdi-package-variant"
+            />
+          </template>
+          <v-list-item
+            :title="t('timer.title')"
+            to="/utils/timer"
+            :active="routes.name === 'Timer'"
+          >
+          </v-list-item>
+        </v-list-group>
         <template v-if="user.profile?.user.admin_type.includes('Admin')">
           <v-list-group v-if="smAndDown">
             <template v-slot:activator="{ props }">
