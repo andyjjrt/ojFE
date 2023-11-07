@@ -55,39 +55,49 @@
       <template v-slot="{ data }: { data: BriefStatus[] }">
         <v-list lines="one">
           <template v-for="item in data" :key="item.id">
-            <v-list-item>
-              <template v-slot:title>
-                <RouterLink
-                  class="text-decoration-none text-primary"
-                  :to="getProblemLocation(item.problem)"
-                >
-                  {{ item.problem }}
-                </RouterLink>
+            <v-menu>
+              <template v-slot:activator="{ props }">
+                <!-- <v-list-item @click.right.prevent="props.onClick"> -->
+                <v-list-item>
+                  <template v-slot:title>
+                    <RouterLink
+                      class="text-decoration-none text-primary"
+                      :to="getProblemLocation(item.problem)"
+                    >
+                      {{ item.problem }}
+                    </RouterLink>
+                  </template>
+                  <template v-slot:subtitle>
+                    <span class="me-2">
+                      {{ getDate(item.create_time, mobile) }}
+                    </span>
+                    <span class="me-2">{{ item.language }}</span>
+                    <RouterLink
+                      class="text-decoration-none text-primary"
+                      :to="{ name: 'User', query: { username: item.username } }"
+                    >
+                      {{ item.username }}
+                    </RouterLink>
+                  </template>
+                  <template v-slot:append>
+                    <v-chip
+                      size="small"
+                      label
+                      :to="item.show_link ? `/status/${item.id}` : undefined"
+                      :variant="item.show_link ? 'elevated' : 'tonal'"
+                      :color="statusList[item.result].type"
+                    >
+                      {{ statusList[item.result].name }}
+                    </v-chip>
+                  </template>
+                </v-list-item>
               </template>
-              <template v-slot:subtitle>
-                <span class="me-2">{{
-                  getDate(item.create_time, mobile)
-                }}</span>
-                <span class="me-2">{{ item.language }}</span>
-                <RouterLink
-                  class="text-decoration-none text-primary"
-                  :to="{ name: 'User', query: { username: item.username } }"
-                >
-                  {{ item.username }}
-                </RouterLink>
-              </template>
-              <template v-slot:append>
-                <v-chip
-                  size="small"
-                  label
-                  :to="item.show_link ? `/status/${item.id}` : undefined"
-                  :variant="item.show_link ? 'elevated' : 'tonal'"
-                  :color="statusList[item.result].type"
-                >
-                  {{ statusList[item.result].name }}
-                </v-chip>
-              </template>
-            </v-list-item>
+              <v-list max-width="100px">
+                <v-list-item v-for="index in 4" :key="index">
+                  <v-list-item-title>Option {{ index }}</v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
             <v-divider />
           </template>
         </v-list>
@@ -129,6 +139,7 @@ const error = ref<string | null>(null);
 const username = ref("");
 const myself = ref(false);
 const status = ref("");
+const menu = ref(false);
 
 const offset = computed(() => (page.value - 1) * limit.value);
 
