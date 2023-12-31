@@ -5,7 +5,8 @@
       <template v-else>
         <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
         <v-app-bar-title>{{ website?.website_name }}</v-app-bar-title>
-        <UserNavButton />
+        <v-skeleton-loader type="avatar" v-if="!constants.isReady" />
+        <UserNavButton v-else />
       </template>
     </v-app-Bar>
     <v-navigation-drawer v-model="drawer" temporary>
@@ -152,7 +153,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, computed } from "vue";
+import { watch, ref, computed } from "vue";
 import { storeToRefs } from "pinia";
 import { useConstantsStore } from "../store/constants";
 import { useUserStore } from "../store/user";
@@ -192,16 +193,6 @@ const generateTitle = (route: RouteLocationNormalized) => {
   }
 };
 
-onMounted(() => {
-  if (
-    routes.meta.admin &&
-    !(user.profile && user.profile.user.admin_type.includes("Admin"))
-  ) {
-    router.push({ name: "Home" });
-  }
-  generateTitle(routes);
-});
-
 router.beforeEach((to, from, next) => {
   if (
     to.meta.admin &&
@@ -212,4 +203,14 @@ router.beforeEach((to, from, next) => {
   generateTitle(to);
   next();
 });
+
+watch(() => user.isReady, () => {
+  if (
+    routes.meta.admin &&
+    !(user.profile && user.profile.user.admin_type.includes("Admin"))
+  ) {
+    router.push({ name: "Home" });
+  }
+  generateTitle(routes);
+})
 </script>
