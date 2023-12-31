@@ -2,6 +2,7 @@
   <v-card class="pa-4">
     <v-card-title>{{ t("tags.title") }}</v-card-title>
     <div class="mb-2">
+      <v-skeleton-loader v-if="loading" type="chip@2" />
       <v-chip
         class="ma-1 me-2"
         size="small"

@@ -1,9 +1,9 @@
 <template>
   <div>
     <ErrorMessage :message="error" v-if="error" />
-    <Loader v-else-if="loading" />
+    <v-skeleton-loader v-else-if="loading" type="heading, paragraph" />
     <template v-else-if="contest">
-      <div class="d-flex justify-space-between">
+      <div class="d-flex justify-space-between pb-3">
         <h1>{{ contest.title }}</h1>
         <v-chip
           class="ma-1 me-2"
@@ -109,22 +109,21 @@ const init = async () => {
     else remainTime.value = time;
   }, 1000);
 
-  if (
-    (response.data.data as Contest).contest_type === "Password Protected" &&
-    !user.profile!.user.admin_type.includes("Admin")
-  ) {
-    loading.value = true;
-    const response = await fetchApi("/contest/access", "get", {
-      params: {
-        contest_id: contestId,
-      },
-    });
-    loading.value = false;
-    if (response.data.error) {
-      error.value = response.data.data;
-      return;
+  if ((response.data.data as Contest).contest_type === "Password Protected") {
+    if (!user.isAdmin) {
+      loading.value = true;
+      const response = await fetchApi("/contest/access", "get", {
+        params: {
+          contest_id: contestId,
+        },
+      });
+      loading.value = false;
+      if (response.data.error) {
+        access.value = false
+        return;
+      }
+      access.value = response.data.data.access;
     }
-    access.value = response.data.data.access;
   }
 };
 

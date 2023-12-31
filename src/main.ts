@@ -14,7 +14,7 @@ import "./css/editor.css";
 import "./css/message.css";
 import "./css/vuepress.css";
 import "katex/dist/katex.css";
-import "./utils/monaco";
+// import "./utils/monaco";
 import { install as VueMonacoEditorPlugin } from '@guolao/vue-monaco-editor'
 
 const app = createApp(App);
@@ -44,5 +44,9 @@ app.use(router);
 app.use(VMdPreview);
 app.use(VMdEditor);
 app.use(Message);
-app.use(VueMonacoEditorPlugin)
+app.use(VueMonacoEditorPlugin, {
+  paths: {
+    vs: 'https://cdn.jsdelivr.net/npm/monaco-editor@0.43.0/min/vs'
+  },
+})
 app.mount("#app");

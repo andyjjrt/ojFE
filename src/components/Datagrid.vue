@@ -1,10 +1,15 @@
 <template>
   <v-sheet class="d-flex flex-column h-100">
+    <v-skeleton-loader
+      v-if="!init"
+      type="list-item-two-line@3"
+    >
+    </v-skeleton-loader>
     <v-overlay
       contained
       persistent
       class="align-center justify-center"
-      :modelValue="loading"
+      :modelValue="loadingDisplay"
     >
       <v-progress-circular indeterminate color="primary" />
     </v-overlay>
@@ -62,7 +67,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 import { useDisplay } from "vuetify";
 import { useI18n } from "vue-i18n";
 
@@ -85,9 +90,20 @@ const _page = computed({
   get: () => props.page,
   set: (value: number) => emits("handleNavigate", value),
 });
+const loadingDisplay = computed(() => init.value && props.loading)
 
 const { mobile } = useDisplay();
 
+const init = ref(false);
+
 const handleChangeRowPerPage = (value: number) =>
   emits("handleChangeRowPerPage", value);
+
+watch(() => props.data, (val) => {
+  if(val.length > 0) init.value = true;
+})
+
+watch(() => props.loading, (_, oldVal) => {
+  if(oldVal) init.value = true;
+})
 </script>

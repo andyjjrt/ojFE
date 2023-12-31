@@ -37,6 +37,21 @@ export default ({ mode }) => {
               urlPattern: /\/assets\/*.*.woff2/,
               handler: "CacheFirst",
             },
+            {
+              urlPattern: /^https:\/\/cdn\.jsdelivr\.net\/npm\/monaco-editor.*/i,
+              handler: 'CacheFirst',
+              options: {
+                cacheName: 'monoco-editor',
+              }
+            },
+            {
+              urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
+              handler: 'CacheFirst',
+            },
+            {
+              urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/i,
+              handler: 'CacheFirst',
+            }
           ],
         },
       }),
@@ -66,7 +81,6 @@ export default ({ mode }) => {
         plugins: [],
         output: {
           manualChunks: {
-            "monaco-editor": ["monaco-editor"],
             "md-editor-core": [
               "@kangc/v-md-editor",
             ],

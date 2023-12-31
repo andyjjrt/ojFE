@@ -1,9 +1,12 @@
 <template>
   <v-layout>
     <v-app-Bar>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-app-bar-title>{{ website?.website_name }}</v-app-bar-title>
-      <UserNavButton />
+      <v-skeleton-loader type="avatar, heading, avatar" class="w-100" v-if="constants.website === null" />
+      <template v-else>
+        <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+        <v-app-bar-title>{{ website?.website_name }}</v-app-bar-title>
+        <UserNavButton />
+      </template>
     </v-app-Bar>
     <v-navigation-drawer v-model="drawer" temporary>
       <v-list navcolor="primary">
@@ -117,26 +120,32 @@
           </v-fade-transition>
         </RouterView>
       </v-container>
-      <v-footer class="bg-background">
-        <div class="text-center text-caption w-100">
-          <div v-html="constants.website?.website_footer" />
-          <span>FE redesign by</span>
-          <a
-            href="https://andyjjrt.cc"
-            class="me-2 text-decoration-none"
-            target="_blank"
-          >
-            andyjjrt
-          </a>
-          <span>Version:</span>
-          <a
-            :href="releaseLocation"
-            class="mx-1 text-decoration-none"
-            target="_blank"
-          >
-            {{ versionString }}
-          </a>
+      
+      <v-footer class="d-flex flex-column align-center bg-background text-caption">
+        <div v-if="constants.website == null" style="max-width: 500px" class="w-100 text-center">
+          <v-skeleton-loader type="text" class="bg-background" />
         </div>
+        <template v-else>
+          <div v-html="constants.website?.website_footer" />
+          <div>
+            <span>FE redesign by</span>
+            <a
+              href="https://andyjjrt.cc"
+              class="me-2 text-decoration-none"
+              target="_blank"
+            >
+              andyjjrt
+            </a>
+            <span>Version:</span>
+            <a
+              :href="releaseLocation"
+              class="mx-1 text-decoration-none"
+              target="_blank"
+            >
+              {{ versionString }}
+            </a>
+          </div>
+        </template>
       </v-footer>
     </v-main>
   </v-layout>

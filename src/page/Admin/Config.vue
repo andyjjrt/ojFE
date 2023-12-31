@@ -83,7 +83,7 @@
             <v-switch
               hideDetails
               v-model="website.submission_list_show_all"
-              label="Allow Register"
+              label="Show all submissions"
             />
           </v-col>
         </v-row>

@@ -1,18 +1,5 @@
 <template>
-  <RouterView v-if="constants.isReady && user.isReady" />
-  <v-layout v-else>
-    <v-main style="height: 100dvh">
-      <v-container
-        class="h-100 w-100 d-flex flex-column align-center justify-center"
-      >
-        <v-progress-circular :size="50" color="primary" indeterminate />
-        <div v-if="timeout" class="mt-1 text-center">
-          <p>There may be some network error...</p>
-          <p>Please try again later.</p>
-        </div>
-      </v-container>
-    </v-main>
-  </v-layout>
+  <RouterView />
 </template>
 
 <script setup lang="ts">
