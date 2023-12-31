@@ -7,13 +7,13 @@ settings:
 dependencies:
   '@guolao/vue-monaco-editor':
     specifier: ^1.4.1
-    version: 1.4.1(monaco-editor@0.45.0)(vue@3.4.3)
+    version: 1.4.1(monaco-editor@0.43.0)(vue@3.4.3)
   '@kangc/v-md-editor':
     specifier: ^2.3.18
     version: 2.3.18(@vue/compiler-sfc@3.4.3)(vue@3.4.3)
   '@monaco-editor/loader':
     specifier: ^1.4.0
-    version: 1.4.0(monaco-editor@0.45.0)
+    version: 1.4.0(monaco-editor@0.43.0)
   '@popperjs/core':
     specifier: ^2.11.8
     version: 2.11.8
@@ -29,9 +29,6 @@ dependencies:
   katex:
     specifier: ^0.16.9
     version: 0.16.9
-  monaco-editor:
-    specifier: ^0.45.0
-    version: 0.45.0
   pinia:
     specifier: ^2.1.7
     version: 2.1.7(typescript@5.3.3)(vue@3.4.3)
@@ -1484,7 +1481,7 @@ packages:
     requiresBuild: true
     optional: true
 
-  /@guolao/vue-monaco-editor@1.4.1(monaco-editor@0.45.0)(vue@3.4.3):
+  /@guolao/vue-monaco-editor@1.4.1(monaco-editor@0.43.0)(vue@3.4.3):
     resolution: {integrity: sha512-qJKn0AcxCO5vBENh0dA5j47eaaOxX5gT9Tt7adWhOAPcPZUDFWy+ZJjcGVfmXkUMXOoWNyP78TuK8l3olSRoew==}
     peerDependencies:
       '@vue/composition-api': ^1.7.1
@@ -1494,8 +1491,8 @@ packages:
       '@vue/composition-api':
         optional: true
     dependencies:
-      '@monaco-editor/loader': 1.4.0(monaco-editor@0.45.0)
-      monaco-editor: 0.45.0
+      '@monaco-editor/loader': 1.4.0(monaco-editor@0.43.0)
+      monaco-editor: 0.43.0
       vue: 3.4.3(typescript@5.3.3)
       vue-demi: 0.14.6(vue@3.4.3)
     dev: false
@@ -1589,12 +1586,12 @@ packages:
     resolution: {integrity: sha512-43MtGpd585SNzHZPcYowu/84Vz2a2g31TvPMTm9uTiCSWzaheQySUcSyUH/46fPnuPQWof2yd0pGBtzee/IQWw==}
     dev: true
 
-  /@monaco-editor/loader@1.4.0(monaco-editor@0.45.0):
+  /@monaco-editor/loader@1.4.0(monaco-editor@0.43.0):
     resolution: {integrity: sha512-00ioBig0x642hytVspPl7DbQyaSWRaolYie/UFNjoTdvoKPzo6xrXLhTk9ixgIKcLH5b5vDOjVNiGyY+uDCUlg==}
     peerDependencies:
       monaco-editor: '>= 0.21.0 < 1'
     dependencies:
-      monaco-editor: 0.45.0
+      monaco-editor: 0.43.0
       state-local: 1.0.7
     dev: false
 
@@ -4379,8 +4376,8 @@ packages:
       is-extendable: 1.0.1
     dev: false
 
-  /monaco-editor@0.45.0:
-    resolution: {integrity: sha512-mjv1G1ZzfEE3k9HZN0dQ2olMdwIfaeAAjFiwNprLfYNRSz7ctv9XuCT7gPtBGrMUeV1/iZzYKj17Khu1hxoHOA==}
+  /monaco-editor@0.43.0:
+    resolution: {integrity: sha512-cnoqwQi/9fml2Szamv1XbSJieGJ1Dc8tENVMD26Kcfl7xGQWp7OBKMjlwKVGYFJ3/AXJjSOGvcqK7Ry/j9BM1Q==}
     dev: false
 
   /mri@1.2.0:
