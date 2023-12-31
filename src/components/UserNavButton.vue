@@ -6,7 +6,7 @@
   <v-menu v-else>
     <template v-slot:activator="{ props }">
       <v-btn icon v-bind="props">
-        <v-avatar>
+        <v-avatar color="surface-variant">
           <v-img :src="user.profile.avatar" />
         </v-avatar>
       </v-btn>
@@ -45,7 +45,7 @@
         </template>
       </ThemeButton>
       <v-divider />
-      <v-list-item @click="user.logout()">
+      <v-list-item @click="handleLogout">
         <v-list-item-title>{{ t("logout") }}</v-list-item-title>
       </v-list-item>
     </v-list>
@@ -223,7 +223,9 @@ import { useI18n } from "vue-i18n";
 import ThemeButton from "./ThemeButton.vue";
 import { fetchApi } from "../utils/api";
 import Message from "vue-m-message";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 const user = useUserStore();
 const { t } = useI18n();
 
@@ -326,6 +328,11 @@ const handleDetect2FA = async () => {
   twoFARequired.value = response.data.data.result;
   twoFA.value = "";
 };
+
+const handleLogout = () => {
+  router.push({ name: "Home" });
+  user.logout()
+}
 
 watch(dialog, (newVal) => {
   if (!newVal) {

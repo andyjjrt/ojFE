@@ -2,7 +2,7 @@
   <v-row>
     <v-col md="9">
       <v-card class="pa-2">
-        <v-card-title class="d-flex justify-space-between align-center">
+        <v-card-title class="d-flex justify-space-between align-center mb-2">
           <p class="font-weight-bold text-h5">
             {{ title }}
           </p>

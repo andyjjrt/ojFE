@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="d-flex justify-space-between align-center pb-3">
-      <v-skeleton-loader type="heading" v-if="contest.title === ''" min-width="300"></v-skeleton-loader>
+      <v-skeleton-loader type="heading" v-if="contest.title === ''" min-width="300" class="bg-background"></v-skeleton-loader>
       <h1 v-else>{{ contest.title }}</h1>
       <v-btn :to="{ name: 'Contest', params: { contestId: contestId } }">Preview</v-btn>
     </div>
