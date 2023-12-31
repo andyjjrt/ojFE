@@ -1,5 +1,10 @@
 <template>
   <div>
+    <div class="d-flex justify-space-between align-center pb-3">
+      <v-skeleton-loader type="heading" v-if="contest.title === ''" min-width="300"></v-skeleton-loader>
+      <h1 v-else>{{ contest.title }}</h1>
+      <v-btn>Preview</v-btn>
+    </div>
     <v-tabs class="mb-3">
       <v-tab :to="{ name: 'AdminContest', params: { contestId: contestId } }">
         Overview
