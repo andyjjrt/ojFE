@@ -66,7 +66,7 @@
                   color="error"
                   v-else-if="getProblemStatus(item) === -1"
                 />
-                <span class="ms-1">
+                <span class="ms-2">
                   {{
                     item.submission_number
                       ? (
