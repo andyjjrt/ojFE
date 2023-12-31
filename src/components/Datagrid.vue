@@ -1,13 +1,10 @@
 <template>
   <v-sheet class="d-flex flex-column h-100">
-    <v-overlay
-      contained
-      persistent
-      class="align-center justify-center"
-      :modelValue="loading"
+    <v-skeleton-loader
+      v-if="loading"
+      type="list-item-two-line@3"
     >
-      <v-progress-circular indeterminate color="primary" />
-    </v-overlay>
+    </v-skeleton-loader>
     <div class="my-4 text-center" v-if="!loading && data.length === 0">
       {{ t("datagrid.noData") }}
     </div>

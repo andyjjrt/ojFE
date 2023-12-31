@@ -1,9 +1,9 @@
 <template>
   <div>
     <ErrorMessage :message="error" v-if="error" />
-    <Loader v-else-if="loading" />
+    <v-skeleton-loader v-else-if="loading" type="heading, paragraph" />
     <template v-else-if="contest">
-      <div class="d-flex justify-space-between">
+      <div class="d-flex justify-space-between pb-3">
         <h1>{{ contest.title }}</h1>
         <v-chip
           class="ma-1 me-2"
