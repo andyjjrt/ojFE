@@ -43,6 +43,7 @@
           label="Rule Type"
           :items="['ACM', 'OI']"
           hide-details
+          :disabled="!create"
           v-model="contest.rule_type"
         />
       </v-col>
