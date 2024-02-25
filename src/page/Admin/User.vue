@@ -176,7 +176,22 @@
         </v-card>
       </v-dialog>
     </v-card>
-    <UserImport />
+    <v-card class="pa-4 mt-4">
+      <v-card-title>Import Users</v-card-title>
+      <v-card-subtitle class="mb-4">
+        Only support csv file without headers, check the
+        <a href="http://docs.onlinejudge.me/#/onlinejudge/guide/import_users">
+          link
+        </a>
+        for details
+      </v-card-subtitle>
+      <UserImport @handleImported="init" />
+    </v-card>
+    <v-card class="pa-4 mt-4">
+      <v-card-title>Generate Users</v-card-title>
+
+      <UserGeneration @handleImported="init" />
+    </v-card>
   </div>
 </template>
 
@@ -188,6 +203,7 @@ import { fetchApi } from "../../utils/api";
 import Datagrid from "../../components/Datagrid.vue";
 import ErrorMessage from "../../components/ErrorMessage.vue";
 import UserImport from "../../components/Admin/UserImport.vue";
+import UserGeneration from "../../components/Admin/UserGeneration.vue";
 import useDate from "../../hooks/useDate";
 import { Ref } from "vue";
 import Message from "vue-m-message";

@@ -20,7 +20,7 @@ const handleDownload = async () => {
   const response = await fetchApi(props.link, "get", {
     responseType: "blob",
   });
-  let blob = new Blob([response.data], { type: "application/zip" });
+  let blob = new Blob([response.data], { type: response.headers["Content-Type"]?.toString() || "application/zip" });
   let url = window.URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
