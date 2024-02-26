@@ -75,7 +75,7 @@ const { t } = useI18n();
 
 const props = defineProps<{
   data: any[];
-  loading: boolean;
+  loading?: boolean;
   page: number;
   rowsPerPage: 10 | 20 | 30 | number;
   total: number;
@@ -94,7 +94,7 @@ const loadingDisplay = computed(() => init.value && props.loading)
 
 const { mobile } = useDisplay();
 
-const init = ref(false);
+const init = ref(!props.loading);
 
 const handleChangeRowPerPage = (value: number) =>
   emits("handleChangeRowPerPage", value);

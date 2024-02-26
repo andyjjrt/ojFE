@@ -1,5 +1,8 @@
 <template>
-  <RouterView />
+  <div>
+    <RouterView />
+    <ReloadPrompt />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -7,6 +10,7 @@ import { onMounted, ref } from "vue";
 import { useTheme } from "vuetify";
 import { useConstantsStore } from "./store/constants";
 import { useUserStore } from "./store/user";
+import ReloadPrompt from "./components/ReloadPrompt.vue";
 
 const constants = useConstantsStore();
 const user = useUserStore();

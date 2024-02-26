@@ -1,176 +1,198 @@
 <template>
-  <v-card class="pa-4">
-    <div class="d-flex justify-space-between align-center">
-      <v-card-title>Users</v-card-title>
-      <div class="d-flex align-center w-50" v-if="!error">
-        <form class="flex-grow-1" @submit.prevent="() => handleAction(true)">
-          <v-text-field
-            v-model="keyword"
-            density="compact"
-            variant="solo"
-            label="keyword..."
-            append-inner-icon="mdi-magnify"
-            single-line
-            hide-details
-            @click:append-inner="() => handleAction(true)"
-          ></v-text-field>
-        </form>
+  <div>
+    <v-card class="pa-4">
+      <div class="d-flex justify-space-between align-center">
+        <v-card-title>Users</v-card-title>
+        <div class="d-flex align-center w-50" v-if="!error">
+          <form class="flex-grow-1" @submit.prevent="() => handleAction(true)">
+            <v-text-field
+              v-model="keyword"
+              density="compact"
+              variant="solo"
+              label="keyword..."
+              append-inner-icon="mdi-magnify"
+              single-line
+              hide-details
+              @click:append-inner="() => handleAction(true)"
+            ></v-text-field>
+          </form>
+        </div>
       </div>
-    </div>
-    <ErrorMessage :message="error" v-if="error" class="mx-4" />
-    <Datagrid
-      :data="users"
-      :loading="loading"
-      :total="total"
-      :page="page"
-      :rows-per-page="limit"
-      @handleNavigate="handleNavigate"
-      @handleChangeRowPerPage="handleChangeRowPerPage"
-      v-else
-    >
-      <template v-slot="{ data }: { data: ManagementUser[] }">
-        <v-list lines="one" density="compact">
-          <template v-for="item in data">
-            <v-list-item
-              :title="item.username"
-              @click="() => handleOpenDialog(item)"
-            >
-              <template v-slot:append>
-                {{ getDate(item.create_time, false) }}
-              </template>
-            </v-list-item>
-            <v-divider />
-          </template>
-        </v-list>
-      </template>
-    </Datagrid>
-    <v-dialog
-      scrollable
-      max-width="900"
-      v-model="dialog"
-      :persistent="dialogLoading"
-    >
-      <v-card
-        :loading="dialogLoading"
-        :disabled="dialogLoading"
-        tag="form"
-        @submit.prevent="handleUpdateUser"
+      <ErrorMessage :message="error" v-if="error" class="mx-4" />
+      <Datagrid
+        :data="users"
+        :loading="loading"
+        :total="total"
+        :page="page"
+        :rows-per-page="limit"
+        @handleNavigate="handleNavigate"
+        @handleChangeRowPerPage="handleChangeRowPerPage"
+        v-else
       >
-        <v-toolbar color="primary" title="User" />
-        <v-card-text class="pa-0">
-          <v-container fluid>
-            <v-row>
-              <v-col cols="12" sm="6">
-                <v-text-field
-                  hide-details
-                  label="Username"
-                  v-model="updateUser.username"
-                />
-              </v-col>
-              <v-col cols="12" sm="6">
-                <v-text-field
-                  hide-details
-                  label="Email"
-                  v-model="updateUser.email"
-                />
-              </v-col>
-              <v-col cols="12" sm="6">
-                <v-text-field
-                  hide-details
-                  label="Real Name"
-                  v-model="updateUser.real_name"
-                />
-              </v-col>
-              <v-col cols="12" sm="6">
-                <v-text-field
-                  hide-details
-                  label="Password"
-                  v-model="password"
-                />
-              </v-col>
-              <v-col cols="12" sm="6">
-                <v-select
-                  hide-details
-                  label="User Type"
-                  v-model="updateUser.admin_type"
-                  :items="['Regular User', 'Admin', 'Super Admin']"
-                ></v-select>
-              </v-col>
-              <v-col cols="12" sm="6" v-if="updateUser.admin_type === 'Admin'">
-                <v-select
-                  hide-details
-                  label="Problem Permission"
-                  v-model="updateUser.problem_permission"
-                  :items="['None', 'Own', 'All']"
-                ></v-select>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="12" sm="4" class="py-0">
-                <v-switch
-                  hide-details
-                  label="TFA"
-                  density="compact"
-                  v-model="updateUser.two_factor_auth"
-                ></v-switch>
-              </v-col>
-              <v-col cols="12" sm="4" class="py-0">
-                <v-switch
-                  hide-details
-                  label="Open API"
-                  density="compact"
-                  v-model="updateUser.open_api"
-                ></v-switch>
-              </v-col>
-              <v-col cols="12" sm="4" class="py-0">
-                <v-switch
-                  hide-details
-                  label="Disabled"
-                  density="compact"
-                  v-model="updateUser.is_disabled"
-                ></v-switch>
-              </v-col>
-            </v-row>
-          </v-container>
-        </v-card-text>
-        <v-card-actions class="justify-end">
-          <v-btn @click="dialog = false"> Close </v-btn>
-          <v-dialog max-width="600">
-            <template v-slot:activator="{ props }">
-              <v-btn variant="elevated" color="warning" v-bind="props">
-                Delete
-              </v-btn>
+        <template v-slot="{ data }: { data: ManagementUser[] }">
+          <v-list lines="one" density="compact">
+            <template v-for="item in data">
+              <v-list-item
+                :title="item.username"
+                @click="() => handleOpenDialog(item)"
+              >
+                <template v-slot:append>
+                  {{ getDate(item.create_time, false) }}
+                </template>
+              </v-list-item>
+              <v-divider />
             </template>
-            <template v-slot:default="{ isActive }">
-              <v-card>
-                <v-toolbar color="error" title="Comfirm" />
-                <v-card-text>
-                  Sure to delete the user? The associated resources created by
-                  this user will be deleted as well, like problem, contest,
-                  announcement, etc.
-                </v-card-text>
-                <v-card-actions class="justify-end">
-                  <v-btn variant="text" @click="isActive.value = false">
-                    Close
-                  </v-btn>
-                  <v-btn
-                    color="error"
-                    variant="elevated"
-                    @click="() => handleDeleteUser(isActive)"
-                  >
-                    Delete
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </template>
-          </v-dialog>
-          <v-btn color="primary" variant="elevated" type="submit">
-            Update
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </v-card>
+          </v-list>
+        </template>
+      </Datagrid>
+      <v-dialog
+        scrollable
+        max-width="900"
+        v-model="dialog"
+        :persistent="dialogLoading"
+      >
+        <v-card
+          :loading="dialogLoading"
+          :disabled="dialogLoading"
+          tag="form"
+          @submit.prevent="handleUpdateUser"
+        >
+          <v-toolbar color="primary" title="User" />
+          <v-card-text class="pa-0">
+            <v-container fluid>
+              <v-row>
+                <v-col cols="12" sm="6">
+                  <v-text-field
+                    hide-details
+                    label="Username"
+                    v-model="updateUser.username"
+                  />
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <v-text-field
+                    hide-details
+                    label="Email"
+                    v-model="updateUser.email"
+                  />
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <v-text-field
+                    hide-details
+                    label="Real Name"
+                    v-model="updateUser.real_name"
+                  />
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <v-text-field
+                    hide-details
+                    label="Password"
+                    v-model="password"
+                  />
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <v-select
+                    hide-details
+                    label="User Type"
+                    v-model="updateUser.admin_type"
+                    :items="['Regular User', 'Admin', 'Super Admin']"
+                  ></v-select>
+                </v-col>
+                <v-col
+                  cols="12"
+                  sm="6"
+                  v-if="updateUser.admin_type === 'Admin'"
+                >
+                  <v-select
+                    hide-details
+                    label="Problem Permission"
+                    v-model="updateUser.problem_permission"
+                    :items="['None', 'Own', 'All']"
+                  ></v-select>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col cols="12" sm="4" class="py-0">
+                  <v-switch
+                    hide-details
+                    label="TFA"
+                    density="compact"
+                    v-model="updateUser.two_factor_auth"
+                  ></v-switch>
+                </v-col>
+                <v-col cols="12" sm="4" class="py-0">
+                  <v-switch
+                    hide-details
+                    label="Open API"
+                    density="compact"
+                    v-model="updateUser.open_api"
+                  ></v-switch>
+                </v-col>
+                <v-col cols="12" sm="4" class="py-0">
+                  <v-switch
+                    hide-details
+                    label="Disabled"
+                    density="compact"
+                    v-model="updateUser.is_disabled"
+                  ></v-switch>
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-card-text>
+          <v-card-actions class="justify-end">
+            <v-btn @click="dialog = false"> Close </v-btn>
+            <v-dialog max-width="600">
+              <template v-slot:activator="{ props }">
+                <v-btn variant="elevated" color="warning" v-bind="props">
+                  Delete
+                </v-btn>
+              </template>
+              <template v-slot:default="{ isActive }">
+                <v-card>
+                  <v-toolbar color="error" title="Comfirm" />
+                  <v-card-text>
+                    Sure to delete the user? The associated resources created by
+                    this user will be deleted as well, like problem, contest,
+                    announcement, etc.
+                  </v-card-text>
+                  <v-card-actions class="justify-end">
+                    <v-btn variant="text" @click="isActive.value = false">
+                      Close
+                    </v-btn>
+                    <v-btn
+                      color="error"
+                      variant="elevated"
+                      @click="() => handleDeleteUser(isActive)"
+                    >
+                      Delete
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </template>
+            </v-dialog>
+            <v-btn color="primary" variant="elevated" type="submit">
+              Update
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-card>
+    <v-card class="pa-4 mt-4">
+      <v-card-title>Import Users</v-card-title>
+      <v-card-subtitle class="mb-4">
+        Only support csv file without headers, check the
+        <a href="https://opensource.qduoj.com/#/onlinejudge/guide/import_users">
+          link
+        </a>
+        for details
+      </v-card-subtitle>
+      <UserImport @handleImported="init" />
+    </v-card>
+    <v-card class="pa-4 mt-4">
+      <v-card-title>Generate Users</v-card-title>
+
+      <UserGeneration @handleImported="init" />
+    </v-card>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -180,6 +202,8 @@ import { useUserStore } from "../../store/user";
 import { fetchApi } from "../../utils/api";
 import Datagrid from "../../components/Datagrid.vue";
 import ErrorMessage from "../../components/ErrorMessage.vue";
+import UserImport from "../../components/Admin/UserImport.vue";
+import UserGeneration from "../../components/Admin/UserGeneration.vue";
 import useDate from "../../hooks/useDate";
 import { Ref } from "vue";
 import Message from "vue-m-message";
@@ -267,8 +291,8 @@ const handleUpdateUser = async () => {
         updateUser.admin_type === "Super Admin"
           ? "All"
           : updateUser.admin_type === "Regular User"
-          ? "None"
-          : updateUser.problem_permission,
+            ? "None"
+            : updateUser.problem_permission,
       real_name: updateUser.real_name === "" ? null : updateUser.real_name,
     },
   });
