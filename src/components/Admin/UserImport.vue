@@ -8,7 +8,7 @@
       v-if="users.length == 0"
     ></v-file-input>
     <Datagrid
-      :data="users"
+      :data="renderedData"
       :total="total"
       :page="page"
       :loading="loading"
@@ -48,7 +48,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import papa from "papaparse";
 import Datagrid from "../Datagrid.vue";
 import Message from "vue-m-message";
@@ -66,6 +66,7 @@ const loading = ref(false);
 const handleNavigate = (newPage: number) => (page.value = newPage);
 const handleChangeRowPerPage = (newRowPerPage: number) =>
   (limit.value = newRowPerPage);
+const renderedData = computed(() => users.value.filter((_, i) => (i >= (page.value - 1) * limit.value) && (i < page.value * limit.value)))
 
 const handleParseFile = (e: Event) => {
   users.value = [];
