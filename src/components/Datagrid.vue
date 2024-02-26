@@ -91,7 +91,7 @@ const _page = computed({
   set: (value: number) => emits("handleNavigate", value),
 });
 const loadingDisplay = computed(() => init.value && props.loading)
-const renderedData = computed(() => props.data.filter((_, i) => (i >= (props.page - 1) * props.rowsPerPage) && (i < props.page * props.rowsPerPage)))
+const renderedData = computed(() => props.data.length > props.rowsPerPage ? props.data.filter((_, i) => (i >= (props.page - 1) * props.rowsPerPage) && (i < props.page * props.rowsPerPage)) : props.data)
 
 const { mobile } = useDisplay();
 
