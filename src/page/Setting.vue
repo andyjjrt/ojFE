@@ -11,9 +11,9 @@
       </div>
     </div>
     <v-tabs class="mt-3 mb-6">
-      <v-tab :to="{ name: 'Setting' }"> Profile </v-tab>
-      <v-tab :to="{ name: 'SettingAccount' }"> Account </v-tab>
-      <v-tab :to="{ name: 'SettingSecurity' }"> Security </v-tab>
+      <v-tab value="Setting" :to="{ name: 'Setting' }"> Profile </v-tab>
+      <v-tab value="SettingAccount" :to="{ name: 'SettingAccount' }"> Account </v-tab>
+      <v-tab value="SettingSecurity" :to="{ name: 'SettingSecurity' }"> Security </v-tab>
     </v-tabs>
     <RouterView v-slot="{ Component }" v-if="user.profile">
       <v-fade-transition mode="out-in">
@@ -26,9 +26,10 @@
 <script setup lang="ts">
 import { watch, onMounted } from "vue";
 import { useUserStore } from "../store/user";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 
 const user = useUserStore();
+const routes = useRoute()
 const router = useRouter();
 
 watch(
