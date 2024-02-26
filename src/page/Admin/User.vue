@@ -180,7 +180,7 @@
       <v-card-title>Import Users</v-card-title>
       <v-card-subtitle class="mb-4">
         Only support csv file without headers, check the
-        <a href="http://docs.onlinejudge.me/#/onlinejudge/guide/import_users">
+        <a href="https://opensource.qduoj.com/#/onlinejudge/guide/import_users">
           link
         </a>
         for details
