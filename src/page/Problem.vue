@@ -11,17 +11,18 @@
 </template>
 
 <script setup lang="ts">
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { ref, onMounted, watch } from "vue";
 import { useDisplay } from "vuetify";
 import { fetchApi } from "../utils/api";
 import Problem from "../components/Problem.vue";
 import { useUserStore } from "../store/user";
-import Loader from "../components/Loader.vue";
+import Message from "vue-m-message";
 
 const { mdAndUp } = useDisplay();
 
 const routes = useRoute();
+const router = useRouter();
 const user = useUserStore();
 const problem = ref<Problem | null>(null);
 const loading = ref(false);
@@ -35,7 +36,17 @@ const init = async () => {
     },
   });
   loading.value = false;
-  problem.value = response.data.data;
+  if (response.data.error) {
+    Message.error(response.data.data);
+    router.push({
+      name: "NotFound",
+      params: { pathMatch: routes.path.substring(1).split("/") },
+      query: routes.query,
+      hash: routes.hash,
+    });
+  } else {
+    problem.value = response.data.data;
+  }
 };
 
 onMounted(() => init());
