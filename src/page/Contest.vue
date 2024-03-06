@@ -17,20 +17,28 @@
       </div>
 
       <v-tabs>
-        <v-tab :to="{ name: 'Contest', params: { contestId: contestId } }">
+        <v-tab
+          value="Contest"
+          :to="{ name: 'Contest', params: { contestId: contestId } }"
+        >
           {{ t("contest.overview") }}
         </v-tab>
         <v-tab
+          value="ContestProblems"
           :to="{ name: 'ContestProblems', params: { contestId: contestId } }"
         >
           {{ t("problem.title") }}
         </v-tab>
         <v-tab
+          value="ContestSubmissions"
           :to="{ name: 'ContestSubmissions', params: { contestId: contestId } }"
         >
           {{ t("submission.title") }}
         </v-tab>
-        <v-tab :to="{ name: 'ContestRank', params: { contestId: contestId } }">
+        <v-tab
+          value="ContestRank"
+          :to="{ name: 'ContestRank', params: { contestId: contestId } }"
+        >
           {{ t("rank.title") }}
         </v-tab>
         <v-tab
@@ -119,7 +127,7 @@ const init = async () => {
       });
       loading.value = false;
       if (response.data.error) {
-        access.value = false
+        access.value = false;
         return;
       }
       access.value = response.data.data.access;

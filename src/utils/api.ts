@@ -1,3 +1,4 @@
+import Message from 'vue-m-message';
 import axios, { AxiosRequestConfig } from "axios";
 // axios.defaults.headers.post["Content-Type"] = "application/json";
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
@@ -34,6 +35,9 @@ export const ajax = async (
   return axios(axiosOptions)
     .then((res) => res)
     .catch((err) => {
+      if(err.response) {
+        Message.error(err.response.status + ":" + err.response.statusText)
+      }
       throw err;
     });
 };

@@ -1,15 +1,26 @@
 <template>
   <div>
     <div class="d-flex justify-space-between align-center pb-3">
-      <v-skeleton-loader type="heading" v-if="contest.title === ''" min-width="300" class="bg-background"></v-skeleton-loader>
+      <v-skeleton-loader
+        type="heading"
+        v-if="contest.title === ''"
+        min-width="300"
+        class="bg-background"
+      ></v-skeleton-loader>
       <h1 v-else>{{ contest.title }}</h1>
-      <v-btn :to="{ name: 'Contest', params: { contestId: contestId } }">Preview</v-btn>
+      <v-btn :to="{ name: 'Contest', params: { contestId: contestId } }"
+        >Preview</v-btn
+      >
     </div>
     <v-tabs class="mb-3">
-      <v-tab :to="{ name: 'AdminContest', params: { contestId: contestId } }">
+      <v-tab
+        value="AdminContest"
+        :to="{ name: 'AdminContest', params: { contestId: contestId } }"
+      >
         Overview
       </v-tab>
       <v-tab
+        value="AdminContestAnnouncement"
         :to="{
           name: 'AdminContestAnnouncement',
           params: { contestId: contestId },
@@ -18,6 +29,7 @@
         Announcement
       </v-tab>
       <v-tab
+        value="AdminContestProblems"
         :to="{ name: 'AdminContestProblems', params: { contestId: contestId } }"
       >
         Problems

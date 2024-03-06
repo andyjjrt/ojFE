@@ -16,9 +16,9 @@
     <div class="my-4 text-center" v-if="!loading && data.length === 0">
       {{ t("datagrid.noData") }}
     </div>
-    <slot :data="renderedData">
+    <slot :data="data">
       <div class="flex-grow-1">
-        <div v-for="item in renderedData">
+        <div v-for="item in data">
           <slot name="row" :item="item" />
         </div>
       </div>
@@ -91,7 +91,6 @@ const _page = computed({
   set: (value: number) => emits("handleNavigate", value),
 });
 const loadingDisplay = computed(() => init.value && props.loading)
-const renderedData = computed(() => props.data.length > props.rowsPerPage ? props.data.filter((_, i) => (i >= (props.page - 1) * props.rowsPerPage) && (i < props.page * props.rowsPerPage)) : props.data)
 
 const { mobile } = useDisplay();
 
