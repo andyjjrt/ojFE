@@ -17,16 +17,18 @@
             >
               <v-icon icon="mdi-file-edit" />
             </v-btn>
-            <v-icon
-              icon="mdi-check-circle"
-              color="success"
-              v-if="getProblemStatus === 1"
-            />
-            <v-icon
-              icon="mdi-close-circle"
-              color="error"
-              v-else-if="getProblemStatus === -1"
-            />
+            <div>
+              <v-icon
+                icon="mdi-check-circle"
+                color="success"
+                v-if="getProblemStatus === 1"
+              />
+              <v-icon
+                icon="mdi-close-circle"
+                color="error"
+                v-else-if="getProblemStatus === -1"
+              />
+            </div>
           </div>
         </v-card-title>
 
@@ -107,7 +109,7 @@
               <v-icon icon="mdi-file-document-refresh-outline" />
             </v-btn>
           </div>
-          
+
           <div class="position-relative">
             <v-progress-linear indeterminate absolute :active="loading" />
             <MonacoEditor v-model="code" :lang="selectedLanguage" />
@@ -226,7 +228,12 @@ const input = computed(() => decodeURI(props.problem.input_description));
 const output = computed(() => decodeURI(props.problem.output_description));
 const samples = computed(() => props.problem.samples);
 const hint = computed(() => decodeURI(props.problem.hint));
-const languages = computed(() => props.problem.languages);
+const languages = computed(
+  () =>
+    constants.languages
+      ?.map((lang) => lang.name)
+      .filter((lang) => props.problem.languages.includes(lang)) || []
+);
 const templates = computed(() => props.problem.template);
 
 const loading = ref(false);
