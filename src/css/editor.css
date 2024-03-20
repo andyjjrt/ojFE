@@ -1,5 +1,5 @@
 .md-editor {
-  --md-bk-color: var(--v-theme-background) !important;
+  --md-bk-color: rgb(var(--v-theme-surface)) !important;
   --md-color: rgba(var(--v-theme-on-surface), var(--v-high-emphasis-opacity)) !important;
   
   --md-theme-heading-color: var(--md-color) !important;
