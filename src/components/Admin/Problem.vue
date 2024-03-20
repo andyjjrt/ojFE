@@ -125,23 +125,24 @@
         </v-col>
         <v-col cols="12">
           <h4 class="mb-3">Template</h4>
-          <v-expansion-panels variant="accordion">
+          <v-expansion-panels
+            variant="accordion"
+            v-model="templateLanguages"
+            multiple
+          >
             <v-expansion-panel
               v-for="language in problem.languages"
               :key="language"
+              :value="language"
             >
               <v-expansion-panel-title>
                 <span>{{ language }}</span>
-                <v-icon
-                  icon="mdi-check-underline-circle"
-                  class="mx-2"
-                  color="success"
-                  v-if="
-                    problem.template[language] &&
-                    problem.template[language] !==
-                      defaultTemplate[language]?.config.template
-                  "
-                />
+                <template v-slot:actions="{ expanded }">
+                  <v-icon
+                    :color="!expanded ? '' : 'success'"
+                    :icon="expanded ? 'mdi-check-underline-circle' : ''"
+                  ></v-icon>
+                </template>
               </v-expansion-panel-title>
               <v-expansion-panel-text eager>
                 <MonacoEditor
@@ -336,6 +337,7 @@ const problem = reactive<ManagementProblem>({
 
 const tagLoading = ref(false);
 const newTag = ref("");
+const templateLanguages = ref<string[]>([]);
 
 const init = async () => {
   if (!props.create) {
@@ -358,6 +360,9 @@ const init = async () => {
   loading.value = true;
   const tagResponse = await fetchApi("/problem/tags", "get");
   tags.value = tagResponse.data.data;
+  templateLanguages.value = problem.languages.filter(
+    (language) => problem.template[language]
+  );
   constant.languages!.map((language) => {
     if (!problem.template[language.name])
       problem.template[language.name] = language.config.template;
@@ -369,8 +374,7 @@ const init = async () => {
 const handleSave = async () => {
   loading.value = true;
   Object.keys(problem.template).map((key) => {
-    if (problem.template[key] === defaultTemplate.value[key].config.template)
-      delete problem.template[key];
+    if (templateLanguages.value.indexOf(key) < 0) delete problem.template[key];
   });
   const response = await fetchApi(
     `/admin${props.contestId ? "/contest" : ""}/problem`,
