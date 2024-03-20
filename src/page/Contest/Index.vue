@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-card class="pa-4 mb-6">
-      <v-md-preview :text="decodeURI(contest.description)" />
+      <MDPreview :text="decodeURI(contest.description)" />
     </v-card>
     <Announcements :contestId="contest.id.toString()" />
   </div>
@@ -10,6 +10,7 @@
 <script setup lang="ts">
 import { inject, onMounted, Ref } from "vue";
 import Announcements from "../../components/Announcements.vue";
+import MDPreview from "../../components/MDPreview.vue";
 import { useConstantsStore } from "../../store/constants";
 
 const contest = inject("contest") as Ref<Contest>;

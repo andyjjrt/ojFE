@@ -45,7 +45,7 @@
                     </template>
                   </v-toolbar>
                   <v-card-text>
-                    <v-md-preview :text="decodeURI(item.content)" />
+                    <MDPreview :text="decodeURI(item.content)" />
                   </v-card-text>
                   <v-card-actions class="justify-end">
                     <v-btn variant="text" @click="isActive.value = false">
@@ -70,6 +70,7 @@ import useDate from "../hooks/useDate";
 import { fetchApi } from "../utils/api";
 import Datagrid from "./Datagrid.vue";
 import ErrorMessage from "./ErrorMessage.vue";
+import MDPreview from "./MDPreview.vue";
 import { useUserStore } from "../store/user";
 import { useI18n } from "vue-i18n";
 

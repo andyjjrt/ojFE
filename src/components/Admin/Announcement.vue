@@ -320,3 +320,4 @@ watch(
   () => init()
 );
 </script>
+../MDEditor-v1.vue

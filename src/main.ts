@@ -9,31 +9,25 @@ import Message from "vue-m-message";
 import vuepressTheme from "@kangc/v-md-editor/lib/theme/vuepress.js";
 import createKatexPlugin from "@kangc/v-md-editor/lib/plugins/katex/npm";
 import enUS from "@kangc/v-md-editor/lib/lang/en-US";
-import "@kangc/v-md-editor/lib/style/preview.css";
-import "./css/editor.css";
 import "./css/message.css";
 import "./css/vuepress.css";
 import "katex/dist/katex.css";
-// import "./utils/monaco";
-import { install as VueMonacoEditorPlugin } from '@guolao/vue-monaco-editor'
+import katex from "katex";
+import { config } from "md-editor-v3";
+import Tips from "./utils/markdown-tip";
+import "md-editor-v3/lib/style.css";
+import "./css/editor.css"
+import { install as VueMonacoEditorPlugin } from "@guolao/vue-monaco-editor";
 
 const app = createApp(App);
 const pinia = createPinia();
 
-// Prism
-import Prism from "prismjs";
-// highlight code
-import "prismjs/components/prism-json";
-
-VMdPreview.use(vuepressTheme, {
-  Prism,
-}).use(createKatexPlugin());
-
-VMdEditor.use(vuepressTheme, {
-  Prism,
-}).use(createKatexPlugin());
-
-VMdEditor.lang.use("en-US", enUS);
+config({
+  markdownItConfig(mdit) {
+    mdit.use(Tips);
+  },
+  editorExtensions: { katex: { instance: katex } },
+});
 
 Message.setDefault({ className: "elevation-4" });
 
@@ -41,12 +35,10 @@ app.use(i18n);
 app.use(vuetify);
 app.use(pinia);
 app.use(router);
-app.use(VMdPreview);
-app.use(VMdEditor);
 app.use(Message);
 app.use(VueMonacoEditorPlugin, {
   paths: {
-    vs: 'https://cdn.jsdelivr.net/npm/monaco-editor@0.43.0/min/vs'
+    vs: "https://cdn.jsdelivr.net/npm/monaco-editor@0.43.0/min/vs",
   },
-})
+});
 app.mount("#app");

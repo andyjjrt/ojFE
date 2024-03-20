@@ -1,36 +1,18 @@
 <template>
-  <MdEditor
+  <v-md-editor
+    height="400px"
     v-model="value"
-    :theme="theme"
-    language="en-US"
-    previewTheme="vuepress"
-    :toolbarsExclude="[
-      'sub',
-      'sup',
-      'save',
-      'pageFullscreen',
-      'fullscreen',
-      'prettier',
-      'htmlPreview',
-      'catalog',
-      'github',
-    ]"
-    @onUploadImg="handleUploadImage"
+    :toolbar="toolBar"
+    :disabled-menus="[]"
+    @upload-image="handleUploadImage"
+    left-toolbar="undo redo clear | h bold italic strikethrough quote | ul ol table hr | link image code tip Katex"
   />
 </template>
 
 <script setup lang="ts">
 import { computed } from "vue";
-import { MdEditor } from "md-editor-v3";
-import { useTheme } from "vuetify";
-
 import { fetchApi } from "../utils/api";
 import Message from "vue-m-message";
-
-const vuetifyTheme = useTheme();
-const theme = computed(() =>
-  vuetifyTheme.global.name.value === "dark" ? "dark" : "light"
-);
 
 const toolBar = {
   Katex: {
@@ -53,11 +35,14 @@ const toolBar = {
 };
 
 const handleUploadImage = async (
-  files: Array<File>,
-  callback: (
-    urls: string[] | { url: string; alt: string; title: string }[]
-  ) => void,
-  
+  event: Event,
+  insertImage: (info: {
+    url: string;
+    desc: string;
+    width: string;
+    height: string;
+  }) => void,
+  files: FileList
 ) => {
   let formData = new FormData();
   formData.append("original_filename", files[0].name);
@@ -67,13 +52,12 @@ const handleUploadImage = async (
   });
   if (response.data.success) {
     Message.success("Uploaded");
-    callback([
-      {
-        url: response.data.file_path,
-        alt: files[0].name,
-        title: files[0].name,
-      },
-    ]);
+    insertImage({
+      url: response.data.file_path,
+      desc: files[0].name,
+      width: "auto",
+      height: "auto",
+    });
   }
 };
 
