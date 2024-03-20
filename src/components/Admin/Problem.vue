@@ -89,7 +89,7 @@
                 color="warning"
                 @click="() => handleDeleteSample(i)"
               >
-                delete
+                <v-icon icon="mdi-trash-can-outline" />
               </v-btn>
             </div>
             <v-row>
@@ -189,19 +189,38 @@
         <v-col cols="12">
           <div class="d-flex justify-space-between align-center mb-3">
             <h4>Test Case</h4>
-            <v-btn
-              color="primary"
-              tag="label"
-              :loading="uploadLoading"
-              :disabled="uploadLoading"
-            >
-              <input
-                type="file"
-                class="d-none"
-                @change="handleUploadTestcase"
-              />
-              Upload
-            </v-btn>
+            <div class="d-flex">
+              <Downloader
+                v-if="problem.test_case_id !== ''"
+                :link="`/admin/test_case?problem_id=${problem.test_case_id}`"
+                :title="`${problem.id}_${problem.title}_testcase`"
+              >
+                <template v-slot="{ handleDownload, loading }">
+                  <v-btn
+                    color="primary"
+                    class="mx-2"
+                    :loading="loading"
+                    :disabled="loading"
+                    @click="handleDownload"
+                  >
+                    <v-icon icon="mdi-download" />
+                  </v-btn>
+                </template>
+              </Downloader>
+              <v-btn
+                color="primary"
+                tag="label"
+                :loading="uploadLoading"
+                :disabled="uploadLoading"
+              >
+                <input
+                  type="file"
+                  class="d-none"
+                  @change="handleUploadTestcase"
+                />
+                <v-icon icon="mdi-upload" />
+              </v-btn>
+            </div>
           </div>
           <v-table class="position-relative">
             <v-overlay
@@ -266,6 +285,7 @@ import { useConstantsStore } from "../../store/constants";
 import { fetchApi } from "../../utils/api";
 import MonacoEditor from "../MonacoEditor.vue";
 import MDEditor from "../MDEditor.vue";
+import Downloader from "./Downloader.vue";
 import Message from "vue-m-message";
 import router from "../../router";
 
