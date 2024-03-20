@@ -44,6 +44,9 @@ export default createVuetify({
     VDialog: {
       transition: "scroll-y-transition",
     },
+    VSwitch: {
+      color: "primary",
+    },
     VTextField: {
       color: "primary",
     },
