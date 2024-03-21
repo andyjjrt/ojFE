@@ -7,73 +7,8 @@ $font-family: "Noto Sans TC", sans-serif !default;
 // Overwrite default css styles of vuetify
 html {
   overflow-y: auto;
-  --font-family: $font-family
 }
 
 .stroke-text {
   stroke: var(--v-theme-background);
-}
-
-
-.md-tip {
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-  font-weight: 600;
-  border-radius: 0.25rem;
-}
-
-.md-tip-danger,
-.md-tip-tip,
-.md-tip-warning {
-  margin: 1rem 0;
-  padding: 0.1rem 1.5rem;
-  border-left-width: 0.5rem;
-  border-left-style: solid;
-}
-.md-tip.md-tip-tip {
-  background-color: #d0fbe1;
-  border-color: #42b983;
-  color: #2a2a2a;
-}
-.md-tip.md-tip-warning {
-  color: #6b5900;
-  background-color: #fff7d1;
-  border-color: #e7c000;
-}
-.md-tip.md-tip-warning .md-tip-title {
-  color: #b29400;
-}
-.md-tip.md-tip-warning a {
-  color: #2c3e50;
-}
-.md-tip.md-tip-danger {
-  color: #4d0000;
-  background-color: #ffe6e6;
-  border-color: #c00;
-}
-.md-tip.md-tip-danger .md-tip-title {
-  color: #900;
-}
-.md-tip.md-tip-danger a {
-  color: #2c3e50;
-}
-.md-tip.md-tip-details {
-  position: relative;
-  display: block;
-  margin: 1.6em 0;
-  padding: 1.6em;
-  background-color: rgb(var(--v-theme-on-surface-variant));
-  border-radius: 2px;
-}
-.md-tip.details h4 {
-  margin-top: 0;
-}
-.md-tip.details figure:last-child,
-.md-tip.details p:last-child {
-  margin-bottom: 0;
-  padding-bottom: 0;
-}
-.md-tip.details summary {
-  outline: none;
-  cursor: pointer;
 }

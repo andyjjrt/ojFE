@@ -37,19 +37,19 @@
           <h5 class="text-h5 font-weight-bold mb-2">
             {{ t("problem.description") }}
           </h5>
-          <MDPreview :text="description" />
+          <v-md-preview class="pa-2" :text="description" />
         </div>
         <div class="pa-4">
           <h5 class="text-h5 font-weight-bold mb-2">
             {{ t("problem.input") }}
           </h5>
-          <MDPreview :text="input" />
+          <v-md-preview class="pa-2" :text="input" />
         </div>
         <div class="pa-4">
           <h5 class="text-h5 font-weight-bold mb-2">
             {{ t("problem.output") }}
           </h5>
-          <MDPreview :text="output" />
+          <v-md-preview class="pa-2" :text="output" />
         </div>
         <v-row class="pa-4">
           <template v-for="(sample, index) in samples" :key="index">
@@ -93,7 +93,7 @@
         </v-row>
         <div class="pa-4" v-if="hint">
           <h5 class="text-h5 font-weight-bold mb-2">{{ t("problem.hint") }}</h5>
-          <MDPreview :text="hint" />
+          <v-md-preview class="pa-2" :text="hint" />
         </div>
         <div class="pa-4 d-flex flex-column">
           <div class="mb-3 d-flex align-center">
@@ -202,7 +202,6 @@ import { computed, onMounted, onBeforeUnmount, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import { useDisplay, useTheme } from "vuetify";
 import MonacoEditor from "../components/MonacoEditor.vue";
-import MDPreview from "../components/MDPreview.vue"
 import PieChart from "./PieChart.vue";
 import DifficultyLabel from "./DifficultyLabel.vue";
 import { fetchApi } from "../utils/api";
