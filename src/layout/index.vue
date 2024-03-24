@@ -7,13 +7,43 @@
         v-if="constants.website === null"
       />
       <template v-else>
-        <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+        <v-app-bar-nav-icon @click.stop="drawer = !drawer" v-if="smAndDown" />
         <v-app-bar-title>{{ website?.website_name }}</v-app-bar-title>
-        <v-skeleton-loader type="avatar" v-if="!constants.isReady" />
-        <UserNavButton v-else />
+        <v-tabs v-model="currentNav" v-if="!smAndDown">
+          <template v-for="item in nav" :key="item.title">
+            <v-tab v-if="item.routes" :value="item.routeName">
+              {{ t(item.title) }}
+              <v-menu activator="parent">
+                <v-list>
+                  <v-list-item
+                    v-for="subItem in item.routes"
+                    :key="subItem.title"
+                    :value="subItem.title"
+                    :to="{ name: subItem.routeName }"
+                  >
+                    <v-list-item-title>
+                      {{ t(subItem.title) }}
+                    </v-list-item-title>
+                  </v-list-item>
+                </v-list>
+              </v-menu>
+            </v-tab>
+            <v-tab
+              v-else
+              :value="item.routeName"
+              :to="{ name: item.routeName }"
+            >
+              {{ t(item.title) }}
+            </v-tab>
+          </template>
+        </v-tabs>
+        <div class="mx-2">
+          <v-skeleton-loader type="avatar" v-if="!constants.isReady" />
+          <UserNavButton v-else />
+        </div>
       </template>
     </v-app-Bar>
-    <v-navigation-drawer v-model="drawer" temporary>
+    <v-navigation-drawer v-model="drawer" temporary v-if="smAndDown">
       <v-list navcolor="primary">
         <template v-for="item in nav" :key="item.title">
           <v-list-group v-if="item.routes">
@@ -118,16 +148,32 @@ const releaseLocation = computed(
 
 const nav = computed(() => {
   if (user.profile?.user.admin_type.includes("Admin")) {
-    return [
-      ...navItems,
-      {
-        title: "management.title",
-        icon: "mdi-cog",
-        routeName: "AdminDashboard",
-        routes: smAndDown.value ? adminNavItem : undefined,
-      },
-    ];
+    if (smAndDown.value) {
+      return [
+        ...navItems,
+        {
+          title: "management.title",
+          icon: "mdi-cog",
+          routeName: "Admin",
+          routes: adminNavItem,
+        },
+      ];
+    } else {
+      return [
+        ...navItems,
+        {
+          title: "management.title",
+          icon: "mdi-cog",
+          routeName: "Admin",
+        },
+      ];
+    }
   } else return navItems;
+});
+
+const currentNav = computed({
+  get: () => routes.meta.name || routes.name,
+  set: (val) => {},
 });
 
 const routes = useRoute();

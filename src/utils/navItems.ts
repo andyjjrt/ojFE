@@ -41,6 +41,7 @@ export const navItems: NavItem[] = [
   {
     title: "rank.title",
     icon: "mdi-chart-bar",
+    routeName: "Rank",
     routes: [
       {
         routeName: "ACMRank",
@@ -55,6 +56,7 @@ export const navItems: NavItem[] = [
   {
     title: "about.title",
     icon: "mdi-information-outline",
+    routeName: "About",
     routes: [
       {
         routeName: "Judger",
@@ -69,6 +71,7 @@ export const navItems: NavItem[] = [
   {
     title: "util.title",
     icon: "mdi-package-variant",
+    routeName: "Util",
     routes: [
       {
         routeName: "Timer",
@@ -80,7 +83,7 @@ export const navItems: NavItem[] = [
 
 export const adminNavItem: NavItem[] = [
   {
-    routeName: "AdminDashboard",
+    routeName: "Admin",
     title: "Dashboard",
     icon: "mdi-monitor-dashboard",
   },
