@@ -45,11 +45,11 @@ export const navItems: NavItem[] = [
     routes: [
       {
         routeName: "ACMRank",
-        title: "rank.title",
+        title: "rank.ACMTitle",
       },
       {
         routeName: "OIRank",
-        title: "rank.title",
+        title: "rank.OITitle",
       },
     ],
   },
