@@ -8,10 +8,13 @@
       />
       <template v-else>
         <v-app-bar-nav-icon @click.stop="drawer = !drawer" v-if="smAndDown" />
-        <v-app-bar-title>{{ website?.website_name }}</v-app-bar-title>
+        <v-app-bar-title class="d-flex align-center">
+          <v-avatar image="/vite.svg" v-if="!smAndDown"></v-avatar>
+          <span>{{ website?.website_name }}</span>
+        </v-app-bar-title>
         <v-tabs v-model="currentNav" v-if="!smAndDown">
           <template v-for="item in nav" :key="item.title">
-            <v-tab v-if="item.routes" :value="item.routeName">
+            <v-tab v-if="item.routes" :value="item.routeName" class="text-none">
               {{ t(item.title) }}
               <v-menu activator="parent">
                 <v-list>
@@ -32,6 +35,7 @@
               v-else
               :value="item.routeName"
               :to="{ name: item.routeName }"
+              class="text-none"
             >
               {{ t(item.title) }}
             </v-tab>
