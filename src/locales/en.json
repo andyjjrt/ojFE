@@ -63,6 +63,8 @@
   },
   "rank": {
     "title": "Rank",
+    "ACMTitle": "ACM Rank",
+    "OITitle": "OI Rank",
     "autoRefresh": "Auto Refresh",
     "username": "Username",
     "score": "Score"

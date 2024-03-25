@@ -30,7 +30,7 @@ interface Problem {
     io_mode: string;
   };
   spj: boolean;
-  spj_language: string[] | null;
+  spj_language: string | null;
   rule_type: "ACM" | "OI";
   difficulty: string;
   source: string;

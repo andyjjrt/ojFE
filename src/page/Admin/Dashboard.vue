@@ -72,11 +72,12 @@
       </v-row>
     </v-card>
     <v-card v-if="versions">
-      <v-expansion-panels variant="accordion">
+      <v-expansion-panels variant="accordion" v-model="activateTab">
         <v-expansion-panel
-          v-for="update in versions.update"
+          v-for="update, i in versions.update"
           :key="update.version"
           :title="update.version"
+          :value="i"
         >
           <template v-slot:text>
             <li v-for="text in update.details" v-html="text"></li>
@@ -93,6 +94,7 @@ import { fetchApi } from "../../utils/api";
 import Loader from "../../components/Loader.vue";
 
 const loading = ref(false);
+const activateTab = ref(0)
 const dashboard = ref<DashboardInfo | null>(null);
 const versions = ref<VersionInfo | null>(null);
 

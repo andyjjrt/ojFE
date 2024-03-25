@@ -17,16 +17,6 @@
           density="compact"
           :disabled="loading"
         />
-        <RankDialog>
-          <v-card class="pa-4">
-            <div
-              style="margin: 0 auto; position: relative; width: 100%"
-              :style="{ height: mobile ? '300px' : '400px' }"
-            >
-              <BarChart :chartData="chartData" />
-            </div>
-          </v-card>
-        </RankDialog>
       </div>
 
       <div
@@ -103,7 +93,6 @@ import { fetchApi } from "../../utils/api";
 import Datagrid from "../../components/Datagrid.vue";
 import BarChart from "../../components/BarChart.vue";
 import ErrorMessage from "../../components/ErrorMessage.vue";
-import { userInfo } from "os";
 import { useUserStore } from "../../store/user";
 import { useConstantsStore } from "../../store/constants";
 import RankDialog from "../../components/RankDialog.vue";

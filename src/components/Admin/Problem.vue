@@ -89,7 +89,7 @@
                 color="warning"
                 @click="() => handleDeleteSample(i)"
               >
-                delete
+                <v-icon icon="mdi-trash-can-outline" />
               </v-btn>
             </div>
             <v-row>
@@ -125,23 +125,24 @@
         </v-col>
         <v-col cols="12">
           <h4 class="mb-3">Template</h4>
-          <v-expansion-panels variant="accordion">
+          <v-expansion-panels
+            variant="accordion"
+            v-model="templateLanguages"
+            multiple
+          >
             <v-expansion-panel
               v-for="language in problem.languages"
               :key="language"
+              :value="language"
             >
               <v-expansion-panel-title>
                 <span>{{ language }}</span>
-                <v-icon
-                  icon="mdi-check-underline-circle"
-                  class="mx-2"
-                  color="success"
-                  v-if="
-                    problem.template[language] &&
-                    problem.template[language] !==
-                      defaultTemplate[language]?.config.template
-                  "
-                />
+                <template v-slot:actions="{ expanded }">
+                  <v-icon
+                    :color="!expanded ? '' : 'success'"
+                    :icon="expanded ? 'mdi-check-underline-circle' : ''"
+                  ></v-icon>
+                </template>
               </v-expansion-panel-title>
               <v-expansion-panel-text eager>
                 <MonacoEditor
@@ -152,6 +153,58 @@
               </v-expansion-panel-text>
             </v-expansion-panel>
           </v-expansion-panels>
+        </v-col>
+        <v-col cols="12">
+          <h4 class="mb-3">
+            Special Judge
+            {{ oldSpjCode === problem.spj_code && problem.spj_compile_ok }}
+          </h4>
+          <div class="d-flex align-center">
+            <v-select
+              :model-value="problem.spj_language"
+              @update:model-value="handleOpenComfirmModel"
+              :items="[
+                null,
+                ...(constant.languages
+                  ?.filter((l) => l.spj)
+                  .map((l) => l.name) || []),
+              ]"
+              label="Languages"
+              density="comfortable"
+              hide-details
+            >
+              <template v-slot:selection="{ item, index }">
+                {{ item.title || "None" }}
+              </template>
+              <template v-slot:item="{ props, item }">
+                <v-list-item
+                  v-bind="props"
+                  :title="item.title || 'None'"
+                ></v-list-item>
+              </template>
+            </v-select>
+            <v-btn
+              color="primary"
+              class="ml-2"
+              @click="handleCompileSpj"
+              :loading="spjLoading"
+            >
+              <v-icon icon="mdi-powershell" />
+            </v-btn>
+          </div>
+
+          <div class="my-3">
+            <MonacoEditor
+              :lang="problem.spj_language"
+              v-model="problem.spj_code!"
+              v-if="problem.spj_language"
+            />
+          </div>
+          <v-alert type="error" variant="tonal" v-if="spjError !== ''">
+            <v-code class="overflow-auto mt-2">
+              <pre><code>{{ spjError }}</code></pre>
+            </v-code>
+          </v-alert>
         </v-col>
         <v-col cols="12" sm="6">
           <v-select
@@ -188,19 +241,38 @@
         <v-col cols="12">
           <div class="d-flex justify-space-between align-center mb-3">
             <h4>Test Case</h4>
-            <v-btn
-              color="primary"
-              tag="label"
-              :loading="uploadLoading"
-              :disabled="uploadLoading"
-            >
-              <input
-                type="file"
-                class="d-none"
-                @change="handleUploadTestcase"
-              />
-              Upload
-            </v-btn>
+            <div class="d-flex">
+              <Downloader
+                v-if="problem.test_case_id !== ''"
+                :link="`/admin/test_case?problem_id=${problem.test_case_id}`"
+                :title="`${problem.id}_${problem.title}_testcase`"
+              >
+                <template v-slot="{ handleDownload, loading }">
+                  <v-btn
+                    color="primary"
+                    class="mx-2"
+                    :loading="loading"
+                    :disabled="loading"
+                    @click="handleDownload"
+                  >
+                    <v-icon icon="mdi-download" />
+                  </v-btn>
+                </template>
+              </Downloader>
+              <v-btn
+                color="primary"
+                tag="label"
+                :loading="uploadLoading"
+                :disabled="uploadLoading"
+              >
+                <input
+                  type="file"
+                  class="d-none"
+                  @change="handleUploadTestcase"
+                />
+                <v-icon icon="mdi-upload" />
+              </v-btn>
+            </div>
           </div>
           <v-table class="position-relative">
             <v-overlay
@@ -255,16 +327,37 @@
         save
       </v-btn>
     </v-card-actions>
+    <v-dialog v-model="comfirmModel" width="auto">
+      <v-card
+        max-width="400"
+        prepend-icon="mdi-update"
+        text="Your application will relaunch automatically after the update is complete."
+        title="Update in progress"
+      >
+        <template v-slot:actions>
+          <v-btn
+            class="ms-auto"
+            text="Cancel"
+            @click="comfirmModel = false"
+          ></v-btn>
+          <v-btn
+            text="Ok"
+            @click="handleChangeSpjLanguage"
+          ></v-btn>
+        </template>
+      </v-card>
+    </v-dialog>
   </v-card>
 </template>
 
 <script setup lang="ts">
 import { useRoute } from "vue-router";
-import { reactive, ref, onMounted, computed } from "vue";
+import { reactive, ref, onMounted, computed, watch } from "vue";
 import { useConstantsStore } from "../../store/constants";
 import { fetchApi } from "../../utils/api";
 import MonacoEditor from "../MonacoEditor.vue";
 import MDEditor from "../MDEditor.vue";
+import Downloader from "./Downloader.vue";
 import Message from "vue-m-message";
 import router from "../../router";
 
@@ -333,12 +426,20 @@ const problem = reactive<ManagementProblem>({
   spj_compile_ok: false,
   visible: false,
 });
+const problemInit = ref(false);
 
 const tagLoading = ref(false);
+const spjLoading = ref(false);
+const spjError = ref("");
+const oldSpjCode = ref("");
 const newTag = ref("");
+const templateLanguages = ref<string[]>([]);
+const comfirmModel = ref(false);
+const tmpSpjLanguage = ref("");
 
 const init = async () => {
   if (!props.create) {
+    problemInit.value = false;
     loading.value = true;
     const response = await fetchApi(
       `/admin${props.contestId ? "/contest" : ""}/problem`,
@@ -358,19 +459,23 @@ const init = async () => {
   loading.value = true;
   const tagResponse = await fetchApi("/problem/tags", "get");
   tags.value = tagResponse.data.data;
+  templateLanguages.value = problem.languages.filter(
+    (language) => problem.template[language]
+  );
   constant.languages!.map((language) => {
     if (!problem.template[language.name])
       problem.template[language.name] = language.config.template;
     defaultTemplate.value[language.name] = language;
   });
+  oldSpjCode.value = problem.spj_code || "";
   loading.value = false;
+  problemInit.value = true;
 };
 
 const handleSave = async () => {
   loading.value = true;
   Object.keys(problem.template).map((key) => {
-    if (problem.template[key] === defaultTemplate.value[key].config.template)
-      delete problem.template[key];
+    if (templateLanguages.value.indexOf(key) < 0) delete problem.template[key];
   });
   const response = await fetchApi(
     `/admin${props.contestId ? "/contest" : ""}/problem`,
@@ -398,6 +503,45 @@ const handleSave = async () => {
   } else {
     init();
   }
+};
+
+const handleCompileSpj = () => {
+  spjLoading.value = true;
+  spjError.value = "";
+  fetchApi("/admin/compile_spj", "post", {
+    data: {
+      id: problem.id,
+      spj_code: problem.spj_code,
+      spj_language: problem.spj_language,
+    },
+  })
+    .then((res) => {
+      spjLoading.value = false;
+      if (res.data.error) throw new Error(res.data.data);
+      problem.spj_compile_ok = true;
+      Message.success("Success");
+    })
+    .catch((err) => {
+      problem.spj_compile_ok = false;
+      spjError.value = err.message;
+    });
+};
+
+const handleOpenComfirmModel = (val: string) => {
+  if (problem.test_case_id !== "") {
+    comfirmModel.value = true;
+    tmpSpjLanguage.value = val;
+  } else {
+    problem.spj_language = val;
+  }
+};
+
+const handleChangeSpjLanguage = () => {
+  problem.spj_language = tmpSpjLanguage.value;
+  comfirmModel.value = false;
+  problem.spj = false;
+  problem.test_case_id = "";
+  problem.test_case_score = [];
 };
 
 const handleDeleteSample = (index: number) => {

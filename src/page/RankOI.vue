@@ -16,7 +16,7 @@
       <BarChart :chartData="chartData" />
     </v-card>
     <v-card class="pa-4">
-      <v-card-title>{{ t("rank.title") }}</v-card-title>
+      <v-card-title>{{ t("rank.OITitle") }}</v-card-title>
       <ErrorMessage :message="error" v-if="error" class="mx-4" />
       <Datagrid
         :data="ranks"

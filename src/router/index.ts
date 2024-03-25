@@ -50,13 +50,23 @@ const routes = [
     children: [
       { name: "Home", path: "", component: Index },
       { name: "Problems", path: "problem", component: Problems },
-      { name: "Problem", path: "problem/:problemId", component: Problem },
+      {
+        name: "Problem",
+        path: "problem/:problemId",
+        component: Problem,
+        meta: {
+          name: "Problems",
+        },
+      },
       { name: "Submissions", path: "status", component: Submissions },
       { name: "Submission", path: "status/:id", component: Submission },
       { name: "Contests", path: "contest", component: Contests },
       {
         path: "contest/:contestId",
         component: Contest,
+        meta: {
+          name: "Contests",
+        },
         children: [
           { name: "Contest", path: "", component: ContestIndex },
           {
@@ -81,12 +91,43 @@ const routes = [
           },
         ],
       },
-      { name: "ACMRank", path: "acm-rank", component: ACMRank },
-      { name: "OIRank", path: "oi-rank", component: OIRank },
-      { name: "Judger", path: "judger", component: Judger },
-      { name: "FAQ", path: "faq", component: Faq },
+      {
+        name: "ACMRank",
+        path: "acm-rank",
+        component: ACMRank,
+        meta: {
+          name: "Rank",
+        },
+      },
+      {
+        name: "OIRank",
+        path: "oi-rank",
+        component: OIRank,
+        meta: {
+          name: "Rank",
+        },
+      },
+      {
+        name: "Judger",
+        path: "judger",
+        component: Judger,
+        meta: {
+          name: "About",
+        },
+      },
+      {
+        name: "FAQ",
+        path: "faq",
+        component: Faq,
+        meta: {
+          name: "About",
+        },
+      },
       {
         path: "/utils",
+        meta: {
+          name: "Util",
+        },
         children: [
           {
             name: "Timer",
@@ -117,11 +158,12 @@ const routes = [
         path: "/admin",
         component: Admin,
         meta: {
+          name: "Admin",
           admin: true,
         },
         children: [
           {
-            name: "AdminDashboard",
+            name: "Admin",
             path: "",
             component: AdminDashboard,
           },

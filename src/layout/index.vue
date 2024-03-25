@@ -1,114 +1,77 @@
 <template>
   <v-layout>
     <v-app-Bar>
-      <v-skeleton-loader type="avatar, heading, avatar" class="w-100" v-if="constants.website === null" />
+      <v-skeleton-loader
+        type="avatar, heading, avatar"
+        class="w-100"
+        v-if="constants.website === null"
+      />
       <template v-else>
-        <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-        <v-app-bar-title>{{ website?.website_name }}</v-app-bar-title>
-        <v-skeleton-loader type="avatar" v-if="!constants.isReady" />
-        <UserNavButton v-else />
+        <v-app-bar-nav-icon @click.stop="drawer = !drawer" v-if="smAndDown" />
+        <v-app-bar-title class="d-flex align-center">
+          <v-avatar image="/vite.svg" v-if="!smAndDown"></v-avatar>
+          <span>{{ website?.website_name }}</span>
+        </v-app-bar-title>
+        <v-tabs v-model="currentNav" v-if="!smAndDown">
+          <template v-for="item in nav" :key="item.title">
+            <v-tab v-if="item.routes" :value="item.routeName" class="text-none">
+              {{ t(item.title) }}
+              <v-menu activator="parent">
+                <v-list>
+                  <v-list-item
+                    v-for="subItem in item.routes"
+                    :key="subItem.title"
+                    :value="subItem.title"
+                    :to="{ name: subItem.routeName }"
+                  >
+                    <v-list-item-title>
+                      {{ t(subItem.title) }}
+                    </v-list-item-title>
+                  </v-list-item>
+                </v-list>
+              </v-menu>
+            </v-tab>
+            <v-tab
+              v-else
+              :value="item.routeName"
+              :to="{ name: item.routeName }"
+              class="text-none"
+            >
+              {{ t(item.title) }}
+            </v-tab>
+          </template>
+        </v-tabs>
+        <div class="mx-2">
+          <v-skeleton-loader type="avatar" v-if="!constants.isReady" />
+          <UserNavButton v-else />
+        </div>
       </template>
     </v-app-Bar>
-    <v-navigation-drawer v-model="drawer" temporary>
+    <v-navigation-drawer v-model="drawer" temporary v-if="smAndDown">
       <v-list navcolor="primary">
-        <v-list-item
-          :title="t('home')"
-          to="/"
-          :active="routes.name === 'Home'"
-          prepend-icon="mdi-home-variant"
-        />
-        <v-list-item
-          :title="t('problem.title')"
-          to="/problem"
-          :active="routes.name === 'Problems'"
-          prepend-icon="mdi-view-grid-outline"
-        />
-        <v-list-item
-          :title="t('contest.title')"
-          to="/contest"
-          :active="routes.name === 'Contests'"
-          prepend-icon="mdi-trophy"
-        />
-        <v-list-item
-          :title="t('submission.title')"
-          to="/status"
-          :active="routes.name === 'Submissions'"
-          prepend-icon="mdi-chart-line"
-        />
-        <v-list-group>
-          <template v-slot:activator="{ props }">
-            <v-list-item
-              v-bind="props"
-              :title="t('rank.title')"
-              prepend-icon="mdi-chart-bar"
-            />
-          </template>
-          <v-list-item
-            :title="`ACM ${t('rank.title')}`"
-            to="/acm-rank"
-            :active="routes.name === 'ACMRank'"
-          >
-          </v-list-item>
-          <v-list-item
-            :title="`OI ${t('rank.title')}`"
-            to="/oi-rank"
-            :active="routes.name === 'OIRank'"
-          >
-          </v-list-item>
-        </v-list-group>
-        <v-list-group>
-          <template v-slot:activator="{ props }">
-            <v-list-item
-              v-bind="props"
-              :title="t('about.title')"
-              prepend-icon="mdi-information-outline"
-            />
-          </template>
-          <v-list-item
-            :title="t('judger.title')"
-            to="/judger"
-            :active="routes.name === 'Judger'"
-          >
-          </v-list-item>
-          <v-list-item
-            :title="t('faq.title')"
-            to="/faq"
-            :active="routes.name === 'FAQ'"
-          >
-          </v-list-item>
-        </v-list-group>
-        <v-list-group>
-          <template v-slot:activator="{ props }">
-            <v-list-item
-              v-bind="props"
-              :title="t('util.title')"
-              prepend-icon="mdi-package-variant"
-            />
-          </template>
-          <v-list-item
-            :title="t('timer.title')"
-            to="/utils/timer"
-            :active="routes.name === 'Timer'"
-          >
-          </v-list-item>
-        </v-list-group>
-        <template v-if="user.profile?.user.admin_type.includes('Admin')">
-          <v-list-group v-if="smAndDown">
+        <template v-for="item in nav" :key="item.title">
+          <v-list-group v-if="item.routes">
             <template v-slot:activator="{ props }">
               <v-list-item
                 v-bind="props"
-                :title="t('management.title')"
-                prepend-icon="mdi-cog"
+                :title="t(item.title)"
+                :prepend-icon="item.icon"
               />
             </template>
-            <AdminNav />
+            <v-list-item
+              v-for="subItem in item.routes"
+              :title="t(subItem.title)"
+              :to="{ name: subItem.routeName }"
+              :active="routes.name === subItem.routeName"
+            >
+            </v-list-item>
           </v-list-group>
           <v-list-item
-            :title="t('management.title')"
-            to="/admin"
-            :active="routes.name === 'Admin'"
-            prepend-icon="mdi-cog"
             v-else
+            :title="t(item.title)"
+            :to="{ name: item.routeName }"
+            :active="routes.name === item.routeName"
+            :prepend-icon="item.icon"
           />
         </template>
       </v-list>
@@ -121,9 +84,15 @@
           </v-fade-transition>
         </RouterView>
       </v-container>
-      
-      <v-footer class="d-flex flex-column align-center bg-background text-caption">
-        <div v-if="constants.website == null" style="max-width: 500px" class="w-100 text-center">
+
+      <v-footer
+        class="d-flex flex-column align-center bg-background text-caption"
+      >
+        <div
+          v-if="constants.website == null"
+          style="max-width: 500px"
+          class="w-100 text-center"
+        >
           <v-skeleton-loader type="text" class="bg-background" />
         </div>
         <template v-else>
@@ -162,6 +131,7 @@ import { useI18n } from "vue-i18n";
 import { RouteLocationNormalized, useRoute, useRouter } from "vue-router";
 import UserNavButton from "../components/UserNavButton.vue";
 import AdminNav from "../components/Admin/Nav.vue";
+import { navItems, adminNavItem } from "../utils/navItems";
 
 const constants = useConstantsStore();
 const user = useUserStore();
@@ -179,6 +149,36 @@ const releaseLocation = computed(
   () =>
     `https://github.com/andyjjrt/ojFE/releases/tag/v${process.env.VUE_APP_VERSION}`
 );
+
+const nav = computed(() => {
+  if (user.profile?.user.admin_type.includes("Admin")) {
+    if (smAndDown.value) {
+      return [
+        ...navItems,
+        {
+          title: "management.title",
+          icon: "mdi-cog",
+          routeName: "Admin",
+          routes: adminNavItem,
+        },
+      ];
+    } else {
+      return [
+        ...navItems,
+        {
+          title: "management.title",
+          icon: "mdi-cog",
+          routeName: "Admin",
+        },
+      ];
+    }
+  } else return navItems;
+});
+
+const currentNav = computed({
+  get: () => routes.meta.name || routes.name,
+  set: (val) => {},
+});
 
 const routes = useRoute();
 const router = useRouter();
@@ -204,13 +204,16 @@ router.beforeEach((to, from, next) => {
   next();
 });
 
-watch(() => user.isReady, () => {
-  if (
-    routes.meta.admin &&
-    !(user.profile && user.profile.user.admin_type.includes("Admin"))
-  ) {
-    router.push({ name: "Home" });
+watch(
+  () => user.isReady,
+  () => {
+    if (
+      routes.meta.admin &&
+      !(user.profile && user.profile.user.admin_type.includes("Admin"))
+    ) {
+      router.push({ name: "Home" });
+    }
+    generateTitle(routes);
   }
-  generateTitle(routes);
-})
+);
 </script>
