@@ -155,10 +155,18 @@
           </v-expansion-panels>
         </v-col>
         <v-col cols="12">
-          <h4 class="mb-3">
-            Special Judge
-            {{ oldSpjCode === problem.spj_code && problem.spj_compile_ok }}
-          </h4>
+          <div class="mb-3 d-flex align-center justify-space-between">
+            <h4>Special Judge</h4>
+            <v-chip
+              color="success"
+              label
+              v-if="oldSpjCode === problem.spj_code && problem.spj_compile_ok"
+            >
+              <v-icon icon="mdi-content-save-check" start></v-icon>
+              Using
+            </v-chip>
+          </div>
+
           <div class="d-flex align-center">
             <v-select
               :model-value="problem.spj_language"
@@ -330,10 +338,12 @@
     <v-dialog v-model="comfirmModel" width="auto">
       <v-card
         max-width="400"
-        prepend-icon="mdi-update"
-        text="Your application will relaunch automatically after the update is complete."
-        title="Update in progress"
+        text="If you change problem judge method, you need to re-upload test cases."
+        title="Warning"
       >
+        <template v-slot:prepend>
+          <v-icon color="warning" icon="mdi-alert"></v-icon>
+        </template>
         <template v-slot:actions>
           <v-btn
             class="ms-auto"
@@ -341,6 +351,7 @@
             @click="comfirmModel = false"
           ></v-btn>
           <v-btn
+            color="warning"
             text="Ok"
             @click="handleChangeSpjLanguage"
           ></v-btn>
@@ -519,6 +530,7 @@ const handleCompileSpj = () => {
       spjLoading.value = false;
       if (res.data.error) throw new Error(res.data.data);
       problem.spj_compile_ok = true;
+      oldSpjCode.value = problem.spj_code || "";
       Message.success("Success");
     })
     .catch((err) => {
@@ -528,11 +540,12 @@ const handleCompileSpj = () => {
 };
 
 const handleOpenComfirmModel = (val: string) => {
-  if (problem.test_case_id !== "") {
+  if (problem.test_case_id !== "" && problem.spj) {
     comfirmModel.value = true;
     tmpSpjLanguage.value = val;
   } else {
     problem.spj_language = val;
+    spjError.value = "";
   }
 };
 
@@ -540,6 +553,7 @@ const handleChangeSpjLanguage = () => {
   problem.spj_language = tmpSpjLanguage.value;
   comfirmModel.value = false;
   problem.spj = false;
+  problem.spj_compile_ok = false;
   problem.test_case_id = "";
   problem.test_case_score = [];
 };
