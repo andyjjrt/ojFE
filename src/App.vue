@@ -1,7 +1,7 @@
 <template>
   <div>
     <RouterView />
-    <ReloadPrompt />
+    <!-- <ReloadPrompt /> -->
   </div>
 </template>
 
