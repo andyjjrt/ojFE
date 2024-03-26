@@ -14,23 +14,49 @@
           :key="server.id"
         >
           <template v-slot:title>
-            <v-chip
-              label
-              :color="server.status === 'normal' ? 'success' : 'error'"
-            >
-              {{ server.status }}
-            </v-chip>
-            <span class="mx-2">{{ server.hostname }}@{{ server.ip }}</span>
+            <div class="d-flex align-center justify-space-between w-100">
+              <div class="d-flex align-center">
+                <v-chip
+                  label
+                  :color="server.status === 'normal' ? 'success' : 'error'"
+                >
+                  {{ server.status }}
+                </v-chip>
+                <span class="mx-2">{{ server.hostname }}</span>
+              </div>
+
+              <div class="d-flex align-center">
+                <v-icon icon="mdi-cpu-64-bit" class="mx-1" />
+                <span class="mx-1"
+                  >{{ server.cpu_core }}C/{{ server.cpu_usage }}%</span
+                >
+                <v-icon icon="mdi-memory" class="mx-1" />
+                <span class="mx-1">{{ server.memory_usage }}%</span>
+                <v-icon icon="mdi-file-tree" class="mx-1" />
+                <span class="mx-1">{{ server.task_number }}</span>
+              </div>
+            </div>
           </template>
           <template v-slot:text>
-            <div class="d-flex">
-              <v-btn
-                color="error"
-                variant="elevated"
-                @click="() => handleDelete(server.hostname)"
-              >
-                delete
-              </v-btn>
+            <div>
+              <p class="my-1">
+                Service URL: <code>{{ server.service_url }}</code>
+              </p>
+              <p class="my-1">
+                Judger Version:
+                <v-chip size="small" label color="success">{{
+                  server.judger_version
+                }}</v-chip>
+              </p>
+              <p class="my-1">
+                Created At: {{ new Date(server.create_time).toLocaleString() }}
+              </p>
+              <p class="my-1">
+                Last Heartbeat:
+                {{ new Date(server.last_heartbeat).toLocaleString() }}
+              </p>
+            </div>
+            <div class="d-flex align-center justify-space-between">
               <div class="d-flex-inline ms-2">
                 <v-switch
                   color="primary"
@@ -44,12 +70,14 @@
                   "
                 />
               </div>
+              <v-btn
+                color="error"
+                variant="elevated"
+                @click="() => handleDelete(server.hostname)"
+              >
+                delete
+              </v-btn>
             </div>
-            <ul>
-              <li v-for="key in Object.keys(server)">
-                {{ key }}: {{ server[key] }}
-              </li>
-            </ul>
           </template>
         </v-expansion-panel>
       </v-expansion-panels>
