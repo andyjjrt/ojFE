@@ -1,10 +1,8 @@
 <template>
   <v-row>
     <v-col cols="3" v-if="mdAndUp">
-      <v-card>
-        <v-list navcolor="primary">
-          <AdminNav icon />
-        </v-list>
+      <v-card class="py-1">
+        <AdminNav icon />
       </v-card>
     </v-col>
     <v-col cols="12" md="9">
