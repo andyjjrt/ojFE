@@ -156,6 +156,9 @@
   },
   "admin": {
     "save": "Save",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "update": "Update",
     "dashboard": {
       "title": "Dashboard"
     },
@@ -179,7 +182,9 @@
       "deleteAll": "Delete All"
     },
     "user": {
-      "title": "User"
+      "title": "User",
+      "maintenance": "User",
+      "info": "User Info"
     },
     "announcement": {
       "title": "Announcement"

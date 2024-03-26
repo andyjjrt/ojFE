@@ -2,7 +2,7 @@
   <div>
     <v-card class="pa-4">
       <div class="d-flex justify-space-between align-center">
-        <v-card-title>Users</v-card-title>
+        <v-card-title>{{ t("admin.user.maintenance") }}</v-card-title>
         <div class="d-flex align-center w-50" v-if="!error">
           <form class="flex-grow-1" @submit.prevent="() => handleAction(true)">
             <v-text-field
@@ -57,93 +57,87 @@
           tag="form"
           @submit.prevent="handleUpdateUser"
         >
-          <v-toolbar color="primary" title="User" />
-          <v-card-text>
-            <v-container fluid>
-              <v-row>
-                <v-col cols="12" sm="6">
-                  <v-text-field
-                    hide-details
-                    label="Username"
-                    v-model="updateUser.username"
-                  />
-                </v-col>
-                <v-col cols="12" sm="6">
-                  <v-text-field
-                    hide-details
-                    label="Email"
-                    v-model="updateUser.email"
-                  />
-                </v-col>
-                <v-col cols="12" sm="6">
-                  <v-text-field
-                    hide-details
-                    label="Real Name"
-                    v-model="updateUser.real_name"
-                  />
-                </v-col>
-                <v-col cols="12" sm="6">
-                  <v-text-field
-                    hide-details
-                    label="Password"
-                    v-model="password"
-                  />
-                </v-col>
-                <v-col cols="12" sm="6">
-                  <v-select
-                    hide-details
-                    label="User Type"
-                    v-model="updateUser.admin_type"
-                    :items="['Regular User', 'Admin', 'Super Admin']"
-                  ></v-select>
-                </v-col>
-                <v-col
-                  cols="12"
-                  sm="6"
-                  v-if="updateUser.admin_type === 'Admin'"
-                >
-                  <v-select
-                    hide-details
-                    label="Problem Permission"
-                    v-model="updateUser.problem_permission"
-                    :items="['None', 'Own', 'All']"
-                  ></v-select>
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col cols="12" sm="4" class="py-0">
-                  <v-switch
-                    hide-details
-                    label="TFA"
-                    density="compact"
-                    v-model="updateUser.two_factor_auth"
-                  ></v-switch>
-                </v-col>
-                <v-col cols="12" sm="4" class="py-0">
-                  <v-switch
-                    hide-details
-                    label="Open API"
-                    density="compact"
-                    v-model="updateUser.open_api"
-                  ></v-switch>
-                </v-col>
-                <v-col cols="12" sm="4" class="py-0">
-                  <v-switch
-                    hide-details
-                    label="Disabled"
-                    density="compact"
-                    v-model="updateUser.is_disabled"
-                  ></v-switch>
-                </v-col>
-              </v-row>
-            </v-container>
+          <v-toolbar color="primary" :title="t('admin.user.info')" />
+          <v-card-text class="overflow-hidden">
+            <v-row>
+              <v-col cols="12" sm="6">
+                <v-text-field
+                  hide-details
+                  label="Username"
+                  v-model="updateUser.username"
+                />
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-text-field
+                  hide-details
+                  label="Email"
+                  v-model="updateUser.email"
+                />
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-text-field
+                  hide-details
+                  label="Real Name"
+                  v-model="updateUser.real_name"
+                />
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-text-field
+                  hide-details
+                  label="Password"
+                  v-model="password"
+                />
+              </v-col>
+              <v-col cols="12" sm="6">
+                <v-select
+                  hide-details
+                  label="User Type"
+                  v-model="updateUser.admin_type"
+                  :items="['Regular User', 'Admin', 'Super Admin']"
+                ></v-select>
+              </v-col>
+              <v-col cols="12" sm="6" v-if="updateUser.admin_type === 'Admin'">
+                <v-select
+                  hide-details
+                  label="Problem Permission"
+                  v-model="updateUser.problem_permission"
+                  :items="['None', 'Own', 'All']"
+                ></v-select>
+              </v-col>
+            </v-row>
+            <v-row class="px-2">
+              <v-col cols="12" sm="4" class="py-0">
+                <v-switch
+                  hide-details
+                  label="TFA"
+                  density="compact"
+                  v-model="updateUser.two_factor_auth"
+                ></v-switch>
+              </v-col>
+              <v-col cols="12" sm="4" class="py-0">
+                <v-switch
+                  hide-details
+                  label="Open API"
+                  density="compact"
+                  v-model="updateUser.open_api"
+                ></v-switch>
+              </v-col>
+              <v-col cols="12" sm="4" class="py-0">
+                <v-switch
+                  hide-details
+                  label="Disabled"
+                  density="compact"
+                  v-model="updateUser.is_disabled"
+                ></v-switch>
+              </v-col>
+            </v-row>
           </v-card-text>
           <v-card-actions class="justify-end">
-            <v-btn @click="dialog = false"> Close </v-btn>
+            <v-btn @click="dialog = false"> {{ t("admin.cancel") }} </v-btn>
             <v-dialog max-width="600">
               <template v-slot:activator="{ props }">
                 <v-btn variant="elevated" color="warning" v-bind="props">
-                  Delete
+                  {{ t("admin.delete") }}
                 </v-btn>
               </template>
               <template v-slot:default="{ isActive }">
@@ -156,21 +150,21 @@
                   </v-card-text>
                   <v-card-actions class="justify-end">
                     <v-btn variant="text" @click="isActive.value = false">
-                      Close
+                      {{ t("admin.cancel") }}
                     </v-btn>
                     <v-btn
                       color="error"
                       variant="elevated"
                       @click="() => handleDeleteUser(isActive)"
                     >
-                      Delete
+                      {{ t("admin.delete") }}
                     </v-btn>
                   </v-card-actions>
                 </v-card>
               </template>
             </v-dialog>
             <v-btn color="primary" variant="elevated" type="submit">
-              Update
+              {{ t("admin.update") }}
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -182,7 +176,7 @@
         Only support csv file without headers, check the
         <a href="https://opensource.qduoj.com/#/onlinejudge/guide/import_users">
           link
-        </a> 
+        </a>
         for details
       </v-card-subtitle>
       <v-card-text>
@@ -210,11 +204,13 @@ import UserGeneration from "../../components/Admin/UserGeneration.vue";
 import useDate from "../../hooks/useDate";
 import { Ref } from "vue";
 import Message from "vue-m-message";
+import { useI18n } from "vue-i18n";
 
 const router = useRouter();
 const routes = useRoute();
 const user = useUserStore();
 const { getDate } = useDate();
+const { t } = useI18n();
 
 const users = ref<ManagementUser[]>([]);
 const page = ref(1);

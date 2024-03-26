@@ -156,6 +156,9 @@
   },
   "admin": {
     "save": "儲存",
+    "delete": "刪除",
+    "cancel": "取消",
+    "update": "更新",
     "dashboard": {
       "title": "儀表板"
     },
@@ -179,7 +182,9 @@
       "deleteAll": "刪除全部"
     },
     "user": {
-      "title": "使用者"
+      "title": "使用者",
+      "maintenance": "使用者管理",
+      "info": "使用者資訊"
     },
     "announcement": {
       "title": "公告"
