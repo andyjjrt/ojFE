@@ -6,6 +6,7 @@
     </v-card-subtitle>
     <v-card-text>
       <v-list lines="one">
+        <div class="text-center" v-if="testcases.length === 0">No Data</div>
         <v-list-item v-for="testcase in testcases">
           <v-list-item-title>{{ testcase.id }}</v-list-item-title>
           <template v-slot:append>

@@ -14,7 +14,7 @@
         </v-app-bar-title>
         <v-tabs v-model="currentNav" v-if="!smAndDown">
           <template v-for="item in nav" :key="item.title">
-            <v-tab v-if="item.routes" :value="item.routeName" class="text-none">
+            <v-tab v-if="item.routes" :value="item.routeName" class="text-none" >
               {{ t(item.title) }}
               <v-menu activator="parent">
                 <v-list>
@@ -158,7 +158,7 @@ const nav = computed(() => {
         {
           title: "management.title",
           icon: "mdi-cog",
-          routeName: "Admin",
+          routeName: "AdminDashboard",
           routes: adminNavItem,
         },
       ];

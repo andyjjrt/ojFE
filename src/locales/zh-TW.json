@@ -153,5 +153,47 @@
   },
   "timer": {
     "title": "時間"
+  },
+  "admin": {
+    "save": "儲存",
+    "delete": "刪除",
+    "cancel": "取消",
+    "update": "更新",
+    "dashboard": {
+      "title": "儀表板"
+    },
+    "config": {
+      "title": "基本設定",
+      "smtp": {
+        "title": "SMTP設定"
+      },
+      "website": {
+        "title": "網站設定",
+        "allowRegister": "允許註冊",
+        "showAllSubmissions": "顯示所有繳交紀錄"
+      }
+    },
+    "judgeserver": {
+      "title": "Judge Server"
+    },
+    "testcase": {
+      "title": "測資",
+      "subTitle": "這裡的測資不屬於任何題目，你可以放心的刪除他們",
+      "deleteAll": "刪除全部"
+    },
+    "user": {
+      "title": "使用者",
+      "maintenance": "使用者管理",
+      "info": "使用者資訊"
+    },
+    "announcement": {
+      "title": "公告"
+    },
+    "problem": {
+      "title": "題目"
+    },
+    "contest": {
+      "title": "比賽"
+    }
   }
 }

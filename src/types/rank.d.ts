@@ -50,9 +50,25 @@ interface ContestRankUser {
     real_name: string | null;
   };
   submission_number: number;
+  contest: number;
+}
+
+interface ContestOIRankUser extends ContestRankUser {
   total_score: number;
   submission_info: {
     [key: string]: number;
   };
-  contest: number;
+}
+
+interface ContestACMRankUser  extends ContestRankUser {
+  accepted_number: number;
+  total_time: number;
+  submission_info: {
+    [key: string]: {
+      is_ac: boolean;
+      ac_time: number;
+      is_first_ac: boolean;
+      error_number: number;
+    };
+  };
 }
