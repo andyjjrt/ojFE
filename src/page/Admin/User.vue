@@ -58,7 +58,7 @@
           @submit.prevent="handleUpdateUser"
         >
           <v-toolbar color="primary" title="User" />
-          <v-card-text class="pa-0">
+          <v-card-text>
             <v-container fluid>
               <v-row>
                 <v-col cols="12" sm="6">
@@ -182,15 +182,18 @@
         Only support csv file without headers, check the
         <a href="https://opensource.qduoj.com/#/onlinejudge/guide/import_users">
           link
-        </a>
+        </a> 
         for details
       </v-card-subtitle>
-      <UserImport @handleImported="init" />
+      <v-card-text>
+        <UserImport @handleImported="init" />
+      </v-card-text>
     </v-card>
     <v-card class="pa-4 mt-4">
       <v-card-title>Generate Users</v-card-title>
-
-      <UserGeneration @handleImported="init" />
+      <v-card-text>
+        <UserGeneration @handleImported="init" />
+      </v-card-text>
     </v-card>
   </div>
 </template>

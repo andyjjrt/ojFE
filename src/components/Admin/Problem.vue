@@ -312,7 +312,7 @@
                 </td>
               </tr>
               <tr v-if="problem.test_case_score.length > 0">
-                <td colspan="3" class="pt-2">
+                <td colspan="3" class="pt-2 px-0">
                   <v-alert
                     :type="totalScore > 100 ? 'error' : 'success'"
                     :title="'Total Score: ' + totalScore"
