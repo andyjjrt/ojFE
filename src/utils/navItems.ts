@@ -84,42 +84,42 @@ export const navItems: NavItem[] = [
 export const adminNavItem: NavItem[] = [
   {
     routeName: "Admin",
-    title: "Dashboard",
+    title: "admin.dashboard.title",
     icon: "mdi-monitor-dashboard",
   },
   {
     routeName: "AdminConfig",
-    title: "Config",
+    title: "admin.config.title",
     icon: "mdi-wrench",
   },
   {
     routeName: "AdminJudgeServer",
-    title: "JudgeServer",
+    title: "admin.judgeserver.title",
     icon: "mdi-server",
   },
   {
     routeName: "AdminTestcase",
-    title: "Testcase",
+    title: "admin.testcase.title",
     icon: "mdi-treasure-chest",
   },
   {
     routeName: "AdminUser",
-    title: "User",
+    title: "admin.user.title",
     icon: "mdi-account-group",
   },
   {
     routeName: "AdminAnnouncement",
-    title: "Announcement",
+    title: "admin.announcement.title",
     icon: "mdi-bullhorn",
   },
   {
     routeName: "AdminProblems",
-    title: "Problem",
+    title: "admin.problem.title",
     icon: "mdi-view-grid-outline",
   },
   {
     routeName: "AdminContests",
-    title: "Contest",
+    title: "admin.contest.title",
     icon: "mdi-trophy",
   },
 ];

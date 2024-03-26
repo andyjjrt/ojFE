@@ -153,5 +153,41 @@
   },
   "timer": {
     "title": "Timer"
+  },
+  "admin": {
+    "dashboard": {
+      "title": "Dashboard"
+    },
+    "config": {
+      "title": "Config",
+      "smtp": {
+        "title": "SMTP Setting"
+      },
+      "website": {
+        "title": "Website Setting",
+        "allowRegister": "Allow Register",
+        "showAllSubmissions": "Show All Submissions"
+      }
+    },
+    "judgeserver": {
+      "title": "Judge Server"
+    },
+    "testcase": {
+      "title": "Testcase",
+      "subTitle": "These test cases are not owned by any problem, you can clean them safely.",
+      "deleteAll": "Delete All"
+    },
+    "user": {
+      "title": "User"
+    },
+    "announcement": {
+      "title": "Announcement"
+    },
+    "problem": {
+      "title": "Problem"
+    },
+    "contest": {
+      "title": "Contest"
+    }
   }
 }

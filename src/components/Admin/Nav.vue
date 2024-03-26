@@ -8,7 +8,7 @@
       class="text-none"
     >
       <v-icon start v-if="icon"> {{ item.icon }} </v-icon>
-      {{ item.title }}
+      {{ t(item.title) }}
     </v-tab>
   </v-tabs>
 </template>
@@ -17,10 +17,12 @@
 import { useRoute } from "vue-router";
 import { adminNavItem } from "../../utils/navItems";
 import { computed } from "vue";
+import { useI18n } from "vue-i18n";
 
 const props = defineProps<{
   icon?: boolean;
 }>();
+const { t } = useI18n()
 
 const routes = useRoute();
 const tab = computed({
