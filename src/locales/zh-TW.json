@@ -155,11 +155,12 @@
     "title": "時間"
   },
   "admin": {
+    "save": "儲存",
     "dashboard": {
       "title": "儀表板"
     },
     "config": {
-      "title": "通用設定",
+      "title": "基本設定",
       "smtp": {
         "title": "SMTP設定"
       },

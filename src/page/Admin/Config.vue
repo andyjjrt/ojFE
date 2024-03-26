@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-card class="pa-4 mb-4" :loading="smtpLoading" :disabled="smtpLoading">
-      <v-card-title>SMTP Setting</v-card-title>
+      <v-card-title>{{ t("admin.config.smtp.title") }}</v-card-title>
       <v-container>
         <v-row>
           <v-col cols="12" sm="6">
@@ -35,13 +35,13 @@
         </v-row>
       </v-container>
       <v-card-actions class="d-flex justify-end">
-        <v-btn color="primary" variant="elevated" @click="handleSaveSmtp"
-          >Save</v-btn
-        >
+        <v-btn color="primary" variant="elevated" @click="handleSaveSmtp">
+          {{ t("admin.save") }}
+        </v-btn>
       </v-card-actions>
     </v-card>
     <v-card class="pa-4" :loading="websiteLoading" :disabled="websiteLoading">
-      <v-card-title>Website Setting</v-card-title>
+      <v-card-title>{{ t("admin.config.website.title") }}</v-card-title>
       <v-container>
         <v-row>
           <v-col cols="12" sm="4">
@@ -76,21 +76,21 @@
             <v-switch
               hideDetails
               v-model="website.allow_register"
-              label="Allow Register"
+              :label="t('admin.config.website.allowRegister')"
             />
           </v-col>
           <v-col cols="12" sm="6">
             <v-switch
               hideDetails
               v-model="website.submission_list_show_all"
-              label="Show all submissions"
+              :label="t('admin.config.website.showAllSubmissions')"
             />
           </v-col>
         </v-row>
       </v-container>
       <v-card-actions class="d-flex justify-end">
         <v-btn color="primary" variant="elevated" @click="handleSaveWebsite">
-          Save
+          {{ t("admin.save") }}
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -101,6 +101,9 @@
 import { reactive, ref, onMounted } from "vue";
 import { fetchApi } from "../../utils/api";
 import Message from "vue-m-message";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const smtp = reactive({
   tls: false,
@@ -167,8 +170,8 @@ const handleSendTestEmail = async () => {
   smtpLoading.value = false;
   if (response.data.error) {
     Message.error(response.data.data);
-  }else {
-    Message.success("Test mail sent")
+  } else {
+    Message.success("Test mail sent");
   }
 };
 
