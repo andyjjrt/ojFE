@@ -59,7 +59,14 @@ const routes = [
         },
       },
       { name: "Submissions", path: "status", component: Submissions },
-      { name: "Submission", path: "status/:id", component: Submission },
+      {
+        name: "Submission",
+        path: "status/:id",
+        component: Submission,
+        meta: {
+          name: "Submissions",
+        },
+      },
       { name: "Contests", path: "contest", component: Contests },
       {
         path: "contest/:contestId",

@@ -74,15 +74,32 @@
   },
   "setting": {
     "title": "Setting",
-    "avatar": "Avatar",
-    "profile": "Profile",
-    "real_name": "Real name",
-    "mood": "Mood",
-    "school": "School",
-    "blog": "Blog",
-    "major": "Major",
-    "github": "Github",
-    "language": "Language"
+    "save": "Save",
+    "lastLoggedin": "Last Login",
+    "profile": {
+      "title": "Profile",
+      "avatar": "Avatar",
+      "profile": "Profile",
+      "real_name": "Real name",
+      "mood": "Mood",
+      "school": "School",
+      "blog": "Blog",
+      "major": "Major",
+      "github": "Github",
+      "language": "Language"
+    },
+    "account": {
+      "title": "Account",
+      "changePassword": "Change Password",
+      "changeEmail": "Change Email"
+    },
+    "security": {
+      "title": "Security",
+      "sessions": "Sessions",
+      "2fa": "2FA",
+      "open": "Open",
+      "close": "Close"
+    }
   },
   "theme": {
     "title": "Theme"

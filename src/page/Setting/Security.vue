@@ -2,7 +2,7 @@
   <v-row>
     <v-col cols="12" md="6">
       <v-card class="pa-4">
-        <v-card-title>Sessions</v-card-title>
+        <v-card-title>{{ t("setting.security.sessions") }}</v-card-title>
         <Datagrid
           :data="sessions"
           :loading="loading"
@@ -72,10 +72,10 @@
     </v-col>
     <v-col cols="12" md="6">
       <v-card class="pa-4" :disabled="twoFALoading" :loading="twoFALoading">
-        <v-card-title>2FA</v-card-title>
-        <v-alert type="success" v-if="user.profile!.user.two_factor_auth"
-          >2FA enabled</v-alert
-        >
+        <v-card-title>{{ t("setting.security.2fa") }}</v-card-title>
+        <v-alert type="success" v-if="user.profile!.user.two_factor_auth">
+          2FA enabled
+        </v-alert>
         <v-img maxHeight="200" :src="twoFAImage" v-else />
         <v-text-field
           label="2FA Code"
@@ -85,8 +85,11 @@
         />
         <v-card-action class="d-flex justify-end">
           <v-btn color="primary" @click="handle2FA">
-            {{ user.profile!.user.two_factor_auth ? "Close" : "Open" }}
-            2FA
+            {{
+              (user.profile!.user.two_factor_auth
+                ? t("setting.security.close")
+                : t("setting.security.open")) + t("setting.security.2fa")
+            }}
           </v-btn>
         </v-card-action>
       </v-card>
@@ -104,9 +107,11 @@ import parser from "ua-parser-js";
 import { Ref } from "vue";
 import { useUserStore } from "../../store/user";
 import Message from "vue-m-message";
+import { useI18n } from "vue-i18n";
 
 const { getDate } = useDate();
 const { mobile } = useDisplay();
+const { t } = useI18n();
 const user = useUserStore();
 
 const sessions = ref<Session[]>([]);
@@ -125,7 +130,6 @@ const init = async () => {
     Message.error(response.data.data);
     return;
   } else {
-    Message.success("Success");
     sessions.value = response.data.data.sort((a: Session, b: Session) => {
       return (
         new Date(b.last_activity).getTime() -
@@ -161,7 +165,6 @@ const get2FAImage = async () => {
     Message.error(response.data.data);
     return;
   } else {
-    Message.success("Success");
     twoFAImage.value = response.data.data;
   }
 };

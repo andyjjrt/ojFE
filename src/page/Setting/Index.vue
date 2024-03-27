@@ -1,14 +1,14 @@
 <template>
   <v-card class="pa-4" :loading="loading" :disabled="loading">
-    <v-card-title>{{ t("setting.avatar") }}</v-card-title>
+    <v-card-title>{{ t("setting.profile.avatar") }}</v-card-title>
     <v-card-text>
       <ImageCropper />
     </v-card-text>
-    <v-card-title>{{ t("setting.profile") }}</v-card-title>
+    <v-card-title>{{ t("setting.profile.title") }}</v-card-title>
     <v-row class="mb-1">
       <v-col cols="12" sm="6">
         <v-text-field
-          :label="t('setting.real_name')"
+          :label="t('setting.profile.real_name')"
           class="mx-2"
           v-model="realName"
           hide-details
@@ -16,7 +16,7 @@
       </v-col>
       <v-col cols="12" sm="6">
         <v-text-field
-          :label="t('setting.mood')"
+          :label="t('setting.profile.mood')"
           class="mx-2"
           v-model="mood"
           hide-details
@@ -24,7 +24,7 @@
       </v-col>
       <v-col cols="12" sm="6">
         <v-text-field
-          :label="t('setting.school')"
+          :label="t('setting.profile.school')"
           class="mx-2"
           v-model="school"
           hide-details
@@ -32,7 +32,7 @@
       </v-col>
       <v-col cols="12" sm="6">
         <v-text-field
-          :label="t('setting.blog')"
+          :label="t('setting.profile.blog')"
           class="mx-2"
           v-model="blog"
           hide-details
@@ -40,7 +40,7 @@
       </v-col>
       <v-col cols="12" sm="6">
         <v-text-field
-          :label="t('setting.major')"
+          :label="t('setting.profile.major')"
           class="mx-2"
           v-model="major"
           hide-details
@@ -48,7 +48,7 @@
       </v-col>
       <v-col cols="12" sm="6">
         <v-text-field
-          :label="t('setting.github')"
+          :label="t('setting.profile.github')"
           class="mx-2"
           v-model="github"
           hide-details
@@ -56,7 +56,7 @@
       </v-col>
       <v-col cols="12" sm="6">
         <v-select
-          :label="t('setting.language')"
+          :label="t('setting.profile.language')"
           class="mx-2"
           v-model="language"
           :items="availableLocales"
@@ -71,7 +71,7 @@
         :loading="loading"
         @click="handleUpdate"
       >
-        Save
+        {{ t("setting.save") }}
       </v-btn>
     </v-card-actions>
   </v-card>
