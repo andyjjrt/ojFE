@@ -6,7 +6,7 @@
         :loading="passwordLoading"
         :disabled="passwordLoading"
       >
-        <v-card-title>Change Password</v-card-title>
+        <v-card-title>{{ t("setting.account.changePassword") }}</v-card-title>
         <v-row class="mb-1">
           <v-col cols="12">
             <v-text-field
@@ -43,19 +43,19 @@
             :loading="passwordLoading"
             @click="handleChangePassword"
           >
-            Save
+          {{ t("setting.save") }}
           </v-btn>
         </v-card-actions>
       </v-card>
     </v-col>
     <v-col cols="12" md="6">
       <v-card class="pa-4" :loading="emailLoading" :disabled="emailLoading">
-        <v-card-title>Change email</v-card-title>
+        <v-card-title>{{ t("setting.account.changeEmail") }}</v-card-title>
         <v-row class="mb-1">
           <v-col cols="12">
             <v-text-field
               label="Old Email"
-              class="mx-2"
+              class="mx-2"  
               disabled
               v-model="oldEmail"
               hide-details
@@ -86,7 +86,7 @@
             :loading="emailLoading"
             @click="handleChangeEmail"
           >
-            Save
+            {{ t("setting.save") }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -99,8 +99,10 @@ import { computed, ref } from "vue";
 import Message from "vue-m-message";
 import { useUserStore } from "../../store/user";
 import { fetchApi } from "../../utils/api";
+import { useI18n } from "vue-i18n";
 
 const user = useUserStore();
+const { t } = useI18n();
 const profile = computed(() => user.profile);
 
 const passwordLoading = ref(false);
