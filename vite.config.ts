@@ -91,12 +91,15 @@ export default ({ mode }) => {
               "@kangc/v-md-editor/lib/lang/en-US",
             ],
             utils: [
+              "axios",
               "chart.js",
+              "vue-chartjs",
               "@popperjs/core",
               "v-calendar",
               "prismjs",
               "ua-parser-js",
               "vue-i18n",
+              "vue-cropper"
             ],
           },
         },
