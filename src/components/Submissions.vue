@@ -27,7 +27,7 @@
             {{ statusList[item].short }}
           </template>
         </TypeSelection>
-        <form class="flex-grow-1" @submit.prevent="() => handleAction()">
+        <form class="flex-grow-1" @submit.prevent="() => handleAction(true)">
           <v-text-field
             v-model="username"
             density="compact"
@@ -36,7 +36,7 @@
             append-inner-icon="mdi-magnify"
             single-line
             hide-details
-            @click:append-inner="() => handleAction()"
+            @click:append-inner="() => handleAction(true)"
           ></v-text-field>
         </form>
       </div>
